@@ -4,6 +4,7 @@ import numpy as np
 from streamlit import column_config
 import locale
 locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
+import matplotlib.pyplot as plt
 # --- Configuração da Página ---
 st.set_page_config(
     page_title="Simulador de Precificação",
@@ -47,21 +48,150 @@ def formatar_valor_brl(valor):
         return f'R$ {valor:_.2f}'.replace('.', ',').replace('_', '.')
     return valor
 
+def plot_custo_docente(df_precificacao_curso):
+    # Agregar os dados
+    df_plot = df_precificacao_curso.groupby('Semestre').agg(func='sum')
+
+    # Criar a figura (mais compacto)
+    fig, ax = plt.subplots(figsize=(10,8.5))
+
+    # Fundo azul escuro (igual tema dark do Streamlit)
+    fig.patch.set_facecolor('#0E1117')  
+    ax.set_facecolor('#0E1117')
+
+    # Cor única (azul escuro para barras)
+    bar_color = '#1f77b4'
+
+    # Criar gráfico de barras
+    bars = ax.bar(
+        df_plot.index, 
+        df_plot['total_uc_as'], 
+        color=bar_color
+    )
+
+    # Adicionar data labels formatados em moeda brasileira
+    for bar in bars:
+        height = bar.get_height()
+        ax.text(
+            bar.get_x() + bar.get_width()/2, 
+            height, 
+            f'R$ {height:,.2f}'.replace(',', 'X').replace('.', ',').replace('X', '.'),  
+            ha='center', 
+            va='bottom', 
+            color='white',
+            fontsize=9,
+            fontweight='bold'
+        )
+
+    # Títulos e labels
+    ax.set_title("Custo Docente por Semestre", color='white', fontsize=20, fontweight='bold')
+
+    # Ajustar ticks
+    ax.tick_params(colors='white')
+
+    # Tirar bordas superiores e direitas
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+
+    return fig
+
+def plot_ch_docente_por_categoria(df_precificacao_curso: pd.DataFrame):
+    # Dicionário para acumular totais por categoria
+    totais_categoria = {}
+
+    # Itera sobre cada linha do dataframe principal
+    for _, row in df_precificacao_curso.iterrows():
+        df_precificacao = row["Precificacao"]
+
+        # Soma CH por categoria dentro do dataframe da linha
+        soma_categoria = df_precificacao.groupby("Tipo de CH")["ch_ator_pedagogico"].sum()
+
+        # Acumula no dicionário global
+        for cat, valor in soma_categoria.items():
+            totais_categoria[cat] = totais_categoria.get(cat, 0) + valor
+
+    # Transforma em DataFrame para plotagem
+    df_plot = pd.Series(totais_categoria).sort_values(ascending=False)
+
+    # Criar figura
+    fig, ax = plt.subplots(figsize=(4,4))
+
+    # Fundo escuro
+    fig.patch.set_facecolor('#0E1117')
+    ax.set_facecolor('#0E1117')
+
+    # Paleta monocromática azul
+    colors = ['#1f77b4', '#2c82c9', '#3a9bdc', '#62b0e8', '#8cc7f0']
+
+    # Criar gráfico de rosca
+    wedges, texts, autotexts = ax.pie(
+        df_plot,
+        labels=df_plot.index,
+        autopct=lambda p: f'{p:.1f}%',
+        startangle=90,
+        colors=colors[:len(df_plot)],
+        wedgeprops=dict(width=0.4, edgecolor='#0E1117')
+    )
+
+    # Ajustar estilo dos textos
+    for text in texts:
+        text.set_color('white')
+        text.set_fontsize(10)
+    for autotext in autotexts:
+        autotext.set_color('white')
+        autotext.set_fontsize(9)
+        autotext.set_fontweight('bold')
+
+    # Título
+    ax.set_title("Distribuição da CH Docente por Categoria", color='white', fontsize=10, fontweight='bold')
+
+    return fig
+
+def plotar_indicador_eficiencia(total_ch: float, numero_alunos: int):
+    
+    eficiencia = np.round(numero_alunos/total_ch,2)
+    # Criar figura larga e baixa
+    fig, ax = plt.subplots(figsize=(8,1.2))
+    # Fundo escuro
+    fig.patch.set_facecolor('#0E1117')
+    ax.set_facecolor('#0E1117')
+
+    # Barra de fundo (0 a 10)
+    ax.barh(0, 10, color="#2c2f38", height=0.5)
+
+    # Barra de progresso até a eficiência
+    ax.barh(0, eficiencia, color="#1f77b4", height=0.5)
+
+    # Texto com valor no centro
+    ax.text(
+        5, 0, f"{eficiencia:.2f} / 10",
+        ha="center", va="center",
+        color="white", fontsize=12, fontweight="bold"
+    )
+
+    # Remover eixos e bordas
+    ax.set_xlim(0, 10)
+    ax.axis("off")
+    ax.set_title("Eficiência",{'color': 'white', 'fontweight': 'bold', 'fontsize':16})
+    return fig
+
+def plotar_custo_total(df_precificacao_curso: pd.DataFrame)-> float:
+    return np.round(float(df_precificacao_curso['total_uc_as'].sum()),2)
+
+def plotar_ch_total(df_precificacao_curso: pd.DataFrame)-> float:
+    return np.round(float(df_precificacao_curso['total_ch_uc'].sum()*20),1)
+
 def format_detalhe_precificacao_uc(row: pd.Series) -> st.dataframe:
-    """
-    Formata o DataFrame de precificação para exibição no Streamlit,
-    com as colunas de custo formatadas como moeda brasileira e uma linha de total.
-    """
-    df = row["Precificacao"].drop(columns=['remuneracao_hora', 'ch_semanal'])
+    df = row["Precificacao"].drop(columns=['Remuneração por Hora', 'CH Semanal'])
 
     total_am = df["custo_docente_am"].sum()
     total_as = df["custo_docente_as"].sum()
 
     total_row = {
         "curso": "TOTAL",
-        "modelo": "",
-        "categoria": "",
-        "ator_pedagogico": "",
+        "Modelo": "",
+        "Tipo de CH": "",
+        "Ator Pedagógico": "",
         "qtde_turmas": "",
         "ch_ator_pedagogico": "",
         "custo_docente_am": total_am,
@@ -73,8 +203,8 @@ def format_detalhe_precificacao_uc(row: pd.Series) -> st.dataframe:
     # Função para destacar a linha "TOTAL"
     def highlight_total(row):
         if row["curso"] == "TOTAL":
-            # Estiliza 6 colunas com fundo e 2 com negrito + fundo
-            return 6*['background-color: #282c34'] + ['font-weight: bold; background-color: #273333'] * 2
+            # Estiliza 8 colunas com fundo e 2 com negrito + fundo
+            return 7*['background-color: #282c34'] + ['font-weight: bold; background-color: #273333'] * 2
         return [''] * len(row)
     
 
@@ -89,11 +219,8 @@ def format_detalhe_precificacao_uc(row: pd.Series) -> st.dataframe:
         df_styled, 
         column_config={
             "curso": "Curso",
-            "modelo": "Modelo",
-            "categoria": "Categoria",
-            "ator_pedagogico": "Ator Pedagógico",
-            "qtde_turmas": column_config.NumberColumn("Turmas"),
-            "ch_ator_pedagogico": column_config.NumberColumn("CH Semanal"),
+            "qtde_turmas": column_config.NumberColumn("Turmas",format="%d"),
+            "ch_ator_pedagogico": column_config.NumberColumn("CH Semanal",format="%.1f"),
             "custo_docente_am": column_config.NumberColumn("Custo por mês"),
             "custo_docente_as": column_config.NumberColumn("Custo por Semestre"),
         },
@@ -211,7 +338,7 @@ if st.session_state.get('simulacao_ativa', False) and dataframes_carregados:
             # Se os parâmetros para este curso ainda não foram salvos no estado da sessão,
             # filtramos os padrões do DF principal e os salvamos.
             if ('parametros_editaveis' not in config or len(config.get('parametros_editaveis'))==0) and modelo_no_df:
-                parametros_iniciais = df_parametros[df_parametros['modelo'] == modelo_no_df].copy()
+                parametros_iniciais = df_parametros[df_parametros['Modelo'] == modelo_no_df].copy()
                 st.session_state.cursos_selecionados[curso]['parametros_editaveis'] = parametros_iniciais
 
             # Exibe a tabela editável usando os dados salvos no estado da sessão
@@ -224,10 +351,10 @@ if st.session_state.get('simulacao_ativa', False) and dataframes_carregados:
                         df_para_editar,
                         hide_index=True,
                         use_container_width=True,
-                        disabled=['modelo', 'parametro', 'categoria', 'ator_pedagogico'], # Colunas não-editáveis
-                        key=f"editor_{curso}" # Chave única para cada editor
+                        disabled=['Modelo', 'Tipo de UC', 'Parâmetro', 'Tipo de CH', 'Ator Pedagógico'],
+                        key=f"editor_{curso}"
                     )
-                if edited_df.empty or not (edited_df["parametro"] == "max_alunos_turma").any():
+                if edited_df.empty or not (edited_df["Parâmetro"] == "Máximo de Alunos por Turma").any():
                     st.warning(f"Sem parâmetros para o modelo {modelo_no_df} no curso {curso}. Pulando.")
                     continue
                 # Salva o dataframe editado de volta no estado da sessão.
@@ -240,27 +367,29 @@ if st.session_state.get('simulacao_ativa', False) and dataframes_carregados:
                 new_uc_row = {}
                 new_uc_row['UC'] = row['UC']
                 new_uc_row['Semestre'] = row['Semestre']
+                new_uc_row['Tipo de UC'] = row['Tipo de UC']
 
                 rows = []
-                for _, row in edited_df[edited_df['parametro']=='max_alunos_turma'].iterrows():
+                for _, row in edited_df[(edited_df['Parâmetro']=='Máximo de Alunos por Turma') & (edited_df['Tipo de UC'] == new_uc_row.get("Tipo de UC"))].iterrows():
                     new_row = {}
                     new_row['curso'] = curso
-                    new_row['modelo'] = modelo_no_df
-                    new_row['categoria'] = row['categoria']
-                    new_row['ator_pedagogico'] = row['ator_pedagogico']
-                    new_row['qtde_turmas'] = np.ceil(st.session_state.cursos_selecionados[curso]['numero_alunos'] / row['valor'])
+                    new_row['Modelo'] = modelo_no_df
+                    new_row['Tipo de UC'] = row['Tipo de UC']
+                    new_row['Tipo de CH'] = row['Tipo de CH']
+                    new_row['Ator Pedagógico'] = row['Ator Pedagógico']
+                    new_row['qtde_turmas'] = np.ceil(st.session_state.cursos_selecionados[curso]['numero_alunos'] / row['Valor'])
                     rows.append(new_row)
-                df_precificacao_uc = pd.DataFrame(rows, columns=["curso","modelo","categoria","ator_pedagogico","qtde_turmas"])
+                df_precificacao_uc = pd.DataFrame(rows, columns=["curso","Modelo",'Tipo de UC',"Tipo de CH","Ator Pedagógico","qtde_turmas"])
 
                 # Fazendo join para trazer ch
-                df_ch_semanal = edited_df[edited_df['parametro'] == 'ch_semanal'].copy().drop(columns=['modelo', 'ator_pedagogico','parametro']).rename(mapper={"valor": "ch_semanal"}, axis=1)
-                df_precificacao_uc = df_precificacao_uc.merge(right=df_ch_semanal, how='left',on='categoria')
-                df_precificacao_uc['ch_ator_pedagogico'] = df_precificacao_uc['qtde_turmas'] * df_precificacao_uc['ch_semanal']
+                df_ch_semanal = edited_df[edited_df['Parâmetro'] == 'CH Semanal'].copy().drop(columns=['Modelo', 'Parâmetro']).rename(mapper={"Valor": "CH Semanal"}, axis=1)
+                df_precificacao_uc = df_precificacao_uc.merge(right=df_ch_semanal, how='left',on=['Tipo de CH', 'Ator Pedagógico', 'Tipo de UC'])
+                df_precificacao_uc['ch_ator_pedagogico'] = df_precificacao_uc['qtde_turmas'] * df_precificacao_uc['CH Semanal']
                 
                 # Fazendo join para trazer remuneração
-                df_ch_remuneracao = edited_df[edited_df['parametro'] == 'remuneracao_hora'].copy().drop(columns=['modelo', 'ator_pedagogico','parametro']).rename(mapper={"valor": "remuneracao_hora"}, axis=1)
-                df_precificacao_uc = df_precificacao_uc.merge(right=df_ch_remuneracao, how='left',on='categoria')
-                df_precificacao_uc['custo_docente_am'] = df_precificacao_uc['ch_ator_pedagogico'] *5.25*1.7*df_precificacao_uc['remuneracao_hora']
+                df_ch_remuneracao = edited_df[edited_df['Parâmetro'] == 'Remuneração por Hora'].copy().drop(columns=['Modelo', 'Parâmetro']).rename(mapper={"Valor": "Remuneração por Hora"}, axis=1)
+                df_precificacao_uc = df_precificacao_uc.merge(right=df_ch_remuneracao, how='left',on=['Tipo de CH', 'Ator Pedagógico','Tipo de UC'])
+                df_precificacao_uc['custo_docente_am'] = df_precificacao_uc['ch_ator_pedagogico'] *5.25*1.7*df_precificacao_uc['Remuneração por Hora']
                 df_precificacao_uc['custo_docente_as'] = df_precificacao_uc['custo_docente_am']*6 
                 
                 new_uc_row['Precificacao'] = df_precificacao_uc
@@ -274,10 +403,22 @@ if st.session_state.get('simulacao_ativa', False) and dataframes_carregados:
                 st.error(f"Não foi possível calcular os totais por UC. Verifique se a coluna 'Precificacao' e suas colunas internas estão corretas. Erro: {e}")
                 st.stop()
 
-
-            
-            st.subheader("Detalhamento")
+            col1, col2 = st.columns(2)
+            with col1:
+                col3,col4 = st.columns(2)
+                with col3:
+                    st.metric(
+                        label="Custo Total",
+                        value=locale.currency(plotar_custo_total(df_precificacao_curso), grouping=True, symbol="R$")
+                    )
+                with col4:
+                    st.metric(label="CH Total", value=plotar_ch_total(df_precificacao_curso))
+                st.pyplot(plot_custo_docente(df_precificacao_curso), use_container_width=False)
+            with col2:
+                st.pyplot(plotar_indicador_eficiencia(70, config.get("numero_alunos")))
+                st.pyplot(plot_ch_docente_por_categoria(df_precificacao_curso))
             # O expander principal que conterá todos os semestres
+            st.subheader("Detalhamento")
             with st.expander("Expandir detalhamento por semestre"):
                 semestres_unicos = sorted(df_precificacao_curso["Semestre"].dropna().unique())
                 for semestre in semestres_unicos:
@@ -286,7 +427,7 @@ if st.session_state.get('simulacao_ativa', False) and dataframes_carregados:
 
                         total_semestre_am = df_do_semestre['total_uc_am'].sum()
                         total_semestre_as = df_do_semestre['total_uc_as'].sum()
-                        total_ch_semestre = df_do_semestre['total_ch_uc'].sum()
+                        total_ch_semestre = df_do_semestre['total_ch_uc'].sum()*20
                         taxa_eficiencia = config.get("numero_alunos")/total_ch_semestre
                         col1, col2 = st.columns(2)
                         with col1:
@@ -296,7 +437,7 @@ if st.session_state.get('simulacao_ativa', False) and dataframes_carregados:
                             )
                             st.metric(
                                 label="Carga Horária Total",
-                                value=f"{int(total_ch_semestre)} h"
+                                value=f"{np.round(total_ch_semestre,1)} h"
                             )
                         with col2:
                             st.metric(
@@ -309,7 +450,7 @@ if st.session_state.get('simulacao_ativa', False) and dataframes_carregados:
                             )
                         st.divider()
 
-                        # Loop para exibir o detalhe de cada UC (código que você já tinha)
+                        # Loop para exibir o detalhe de cada UC
                         for _, row in df_do_semestre.iterrows():
                             st.markdown(f"**UC:** {row['UC']}")
                             format_detalhe_precificacao_uc(row)
