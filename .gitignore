@@ -1,5 +1,4 @@
 venv/
 /venv
-*.xlsx
 *.pyc
 src/__pycache__/utils.cpython-313.pyc
