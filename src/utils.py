@@ -630,7 +630,8 @@ def plot_custo_docente_pag2(df: pd.DataFrame):
     bars = ax.bar(
         df_plot.index,
         df_plot['Custo Total'],
-        color=bar_color
+        color=bar_color,
+        align='center'
     )
 
     # Aumenta o limite superior do eixo Y para dar espaço para as labels
@@ -658,12 +659,16 @@ def plot_custo_docente_pag2(df: pd.DataFrame):
     formatter = FuncFormatter(formatador_k)
     ax.yaxis.set_major_formatter(formatter)
 
-    ax.tick_params(colors='white', axis='y', labelsize=8) # Aplica a cor branca apenas ao eixo y
-    ax.tick_params(colors='white', axis='x', labelsize=8) # Aplica a cor branca apenas ao eixo x
+    ax.tick_params(colors='white', axis='y', labelsize=8)
+    ax.tick_params(colors='white', axis='x', labelsize=8)
 
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
     
+    ax.set_xticks(df_plot.index)
+    # Define os rótulos dos ticks como números inteiros
+    ax.set_xticklabels(df_plot.index.astype(int))
+
     ax.set_xlabel("Custo Docente por Semestre", fontdict={"color": "white", "fontsize": 13})
     return fig
 
@@ -740,13 +745,6 @@ def calcula_eficiencia_para_todos_semestre(df:pd.DataFrame, session_state:dict) 
 
 
 def plot_eficiencia_por_semestre_pag2(dict_semestres: dict):
-    """
-    Plota a eficiência por semestre como um gráfico de linha padrão,
-    destacando o ponto de menor valor.
-    Recebe um dicionário como {1: 0.1, 2: 0.5, ...}.
-    """
-    # --- AJUSTE 1: Tratamento de Dicionário Vazio ---
-    # Se o dicionário de entrada estiver vazio, retorna uma figura vazia para evitar erros.
     if not dict_semestres:
         fig, ax = plt.subplots(figsize=(6, 4))
         fig.patch.set_facecolor('#0E1117')
@@ -755,9 +753,6 @@ def plot_eficiencia_por_semestre_pag2(dict_semestres: dict):
                 color='white', ha='center', va='center')
         return fig
 
-    # --- AJUSTE 2: Correção na Criação do DataFrame ---
-    # Usa 'from_dict' com orient='index' para que as chaves do dicionário (semestres)
-    # se tornem o índice do DataFrame (eixo X).
     df = pd.DataFrame.from_dict(dict_semestres, orient='index', columns=["eficiencia"])
 
     fig, ax = plt.subplots(figsize=(6, 4))
@@ -800,18 +795,19 @@ def plot_eficiencia_por_semestre_pag2(dict_semestres: dict):
     # Formatação e estilo
     ax.tick_params(colors='white', axis='y', labelsize=8)
     ax.tick_params(colors='white', axis='x', labelsize=8)
+    ax.set_xticks(x)
+    ax.set_xticklabels(x.astype(int))
 
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
     ax.spines['left'].set_color('white')
     ax.spines['bottom'].set_color('white')
     
-    # --- AJUSTE 3: Rótulo do eixo X mais claro ---
     ax.set_xlabel("Semestre", fontdict={"color": "white", "fontsize": 12})
     
-    # Adicionar legenda
     legend = ax.legend(facecolor='#0E1117', edgecolor='white', labelcolor='white')
     
+
     return fig
 
 def formatar_df_por_semestre(df: pd.DataFrame):

@@ -138,6 +138,22 @@ else:
                     )
 
                 with sim_col2:
+                    n_semestres = st.slider(
+                        "Número de semestres",
+                        min_value=1,
+                        max_value=config.get("num_semestres"),
+                        value=config.get("num_semestres"),
+                        step=1
+                    )
+                    
+                    desvio_padrao_ingressantes = st.number_input(
+                        "Desvio padrão dos ingressantes", 
+                        min_value=0, 
+                        step=1, 
+                        value=0, 
+                        key=f"sim_dp_{chave_oferta}"
+                    )
+
                     decaimento_evasao = st.slider(
                         "Decaimento da Evasão a/s (%)", 
                         min_value=0, 
@@ -145,20 +161,10 @@ else:
                         value=10, 
                         key=f"sim_decaimento_{chave_oferta}"
                     )
-                    desvio_padrao_ingressantes = st.number_input(
-                        "Desvio padrão dos ingressantes", 
-                        min_value=0, 
-                        step=1, 
-                        value=20, 
-                        key=f"sim_dp_{chave_oferta}"
-                    )
-
-                if st.button("Simular Base de Alunos", key=f"simular_{chave_oferta}", use_container_width=True, type="primary"):
-                    num_semestres = config.get("num_semestres", 8)
-                    
+                if st.button("Simular Base de Alunos", key=f"simular_{chave_oferta}", use_container_width=True, type="primary"):                    
                     resultado_simulacao = projetar_base_alunos(
                         base_alunos_inicial=alunos_iniciais,
-                        n_semestres_curso=num_semestres,
+                        n_semestres_curso=n_semestres,
                         dist_ingresso=(media_ingressantes, desvio_padrao_ingressantes),
                         taxa_evasao_inicial=taxa_evasao_inicial / 100.0,
                         decaimento_evasao=decaimento_evasao / 100.0
@@ -173,18 +179,35 @@ else:
                 if not alunos_data:
                     st.info("Clique em 'Simular Base de Alunos' para gerar a projeção.")
                 else:
-                    st.write("**Base de Alunos projetada:**")
+                    st.subheader("**Base de Alunos projetada**")
                     num_semestres = config.get("num_semestres", 0)
-                    cols = st.columns(4)
                     
-                    for i in range(num_semestres):
-                        semestre_key = f"Semestre {i + 1}"
-                        col_index = i % 4
-                        with cols[col_index]:
-                            st.metric(
-                                label=semestre_key,
-                                value=alunos_data.get(semestre_key, 0)
-                            )
+                    with st.expander("**Alunos por Período**"):
+                        cols = st.columns(4)
+                        alunos_acumulados = 0  # Inicializa a variável antes do loop principal
+                        
+                        for i in range(num_semestres):
+                            semestre_key = f"Semestre {i + 1}"
+                            col_index = i % 4
+                            semestre_index = i % 2 + 1
+                            ano_index = 2026 + i // 2
+                            
+                            alunos_acumulados += alunos_data.get(semestre_key, 0)
+                            with cols[col_index]:
+                                st.metric(
+                                    label=f"Alunos em {ano_index}/{semestre_index}",
+                                    value=alunos_acumulados
+                                )
+                    with st.expander("**Alunos por série**"):
+                        cols = st.columns(4)
+                        for i in range(num_semestres):
+                            semestre_key = f"Semestre {i + 1}"
+                            col_index = i % 4
+                            with cols[col_index]:
+                                st.metric(
+                                    label=f"Alunos na Série {i+1}",
+                                    value=alunos_data.get(semestre_key, 0)
+                                )
 
 
 
