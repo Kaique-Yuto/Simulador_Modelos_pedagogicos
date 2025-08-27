@@ -29,7 +29,7 @@ def plot_custo_docente(df_precificacao_curso):
     df_plot = df_precificacao_curso.groupby('Semestre').agg(func='sum')
 
     # Criar a figura
-    fig, ax = plt.subplots(figsize=(10, 8.5))
+    fig, ax = plt.subplots(figsize=(6, 6))
 
     # Fundo e cores
     fig.patch.set_facecolor('#0E1117')
@@ -61,71 +61,139 @@ def plot_custo_docente(df_precificacao_curso):
             ha='center',
             va='bottom',
             color='white',
-            fontsize=12,
+            fontsize=8,
             fontweight='bold'
         )
 
     formatter = FuncFormatter(formatador_k)
     ax.yaxis.set_major_formatter(formatter)
 
-    ax.tick_params(colors='white', axis='y') # Aplica a cor branca apenas ao eixo y
-    ax.tick_params(colors='white', axis='x') # Aplica a cor branca apenas ao eixo x
+    ax.tick_params(colors='white', axis='y', labelsize=8) # Aplica a cor branca apenas ao eixo y
+    ax.tick_params(colors='white', axis='x', labelsize=8) # Aplica a cor branca apenas ao eixo x
 
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
     
-    ax.set_xlabel("Custo Docente por Semestre", fontdict={"color": "white", "fontsize": 20})
+    ax.set_xlabel("Custo Docente por Semestre", fontdict={"color": "white", "fontsize": 13})
     return fig
 
-def plot_ch_docente_por_categoria(df_precificacao_curso: pd.DataFrame):
-    # Dicionário para acumular totais por categoria
-    totais_categoria = {}
-
-    # Itera sobre cada linha do dataframe principal
-    for _, row in df_precificacao_curso.iterrows():
-        df_precificacao = row["Precificacao"]
-
-        # Soma CH por categoria dentro do dataframe da linha
-        soma_categoria = df_precificacao.groupby("Tipo de CH")["ch_ator_pedagogico"].sum()
-
-        # Acumula no dicionário global
-        for cat, valor in soma_categoria.items():
-            totais_categoria[cat] = totais_categoria.get(cat, 0) + valor
-
-    # Transforma em DataFrame para plotagem
-    df_plot = pd.Series(totais_categoria).sort_values(ascending=False)
-
-    # Criar figura
-    fig, ax = plt.subplots(figsize=(4,4))
-
-    # Fundo escuro
+def plot_eficiencia_por_semestre(df_precificacao_curso, base_alunos=70):
+    """
+    Plota a eficiência por semestre como um gráfico de linha padrão,
+    destacando o ponto de menor valor.
+    """
+    # Agregar os dados
+    df_plot = df_precificacao_curso.groupby('Semestre').agg(func='sum')
+    df_plot['Eficiencia'] = base_alunos / (df_plot['total_ch_uc'] * 20)
+    
+    # Criar a figura e os eixos
+    fig, ax = plt.subplots(figsize=(6, 4))
     fig.patch.set_facecolor('#0E1117')
     ax.set_facecolor('#0E1117')
 
-    # Paleta monocromática azul
-    colors = ['#1f77b4', '#2c82c9', '#3a9bdc', '#62b0e8', '#8cc7f0']
+    # Cores
+    line_color = '#1f77b4'
+    
+    # Dados para o gráfico
+    x = df_plot.index
+    y = df_plot['Eficiencia']
 
-    # Criar gráfico de rosca
-    wedges, texts, autotexts = ax.pie(
+    # Gráfico de linha padrão com marcadores
+    ax.plot(x, y, color=line_color, linewidth=2.5, marker='o', markersize=8, label='Eficiência')
+
+    # Encontrar e destacar o menor valor
+    min_val = y.min()
+    min_idx = y.idxmin()
+    ax.plot(min_idx, min_val, marker='o', markersize=10, color='red', linestyle='None', label=f'Menor Valor ({min_val:,.2f})')
+
+    # Adicionar data labels
+    for xi, yi in zip(x, y):
+        ax.text(
+            xi,
+            yi + yi * 0.05,  # Posição um pouco acima do ponto
+            f'{yi:,.2f}'.replace('.', ','),
+            ha='center',
+            va='bottom',
+            color='white',
+            fontsize=10,
+            fontweight='bold'
+        )
+    
+    # Aumenta o limite superior do eixo Y para dar espaço para as labels
+    ax.set_ylim(bottom=0, top=y.max() * 1.25)
+    ax.set_xlim(x.min() - 0.5, x.max() + 0.5)
+
+    # Formatação e estilo
+    ax.tick_params(colors='white', axis='y', labelsize=8)
+    ax.tick_params(colors='white', axis='x', labelsize=8)
+
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    ax.spines['left'].set_color('white')
+    ax.spines['bottom'].set_color('white')
+    
+    ax.set_xlabel("Eficiência por Semestre", fontdict={"color": "white", "fontsize": 12})
+    
+    
+    # Adicionar legenda
+    legend = ax.legend(facecolor='#0E1117', edgecolor='white', labelcolor='white')
+    
+    return fig
+
+def plot_ch_docente_por_categoria(df_precificacao_curso: pd.DataFrame):
+    """
+    Plota a distribuição da CH Docente como um gráfico de rosca,
+    utilizando uma legenda para identificar as categorias e porcentagens.
+    """
+    totais_categoria = {}
+
+    for _, row in df_precificacao_curso.iterrows():
+        df_precificacao = row["Precificacao"]
+        soma_categoria = df_precificacao.groupby("Tipo de CH")["ch_ator_pedagogico"].sum()
+        for cat, valor in soma_categoria.items():
+            totais_categoria[cat] = totais_categoria.get(cat, 0) + valor
+
+    df_plot = pd.Series(totais_categoria).sort_values(ascending=False)
+
+    fig, ax = plt.subplots(figsize=(12, 2))
+    fig.patch.set_facecolor('#0E1117')
+    ax.set_facecolor('#0E1117')
+
+    # Paleta de cores
+    colors = plt.cm.Blues(np.linspace(0.4, 0.9, len(df_plot)))
+
+    wedges, _ = ax.pie(
         df_plot,
-        labels=df_plot.index,
-        autopct=lambda p: f'{p:.1f}%',
         startangle=90,
-        colors=colors[:len(df_plot)],
+        colors=colors,
         wedgeprops=dict(width=0.4, edgecolor='#0E1117')
     )
 
-    # Ajustar estilo dos textos
-    for text in texts:
-        text.set_color('white')
-        text.set_fontsize(10)
-    for autotext in autotexts:
-        autotext.set_color('white')
-        autotext.set_fontsize(9)
-        autotext.set_fontweight('bold')
+    # Criar os rótulos para a legenda, combinando categoria e porcentagem
+    total = df_plot.sum()
+    legend_labels = [
+        f'{label} ({value/total:.1%})'
+        for label, value in df_plot.items()
+    ]
+
+    # Adicionar e estilizar a legenda
+    ax.legend(
+        wedges,
+        legend_labels,
+        loc="center left",
+        bbox_to_anchor=(1, 0, 0.5, 1), # Posiciona a legenda à direita do gráfico
+        fontsize=8,
+        facecolor='#0E1117',
+        edgecolor='white',
+        labelcolor='white',
+        title_fontsize='12'
+    )
 
     # Título
-    ax.set_title("Distribuição da CH Docente por Categoria", color='white', fontsize=10, fontweight='bold')
+    ax.set_title("Distribuição da CH Docente por Categoria", color='white', fontsize=12, fontweight='bold', pad=20)
+    
+    # Garante que o layout se ajuste para a legenda não ser cortada
+    plt.tight_layout(rect=[0, 0, 0.85, 1])
 
     return fig
 
@@ -210,3 +278,616 @@ def format_detalhe_precificacao_uc(row: pd.Series) -> st.dataframe:
         hide_index=True
     )
     return df_format
+
+def oferta_resumida_por_curso(df_matrizes: pd.DataFrame) -> pd.DataFrame:
+    rows = []
+    for key,item in st.session_state.cursos_selecionados.items():
+        new_row = {}
+        new_row["curso"] = item.get("curso")
+        new_row["modelo"] = item.get("modelo")
+        new_row["cluster"] = item.get("cluster")
+        matriz = df_matrizes[df_matrizes['MODELO'] == item.get("modelo")]
+        ch_total = matriz['CH TOTAL'].sum()
+        ch_sinergica_target = ch_total*item.get("sinergia")
+        ch_sinergica = []
+        ucs_sinergicas = []
+        ucs_especificas = []
+        for index, row in matriz.iterrows():
+            if sum(ch_sinergica) < ch_sinergica_target and row["SINERGIA VALIDA"] == "SIM":
+                ch_sinergica.append(row["CH TOTAL"])
+                ucs_sinergicas.append(row["UC"])
+            else:
+                ucs_especificas.append(row["UC"])
+        new_row["ch_sinergica"] = sum(ch_sinergica)
+        new_row["percentual_sinergico"] = np.round(sum(ch_sinergica)/ch_total,2)
+        new_row["ucs_sinergicas"] = ucs_sinergicas
+        new_row["ucs_especificas"] = ucs_especificas
+        
+        rows.append(new_row)
+    return pd.DataFrame(rows)
+
+def agrupar_oferta(OFERTA_POR_CURSO: pd.DataFrame, df_matrizes: pd.DataFrame) -> pd.DataFrame:
+    # Dicionários para acumular a base de alunos.
+    sinergia_acumulador = {}  
+    afp_acumulador = {}       
+
+    # Lista para armazenar as linhas do novo dataframe (para UCs específicas)
+    oferta_rows = []
+
+    for _, row in OFERTA_POR_CURSO.iterrows():
+        curso_nome = row['curso']
+        modelo_nome = row['modelo']
+        cluster_nome = row['cluster']
+        
+        curso_key = f"{curso_nome} ({modelo_nome})"
+        curso_selecionado = st.session_state.cursos_selecionados.get(curso_key)
+        
+        if not curso_selecionado:
+            print(f"Aviso: Curso '{curso_key}' não encontrado em st.session_state.cursos_selecionados.")
+            continue
+            
+        alunos_por_semestre = curso_selecionado.get("alunos_por_semestre", {})
+        
+        # --- Processamento das UCs Sinérgicas ---
+        ucs_sinergicas = row['ucs_sinergicas']
+        
+        for uc in ucs_sinergicas:
+            if not uc: continue
+            matriz_uc = df_matrizes[(df_matrizes['MODELO'] == modelo_nome) & (df_matrizes['UC'] == uc)]
+            
+            semestre = matriz_uc['Semestre'].iloc[0]
+            semestre_key = f"Semestre {semestre}"
+            tipo_uc = matriz_uc['Tipo de UC'].iloc[0]
+            num_alunos = alunos_por_semestre.get(semestre_key, 0)
+            
+            if uc == "AFP":
+                # Acumula AFP por semestre
+                afp_acumulador[semestre] = afp_acumulador.get(semestre, 0) + num_alunos
+            else:
+                # Acumula outras UCs sinérgicas por uc, cluster E semestre
+                chave_acumulador = (uc,tipo_uc, cluster_nome, modelo_nome, semestre)
+                sinergia_acumulador[chave_acumulador] = sinergia_acumulador.get(chave_acumulador, 0) + num_alunos
+                
+        # --- Processamento das UCs Específicas ---
+        ucs_especificas = row['ucs_especificas']
+
+        for uc in ucs_especificas:
+            if not uc: continue
+            matriz_uc = df_matrizes[(df_matrizes['MODELO'] == modelo_nome) & (df_matrizes['UC'] == uc)]
+            
+            if not matriz_uc.empty:
+                semestre = matriz_uc['Semestre'].iloc[0]
+                semestre_key = f"Semestre {semestre}"
+                tipo_uc = matriz_uc['Tipo de UC'].iloc[0]
+                num_alunos = alunos_por_semestre.get(semestre_key, 0)
+
+                if uc == "AFP":
+                    afp_acumulador[semestre] = afp_acumulador.get(semestre, 0) + num_alunos
+                else:
+                    oferta_rows.append({
+                        "UC": uc,
+                        "Tipo de UC": tipo_uc,
+                        "Chave": f"{uc} - {curso_nome} - {modelo_nome}",
+                        "Semestre": semestre,
+                        "Modelo": modelo_nome,
+                        "Base de Alunos": num_alunos
+                    })
+
+    # Adicionar as UCs sinérgicas
+    for (uc, tipo_uc, cluster, modelo, semestre), total_alunos in sinergia_acumulador.items():
+        oferta_rows.append({
+            "UC": uc,
+            "Tipo de UC": tipo_uc,
+            "Chave": f"{uc} - {cluster}",
+            "Semestre": semestre,
+            "Modelo": modelo,
+            "Base de Alunos": total_alunos
+        })
+
+    for semestre, total_alunos in afp_acumulador.items():
+        if total_alunos > 0:
+            oferta_rows.append({
+                "UC": "AFP",
+                "Tipo de UC": "AFP",
+                "Chave": "AFP",
+                "Semestre": semestre,
+                "Modelo": "Semi Presencial 30.20 Bacharelado",
+                "Base de Alunos": total_alunos
+            })
+        
+    OFERTA_POR_UC = pd.DataFrame(oferta_rows)
+    OFERTA_POR_UC = OFERTA_POR_UC.sort_values(by=['Semestre', 'UC']).reset_index(drop=True)
+    OFERTA_POR_UC["TIPO DE OFERTA"] = OFERTA_POR_UC["UC"].apply(lambda row: len(row.split(" - ")))
+    OFERTA_POR_UC["TIPO DE OFERTA"] = OFERTA_POR_UC["TIPO DE OFERTA"].map({1: "MARCA", 2:"CLUSTER", 3:"CURSO"})
+    return OFERTA_POR_UC
+
+
+def agrupar_oferta_v2(OFERTA_POR_CURSO: pd.DataFrame, df_matrizes: pd.DataFrame) -> pd.DataFrame:
+    # Dicionários para acumular a base de alunos.
+    sinergia_acumulador = {}  
+    afp_acumulador = {}       
+
+    # Lista para armazenar as linhas do novo dataframe (para UCs específicas)
+    oferta_rows = []
+
+    for _, row in OFERTA_POR_CURSO.iterrows():
+        curso_nome = row['curso']
+        modelo_nome = row['modelo']
+        cluster_nome = row['cluster']
+        
+        curso_key = f"{curso_nome} ({modelo_nome})"
+        curso_selecionado = st.session_state.cursos_selecionados.get(curso_key)
+        
+        if not curso_selecionado:
+            print(f"Aviso: Curso '{curso_key}' não encontrado em st.session_state.cursos_selecionados.")
+            continue
+
+        alunos_por_semestre = curso_selecionado.get("alunos_por_semestre", {})           
+        # --- Processamento das UCs Sinérgicas ---
+        ucs_sinergicas = row['ucs_sinergicas']
+        for uc in ucs_sinergicas:
+            if not uc: continue
+            new_row = {}
+            matriz_uc = df_matrizes[(df_matrizes['MODELO'] == modelo_nome) & (df_matrizes['UC'] == uc)]
+            semestre = matriz_uc['Semestre'].iloc[0]
+
+            semestre_key = f"Semestre {semestre}"
+            BASE_ALUNOS = alunos_por_semestre.get(semestre_key, 0)
+
+            PRESENCIALIDADE = matriz_uc['PRESENCIALIDADE'].iloc[0]
+            AMBIENTE_PROFISSIONAL = matriz_uc['AMBIENTE PROFISSIONAL'].iloc[0]
+            ASSINCRONA = matriz_uc['ASSÍNCRONA'].iloc[0]
+            SINCRONA_MED = matriz_uc['SÍNCRONA MED'].iloc[0]
+            SINCRONA = matriz_uc['SÍNCRONA'].iloc[0]
+            
+            new_row["curso"] = curso_nome
+            new_row["modelo"] = modelo_nome
+            new_row["cluster"] = cluster_nome
+            new_row["semestres"] = semestre
+            new_row["UC"] = uc
+            new_row["PRESENCIALIDADE"] = PRESENCIALIDADE
+            new_row["AMBIENTE_PROFISSIONAL"] = AMBIENTE_PROFISSIONAL
+            new_row["ASSINCRONA"] = ASSINCRONA
+            new_row["SINCRONA_MED"] = SINCRONA_MED
+            new_row["SINCRONA"] = SINCRONA
+            new_row["BASE_ALUNOS"] = BASE_ALUNOS
+            oferta_rows.append(new_row)
+    return pd.DataFrame(oferta_rows)
+
+def formatar_df_precificacao_oferta(df: pd.DataFrame):
+    """
+    Formata e exibe um DataFrame de precificação no Streamlit,
+    lidando de forma segura com colunas que podem não existir.
+    """
+    # Função interna para destacar a linha "Total Geral"
+    # Adicionada verificação 'if "Chave" in row' para segurança
+    def highlight_total(row):
+        if "Chave" in row and row["Chave"] == "Total Geral":
+            return (len(row)-2)*['background-color: #282c34'] + ['font-weight: bold; background-color: #273333'] * 2
+        return [''] * len(row)
+
+    # --- Dicionários Mestre com TODAS as configurações possíveis ---
+
+    # 1. Dicionário para a formatação de valores (st.style.format)
+    formatador_mestre = {
+        "Custo Total": lambda val: f'R$ {val:_.2f}'.replace('.', ',').replace('_', '.'),
+        "Custo Docente por Semestre_Assíncrono": lambda val: f'R$ {val:_.2f}'.replace('.', ',').replace('_', '.'),
+        "Custo Docente por Semestre_Presencial": lambda val: f'R$ {val:_.2f}'.replace('.', ',').replace('_', '.'),
+        "Custo Docente por Semestre_Síncrono": lambda val: f'R$ {val:_.2f}'.replace('.', ',').replace('_', '.'),
+        "Custo Docente por Semestre_Síncrono Mediado": lambda val: f'R$ {val:_.2f}'.replace('.', ',').replace('_', '.'),
+    }
+
+    # 2. Dicionário para a configuração de colunas (st.dataframe)
+    column_config_mestre = {
+        "CH por Semestre_Assíncrono": column_config.NumberColumn("CH Assíncrona", format="%d"),
+        "CH por Semestre_Presencial": column_config.NumberColumn("CH Presencial", format="%d"),
+        "CH por Semestre_Síncrono": column_config.NumberColumn("CH Síncrona", format="%d"),
+        "CH por Semestre_Síncrono Mediado": column_config.NumberColumn("CH Síncrona Mediada", format="%d"),
+        "Custo Docente por Semestre_Assíncrono": column_config.NumberColumn("Custo CH Assíncrona"),
+        "Custo Docente por Semestre_Presencial": column_config.NumberColumn("Custo CH Presencial"),
+        "Custo Docente por Semestre_Síncrono": column_config.NumberColumn("Custo CH Síncrona"),
+        "Custo Docente por Semestre_Síncrono Mediado": column_config.NumberColumn("Custo CH Síncrona Mediada"),
+        "CH Total": column_config.NumberColumn("CH Total", format="%d"),
+        "Eficiência da UC": column_config.NumberColumn("Eficiência da UC", format="%2f"),
+    }
+
+    # --- Criação dos Dicionários Seguros ---
+
+    # Filtra os dicionários para conter apenas as colunas que REALMENTE existem no DataFrame
+    formatadores_seguros = {col: func for col, func in formatador_mestre.items() if col in df.columns}
+    configuracao_segura = {col: cfg for col, cfg in column_config_mestre.items() if col in df.columns}
+
+    # Aplica o estilo usando o dicionário de formatação seguro
+    df_styled = df.style.apply(highlight_total, axis=1).format(formatadores_seguros)
+
+    # Exibe o DataFrame usando o dicionário de configuração seguro
+    df_formatado = st.dataframe(
+        df_styled,
+        use_container_width=True,
+        column_config=configuracao_segura,
+        hide_index=True
+    )
+    
+    return df_formatado
+
+def calcula_df_final(df_parametros_editado: pd.DataFrame, OFERTA_POR_UC: pd.DataFrame) -> pd.DataFrame:
+    # Max de alunos
+    filtro = (df_parametros_editado['Parâmetro']=='Máximo de Alunos por Turma')
+    df_precificacao_oferta = OFERTA_POR_UC.merge(right=df_parametros_editado[filtro], how='left',on=['Tipo de UC','Modelo'])
+    df_precificacao_oferta = df_precificacao_oferta.drop(columns=["Parâmetro"]).rename(columns={"Valor": "Máximo de Alunos"})
+    
+    # Remuneração
+    filtro = (df_parametros_editado['Parâmetro']=='Remuneração por Hora')
+    df_precificacao_oferta = df_precificacao_oferta.merge(right=df_parametros_editado[filtro], how='left',on=['Tipo de UC','Modelo', 'Tipo de CH', 'Ator Pedagógico'])
+    df_precificacao_oferta = df_precificacao_oferta.drop(columns=["Parâmetro"]).rename(columns={"Valor": "Remuneração por Hora"})
+    
+    # CH Semanal
+    filtro = (df_parametros_editado['Parâmetro']=='CH Semanal')
+    df_precificacao_oferta = df_precificacao_oferta.merge(right=df_parametros_editado[filtro], how='left',on=['Tipo de UC','Modelo', 'Tipo de CH', 'Ator Pedagógico'])
+    df_precificacao_oferta = df_precificacao_oferta.drop(columns=["Parâmetro"]).rename(columns={"Valor": "CH Semanal"})
+
+
+    df_precificacao_oferta["Qtde Turmas"] = np.ceil(df_precificacao_oferta["Base de Alunos"]/df_precificacao_oferta["Máximo de Alunos"])
+    df_precificacao_oferta["CH por Semestre"] = df_precificacao_oferta["CH Semanal"] * df_precificacao_oferta["Qtde Turmas"] * 20
+    df_precificacao_oferta["Custo Docente por Semestre"] = df_precificacao_oferta["CH por Semestre"] * df_precificacao_oferta["Remuneração por Hora"] *5.25*1.7*6/20
+    
+    df_precificacao_oferta
+
+    df_pivot = df_precificacao_oferta.pivot_table(
+                                        index=["Chave","Semestre","Base de Alunos"],
+                                        columns="Tipo de CH",
+                                        values=["CH por Semestre","Custo Docente por Semestre"],
+                                        aggfunc='sum'    
+                                    )
+    df_pivot['CH Total'] = df_pivot['CH por Semestre'].sum(axis=1)
+    df_pivot['Custo Total'] = df_pivot['Custo Docente por Semestre'].sum(axis=1)
+    df_final = df_pivot.reset_index()
+    df_final.columns = ['_'.join(map(str, col)).strip() if isinstance(col, tuple) and col[1] else col[0] if isinstance(col, tuple) else col for col in df_final.columns]
+    df_final["Eficiência da UC"] = np.round(df_final["Base de Alunos"]/df_final["CH Total"],2)
+    return df_final
+
+def calcular_resumo_semestre(df_por_semestre: pd.DataFrame, base_alunos):
+    ch_total_semestre = 0
+    custo_total_semestre = 0
+
+    colunas_ch = [
+        "CH por Semestre_Assíncrono",
+        "CH por Semestre_Presencial",
+        "CH por Semestre_Síncrono",
+        "CH por Semestre_Síncrono Mediado"
+    ]
+
+    colunas_custo = [
+        "Custo Docente por Semestre_Assíncrono",
+        "Custo Docente por Semestre_Presencial",
+        "Custo Docente por Semestre_Síncrono",
+        "Custo Docente por Semestre_Síncrono Mediado"
+    ]
+
+    for coluna in colunas_ch:
+        if coluna in df_por_semestre.columns:
+            ch_total_semestre += df_por_semestre[coluna].sum()
+
+    for coluna in colunas_custo:
+        if coluna in df_por_semestre.columns:
+            custo_total_semestre += df_por_semestre[coluna].sum()
+
+
+    custo_mensal = custo_total_semestre / 6
+
+    if ch_total_semestre > 0:
+        eficiencia = base_alunos / ch_total_semestre
+    else:
+        eficiencia = 0 
+
+    return ch_total_semestre, custo_total_semestre, custo_mensal, eficiencia
+
+def calcula_base_alunos_total(session_state:dict) -> int:
+    soma_alunos = 0
+    for _, item in session_state.cursos_selecionados.items():
+        for semestre in range(0,10):    
+            soma_alunos += item.get("alunos_por_semestre").get(f"Semestre {semestre+1}",0)
+    return soma_alunos
+
+def calcula_base_alunos_por_semestre(session_state: dict, semestre:int) -> int:
+    soma_alunos = 0
+    for _, item in session_state.cursos_selecionados.items():
+        soma_alunos += item.get("alunos_por_semestre").get(f"Semestre {semestre}", 0)
+    return soma_alunos
+
+def adiciona_linha_total(df: pd.DataFrame, base_alunos):
+    somas = df.sum(numeric_only=True)
+
+    linha_total = somas.to_dict()
+
+    linha_total['Chave'] = 'Total Geral'
+    linha_total['Semestre'] = 'x'
+    linha_total["Eficiência da UC"] = 'x'
+    linha_total['Base de Alunos'] = base_alunos
+
+    df_com_total = pd.concat([df, pd.DataFrame([linha_total])], ignore_index=True)
+    return df_com_total
+
+def plotar_custo_total_pag2(df: pd.DataFrame)-> float:
+    return np.round(float(df['Custo Total'].sum()),2)
+
+def plotar_ch_total_pag2(df: pd.DataFrame)-> float:
+    return np.round(float(df['CH Total'].sum()),1)
+
+def plot_custo_docente_pag2(df: pd.DataFrame):
+    # Agregar os dados
+    df_plot = df.groupby('Semestre').agg(func='sum')
+
+    # Criar a figura
+    fig, ax = plt.subplots(figsize=(6, 6))
+
+    # Fundo e cores
+    fig.patch.set_facecolor('#0E1117')
+    ax.set_facecolor('#0E1117')
+    bar_color = '#1f77b4'
+
+    # Gráfico de barras
+    bars = ax.bar(
+        df_plot.index,
+        df_plot['Custo Total'],
+        color=bar_color
+    )
+
+    # Aumenta o limite superior do eixo Y para dar espaço para as labels
+    ax.set_ylim(top=df_plot['Custo Total'].max() * 1.15)
+
+    # Adicionar data labels formatados em moeda brasileira
+    for i, bar in enumerate(bars):
+        height = bar.get_height()
+        if i % 2 == 0:
+            y_position = height + (df_plot['Custo Total'].max() * 0.05)
+        else:
+            y_position = height
+
+        ax.text(
+            bar.get_x() + bar.get_width()/2,
+            y_position,
+            f'R$ {height:,.2f}'.replace(',', 'X').replace('.', ',').replace('X', '.'),
+            ha='center',
+            va='bottom',
+            color='white',
+            fontsize=8,
+            fontweight='bold'
+        )
+
+    formatter = FuncFormatter(formatador_k)
+    ax.yaxis.set_major_formatter(formatter)
+
+    ax.tick_params(colors='white', axis='y', labelsize=8) # Aplica a cor branca apenas ao eixo y
+    ax.tick_params(colors='white', axis='x', labelsize=8) # Aplica a cor branca apenas ao eixo x
+
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    
+    ax.set_xlabel("Custo Docente por Semestre", fontdict={"color": "white", "fontsize": 13})
+    return fig
+
+def plot_ch_docente_por_categoria_pag2(df: pd.DataFrame):
+    """
+    Plota a distribuição da CH Docente como um gráfico de rosca,
+    utilizando uma legenda para identificar as categorias e porcentagens.
+    """
+    totais_categoria = {}
+    colunas_ch = [
+        "CH por Semestre_Assíncrono",
+        "CH por Semestre_Presencial",
+        "CH por Semestre_Síncrono",
+        "CH por Semestre_Síncrono Mediado"
+    ]
+    for coluna in colunas_ch:
+        ch_total=0
+        if coluna in df.columns:
+            ch_total += df[coluna].sum()
+            totais_categoria[coluna] = ch_total
+
+    df_plot = pd.Series(totais_categoria).sort_values(ascending=False)
+
+    fig, ax = plt.subplots(figsize=(12, 2))
+    fig.patch.set_facecolor('#0E1117')
+    ax.set_facecolor('#0E1117')
+
+    # Paleta de cores
+    colors = plt.cm.Blues(np.linspace(0.4, 0.9, len(df_plot)))
+
+    wedges, _ = ax.pie(
+        df_plot,
+        startangle=90,
+        colors=colors,
+        wedgeprops=dict(width=0.4, edgecolor='#0E1117')
+    )
+
+    # Criar os rótulos para a legenda, combinando categoria e porcentagem
+    total = df_plot.sum()
+    legend_labels = [
+        f'{label} ({value/total:.1%})'
+        for label, value in df_plot.items()
+    ]
+
+    # Adicionar e estilizar a legenda
+    ax.legend(
+        wedges,
+        legend_labels,
+        loc="center left",
+        bbox_to_anchor=(1, 0, 0.5, 1), # Posiciona a legenda à direita do gráfico
+        fontsize=8,
+        facecolor='#0E1117',
+        edgecolor='white',
+        labelcolor='white',
+        title_fontsize='12'
+    )
+
+    # Título
+    ax.set_title("Distribuição da CH Docente por Categoria", color='white', fontsize=12, fontweight='bold', pad=20)
+    
+    # Garante que o layout se ajuste para a legenda não ser cortada
+    plt.tight_layout(rect=[0, 0, 0.85, 1])
+
+    return fig
+
+def calcula_eficiencia_para_todos_semestre(df:pd.DataFrame, session_state:dict) -> dict:
+    dict_semestres = {}
+    for i in range(df["Semestre"].max()):
+        df_por_semestre = df[df['Semestre'] == (i+1)]
+        base_alunos_semestre = calcula_base_alunos_por_semestre(session_state, i+1)
+        _, _, _, eficiencia = calcular_resumo_semestre(df_por_semestre, base_alunos_semestre)
+        dict_semestres[i] = eficiencia
+    return dict_semestres
+
+
+def plot_eficiencia_por_semestre_pag2(dict_semestres: dict):
+    """
+    Plota a eficiência por semestre como um gráfico de linha padrão,
+    destacando o ponto de menor valor.
+    Recebe um dicionário como {1: 0.1, 2: 0.5, ...}.
+    """
+    # --- AJUSTE 1: Tratamento de Dicionário Vazio ---
+    # Se o dicionário de entrada estiver vazio, retorna uma figura vazia para evitar erros.
+    if not dict_semestres:
+        fig, ax = plt.subplots(figsize=(6, 4))
+        fig.patch.set_facecolor('#0E1117')
+        ax.set_facecolor('#0E1117')
+        ax.text(0.5, 0.5, 'Dados insuficientes para gerar o gráfico.', 
+                color='white', ha='center', va='center')
+        return fig
+
+    # --- AJUSTE 2: Correção na Criação do DataFrame ---
+    # Usa 'from_dict' com orient='index' para que as chaves do dicionário (semestres)
+    # se tornem o índice do DataFrame (eixo X).
+    df = pd.DataFrame.from_dict(dict_semestres, orient='index', columns=["eficiencia"])
+
+    fig, ax = plt.subplots(figsize=(6, 4))
+    fig.patch.set_facecolor('#0E1117')
+    ax.set_facecolor('#0E1117')
+
+    # Cores
+    line_color = '#1f77b4'
+    
+    # Dados para o gráfico
+    x = df.index
+    x = x+1
+    y = df['eficiencia']
+
+    # Gráfico de linha padrão com marcadores
+    ax.plot(x, y, color=line_color, linewidth=2.5, marker='o', markersize=8, label='Eficiência')
+
+    # Encontrar e destacar o menor valor
+    min_val = y.min()
+    min_idx = y.idxmin()+1
+    ax.plot(min_idx, min_val, marker='o', markersize=10, color='red', linestyle='None', label=f'Menor Valor ({min_val:,.2f})'.replace('.',','))
+
+    # Adicionar data labels
+    for xi, yi in zip(x, y):
+        ax.text(
+            xi,
+            yi + yi * 0.05,  # Posição um pouco acima do ponto
+            f'{yi:,.2f}'.replace('.', ','),
+            ha='center',
+            va='bottom',
+            color='white',
+            fontsize=10,
+            fontweight='bold'
+        )
+    
+    # Aumenta o limite superior do eixo Y para dar espaço para as labels
+    ax.set_ylim(bottom=0, top=y.max() * 1.25)
+    ax.set_xlim(x.min() - 0.5, x.max() + 0.5)
+
+    # Formatação e estilo
+    ax.tick_params(colors='white', axis='y', labelsize=8)
+    ax.tick_params(colors='white', axis='x', labelsize=8)
+
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    ax.spines['left'].set_color('white')
+    ax.spines['bottom'].set_color('white')
+    
+    # --- AJUSTE 3: Rótulo do eixo X mais claro ---
+    ax.set_xlabel("Semestre", fontdict={"color": "white", "fontsize": 12})
+    
+    # Adicionar legenda
+    legend = ax.legend(facecolor='#0E1117', edgecolor='white', labelcolor='white')
+    
+    return fig
+
+def formatar_df_por_semestre(df: pd.DataFrame):
+    
+    def highlight_total(row):
+        if "Chave" in row and row["Chave"] == "Total Geral":
+            return (len(row)-2)*['background-color: #282c34'] + ['font-weight: bold; background-color: #273333'] * 2
+        return [''] * len(row)
+
+    formatador_mestre = {
+        "Custo Total": lambda val: f'R$ {val:_.2f}'.replace('.', ',').replace('_', '.'),
+        "Custo Docente por Semestre_Assíncrono": lambda val: f'R$ {val:_.2f}'.replace('.', ',').replace('_', '.'),
+        "Custo Docente por Semestre_Presencial": lambda val: f'R$ {val:_.2f}'.replace('.', ',').replace('_', '.'),
+        "Custo Docente por Semestre_Síncrono": lambda val: f'R$ {val:_.2f}'.replace('.', ',').replace('_', '.'),
+        "Custo Docente por Semestre_Síncrono Mediado": lambda val: f'R$ {val:_.2f}'.replace('.', ',').replace('_', '.'),
+    }
+
+    # 2. Dicionário para a configuração de colunas (st.dataframe)
+    column_config_mestre = {
+        "CH por Semestre_Assíncrono": column_config.NumberColumn("CH Assíncrona", format="%d"),
+        "CH por Semestre_Presencial": column_config.NumberColumn("CH Presencial", format="%d"),
+        "CH por Semestre_Síncrono": column_config.NumberColumn("CH Síncrona", format="%d"),
+        "CH por Semestre_Síncrono Mediado": column_config.NumberColumn("CH Síncrona Mediada", format="%d"),
+        "Custo Docente por Semestre_Assíncrono": column_config.NumberColumn("Custo CH Assíncrona"),
+        "Custo Docente por Semestre_Presencial": column_config.NumberColumn("Custo CH Presencial"),
+        "Custo Docente por Semestre_Síncrono": column_config.NumberColumn("Custo CH Síncrona"),
+        "Custo Docente por Semestre_Síncrono Mediado": column_config.NumberColumn("Custo CH Síncrona Mediada"),
+        "CH Total": column_config.NumberColumn("CH Total", format="%d"),
+        "Eficiência da UC": column_config.NumberColumn("Eficiência da UC", format="%2f"),
+    }
+
+    formatadores_seguros = {col: func for col, func in formatador_mestre.items() if col in df.columns}
+    configuracao_segura = {col: cfg for col, cfg in column_config_mestre.items() if col in df.columns}
+    df_styled = df.style.apply(highlight_total, axis=1).format(formatadores_seguros)
+
+    df_formatado = st.dataframe(
+        df_styled,
+        use_container_width=True,
+        column_config=configuracao_segura,
+        hide_index=True
+    )
+    
+    return df_formatado
+
+def projetar_base_alunos(base_alunos_inicial: int, n_semestres_curso: int, dist_ingresso: tuple, taxa_evasao_inicial: float, decaimento_evasao: float):
+    taxas_evasao = np.array([taxa_evasao_inicial * (decaimento_evasao ** i) for i in range(n_semestres_curso)])
+    taxas_permanencia = 1 - taxas_evasao
+
+    turmas = np.zeros(n_semestres_curso, dtype=int)
+    turmas[0] = base_alunos_inicial
+
+    for semestre_da_simulacao in range(1, n_semestres_curso):
+        turmas_seguinte = np.zeros(n_semestres_curso, dtype=int)
+
+        for i in range(n_semestres_curso - 1, 0, -1):
+            alunos_para_avancar = turmas[i-1]
+            taxa_de_permanencia = taxas_permanencia[i-1]
+            if alunos_para_avancar > 0:
+                sobreviventes = np.random.binomial(n=alunos_para_avancar, p=taxa_de_permanencia)
+            else:
+                sobreviventes = 0
+            turmas_seguinte[i] = int(max(0, sobreviventes))
+
+        media_ingressantes, desvio_padrao_ingressantes = dist_ingresso
+        novos_ingressantes = np.round(np.random.normal(media_ingressantes, desvio_padrao_ingressantes))
+        turmas_seguinte[0] = int(max(0, novos_ingressantes))
+
+        turmas = turmas_seguinte.copy()
+
+    alunos_por_semestre_dict = {}
+    for i, num_alunos in enumerate(turmas):
+        chave = f"Semestre {i + 1}"
+        alunos_por_semestre_dict[chave] = int(num_alunos) 
+
+    resultado_final = {
+        "alunos_por_semestre": alunos_por_semestre_dict
+    }
+
+    return resultado_final

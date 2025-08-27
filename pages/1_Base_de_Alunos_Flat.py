@@ -1,14 +1,12 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-from src.utils import obter_modelos_para_curso, plotar_custo_total, plotar_ch_total, plot_custo_docente, plotar_indicador_eficiencia, plot_ch_docente_por_categoria, format_detalhe_precificacao_uc
+from src.utils import obter_modelos_para_curso, plotar_custo_total, plotar_ch_total, plot_custo_docente, plotar_indicador_eficiencia, plot_ch_docente_por_categoria, format_detalhe_precificacao_uc, plot_eficiencia_por_semestre
 from src.formatting import colorir_semestres, formatar_valor_brl
 from src.data import carregar_dados
 from streamlit import column_config
 import locale
 locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
-#import matplotlib.pyplot as plt
-#from matplotlib.ticker import FuncFormatter
 # --- Configuração da Página ---
 st.set_page_config(
     page_title="Simulador de Precificação",
@@ -221,21 +219,31 @@ if st.session_state.get('simulacao_ativa', False) and dataframes_carregados:
             except (TypeError, KeyError) as e:
                 st.error(f"Não foi possível calcular os totais por UC. Verifique se a coluna 'Precificacao' e suas colunas internas estão corretas. Erro: {e}")
                 st.stop()
-
-            col1, col2 = st.columns(2)
+            st.subheader("Resumo")
+            col1, col2 = st.columns(2, border=True)
             with col1:
-                col3,col4 = st.columns(2)
+                col3,col4,col5,col6 = st.columns([2,1,1,1])
                 with col3:
                     st.metric(
                         label="Custo Total",
                         value=locale.currency(plotar_custo_total(df_precificacao_curso), grouping=True, symbol="R$")
+                        ,width='stretch'
                     )
                 with col4:
-                    st.metric(label="CH Total", value=plotar_ch_total(df_precificacao_curso))
+                    st.metric(label="CH Total", value=locale.format_string('%.1f', plotar_ch_total(df_precificacao_curso), grouping=True),width='content')
+                    
+                with col5:
+                    st.metric(label="Base de Alunos", value=config.get("numero_alunos")*8,width='content')
+                with col6:
+                    eficiencia = np.round(config.get("numero_alunos")*8/plotar_ch_total(df_precificacao_curso),2)
+                    st.metric(label="Eficiência", value = eficiencia,width='content')
                 st.pyplot(plot_custo_docente(df_precificacao_curso), use_container_width=False)
+                
             with col2:
-                st.pyplot(plotar_indicador_eficiencia(4610, config.get("numero_alunos")))
+                #st.pyplot(plotar_indicador_eficiencia(4610, config.get("numero_alunos")))
                 st.pyplot(plot_ch_docente_por_categoria(df_precificacao_curso))
+                st.pyplot(plot_eficiencia_por_semestre(df_precificacao_curso), use_container_width=False)
+
             # O expander principal que conterá todos os semestres
             st.subheader("Detalhamento")
             with st.expander("Expandir detalhamento por semestre"):
@@ -256,7 +264,7 @@ if st.session_state.get('simulacao_ativa', False) and dataframes_carregados:
                             )
                             st.metric(
                                 label="Carga Horária Total",
-                                value=f"{np.round(total_ch_semestre,1)} h"
+                                value=locale.format_string('%.1f', total_ch_semestre, grouping=True)
                             )
                         with col2:
                             st.metric(
@@ -264,7 +272,7 @@ if st.session_state.get('simulacao_ativa', False) and dataframes_carregados:
                                 value=formatar_valor_brl(total_semestre_as)
                             )
                             st.metric(
-                                label="Eficiência da UC",
+                                label="Eficiência do Semestre",
                                 value=f"{taxa_eficiencia:.2f}"
                             )
                         st.divider()
