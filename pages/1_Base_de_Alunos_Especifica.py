@@ -1,6 +1,6 @@
 import streamlit as st
 from src.data import carregar_dados, carregar_lista_marca_polo
-from src.utils import obter_modelos_para_curso, oferta_resumida_por_curso, agrupar_oferta, agrupar_oferta_v2, formatar_df_precificacao_oferta, calcular_resumo_semestre, calcula_base_alunos_por_semestre, calcula_base_alunos_total, adiciona_linha_total,calcula_df_final, plotar_custo_total_pag2, plotar_ch_total_pag2, plot_custo_docente_pag2, plot_ch_docente_por_categoria_pag2, calcula_eficiencia_para_todos_semestre, plot_eficiencia_por_semestre_pag2, formatar_df_por_semestre, calcula_custo_aluno_para_todos_semestre, plot_custo_aluno_por_semestre_pag2
+from src.utils import obter_modelos_para_curso, oferta_resumida_por_curso, agrupar_oferta, agrupar_oferta_v2, formatar_df_precificacao_oferta, calcular_resumo_semestre, calcula_base_alunos_por_semestre, calcula_base_alunos_total, adiciona_linha_total,calcula_df_final, plotar_custo_total_pag2, plotar_ch_total_pag2, plot_custo_docente_pag2, plot_ch_docente_por_categoria_pag2, calcula_eficiencia_para_todos_semestre, plot_eficiencia_por_semestre_pag2, formatar_df_por_semestre, calcula_custo_aluno_para_todos_semestre, plot_custo_aluno_por_semestre_pag2, calcula_ticket_medio
 from src.formatting import formatar_valor_brl
 import pandas as pd
 import numpy as np
@@ -56,8 +56,9 @@ with col3:
         disabled=not polo_para_adicionar
     )
 
-# A lógica para obter modelos disponíveis permanece a mesma
-modelos_disponiveis = obter_modelos_para_curso(df_dimensao_cursos, curso_para_adicionar)
+modelos_disponiveis = []
+if curso_para_adicionar:
+    modelos_disponiveis = obter_modelos_para_curso(df_dimensao_cursos, curso_para_adicionar)
 
 with col4:
     modelo_para_adicionar = st.selectbox(
@@ -74,7 +75,6 @@ st.write("") # Adiciona um espaço antes do botão
 add_button_disabled = not all([marca_para_adicionar, polo_para_adicionar, curso_para_adicionar, modelo_para_adicionar])
 
 if st.button("Adicionar Oferta", type="primary", use_container_width=True, disabled=add_button_disabled):
-    # NOVA CHAVE: Garante que cada oferta seja única por Marca, Polo, Curso e Modelo
     chave_oferta = f"{marca_para_adicionar} - {polo_para_adicionar} - {curso_para_adicionar} ({modelo_para_adicionar})"
     
     if chave_oferta not in st.session_state.cursos_selecionados:
@@ -111,9 +111,6 @@ st.markdown("Aqui estão todas as ofertas que você adicionou para a simulação
 if not st.session_state.cursos_selecionados:
     st.info("Nenhuma oferta adicionada ainda. Comece selecionando todos os campos acima.")
 else:
-    # ORDENAÇÃO HIERÁRQUICA:
-    # 1. Pega os itens do dicionário (chave, valor)
-    # 2. Usa a função sorted com uma chave lambda para ordenar pelos valores de marca, polo, curso e modelo.
     ofertas_ordenadas = sorted(
         st.session_state.cursos_selecionados.items(),
         key=lambda item: (item[1]['marca'], item[1]['polo'], item[1]['curso'], item[1]['modelo'])
@@ -228,8 +225,10 @@ if st.session_state.cursos_selecionados:
     st.header("4. Analítico de Custos", divider='rainbow')
     OFERTA_POR_CURSO = oferta_resumida_por_curso(df_matrizes)
 
-    OFERTA_POR_UC = agrupar_oferta(OFERTA_POR_CURSO, df_matrizes)
-    OFERTA_POR_UC
+    OFERTA_POR_UC = agrupar_oferta(OFERTA_POR_CURSO, df_matrizes, df_parametros=df_parametros_editado)
+    OFERTA_POR_UC = OFERTA_POR_UC[OFERTA_POR_UC['Tipo de UC'].isin(df_parametros_editado['Tipo de UC'].unique().tolist())]
+
+
     df_final = calcula_df_final(df_parametros_editado, OFERTA_POR_UC)
 
     df_final = df_final[df_final['Custo Total']>0]
@@ -249,7 +248,8 @@ if st.session_state.cursos_selecionados:
                 ,width='stretch'
             )
             st.metric(label="Base de Alunos", value=locale.format_string('%d',base_alunos, grouping=True),width='content')
-            ticket = config.get("ticket",0)
+            
+            ticket = calcula_ticket_medio(st.session_state)
             st.metric(label="Ticket Médio", value=locale.currency(ticket, grouping=True, symbol="R$"),width='content')
         with col4:
             st.metric(label="CH Total", value=locale.format_string('%.1f', plotar_ch_total_pag2(df_final), grouping=True),width='content')

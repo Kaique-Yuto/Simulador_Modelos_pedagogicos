@@ -310,13 +310,15 @@ def oferta_resumida_por_curso(df_matrizes: pd.DataFrame) -> pd.DataFrame:
     df = pd.DataFrame(rows)
     return df
 
-def agrupar_oferta(OFERTA_POR_CURSO: pd.DataFrame, df_matrizes: pd.DataFrame) -> pd.DataFrame:
+def agrupar_oferta(OFERTA_POR_CURSO: pd.DataFrame, df_matrizes: pd.DataFrame, df_parametros: pd.DataFrame) -> pd.DataFrame:
     # Dicionários para acumular a base de alunos.
-    sinergia_acumulador = {}  
-    afp_acumulador = {}       
+    sinergia_acumulador = {}
+    afp_acumulador = {}
 
-    # Lista para armazenar as linhas do novo dataframe (para UCs específicas)
+    # Lista para armazenar as linhas do novo dataframe
     oferta_rows = []
+    
+    ch_remota_agrupavel = ["Assíncrono", "Síncrono", "Síncrono Mediado"]
 
     for _, row in OFERTA_POR_CURSO.iterrows():
         marca_nome = row['marca']
@@ -339,21 +341,39 @@ def agrupar_oferta(OFERTA_POR_CURSO: pd.DataFrame, df_matrizes: pd.DataFrame) ->
         
         for uc in ucs_sinergicas:
             if not uc: continue
-            matriz_uc = df_matrizes[(df_matrizes['MODELO'] == modelo_nome) & (df_matrizes['UC'] == uc)]
             
+            matriz_uc = df_matrizes[(df_matrizes['MODELO'] == modelo_nome) & (df_matrizes['UC'] == uc)]
+            if matriz_uc.empty: continue
+
             semestre = matriz_uc['Semestre'].iloc[0]
             semestre_key = f"Semestre {semestre}"
-            tipo_uc = matriz_uc['Tipo de UC'].iloc[0]
             num_alunos = alunos_por_semestre.get(semestre_key, 0)
-            
+            tipo_uc = matriz_uc['Tipo de UC'].iloc[0]
+
             if uc == "AFP":
-                # Acumula AFP por semestre
                 afp_acumulador[semestre] = afp_acumulador.get(semestre, 0) + num_alunos
-            else:
-                # Acumula outras UCs sinérgicas por uc, cluster E semestre
-                chave_acumulador = (uc,tipo_uc, cluster_nome, modelo_nome, semestre)
-                sinergia_acumulador[chave_acumulador] = sinergia_acumulador.get(chave_acumulador, 0) + num_alunos
+                continue # Pula para a próxima UC sinérgica
+
+            # ALTERAÇÃO AQUI: Busca todos os Tipos de CH para esta UC/Modelo em df_parametros
+            parametros_filtrados = df_parametros[(df_parametros['Tipo de UC'] == tipo_uc) & (df_parametros['Modelo'] == modelo_nome)]
+            tipos_ch_para_esta_uc = parametros_filtrados['Tipo de CH'].unique().tolist()
+            
+            # ALTERAÇÃO AQUI: Novo loop para iterar em cada Tipo de CH encontrado
+            for tipo_ch_atual in tipos_ch_para_esta_uc:
+                chave_acumulador = None
                 
+                if tipo_ch_atual == "Presencial":
+                    # Para CH Presencial, o POLO faz parte da chave.
+                    chave_acumulador = (uc, tipo_uc, marca_nome, cluster_nome, modelo_nome, semestre, tipo_ch_atual, polo_nome)
+                
+                elif tipo_ch_atual in ch_remota_agrupavel:
+                    # Para CHs remotas, usamos um placeholder para o polo.
+                    polo_agrupado_placeholder = "Polos Agrupados"
+                    chave_acumulador = (uc, tipo_uc, marca_nome, cluster_nome, modelo_nome, semestre, tipo_ch_atual, polo_agrupado_placeholder)
+                
+                if chave_acumulador:
+                    sinergia_acumulador[chave_acumulador] = sinergia_acumulador.get(chave_acumulador, 0) + num_alunos
+                        
         # --- Processamento das UCs Específicas ---
         ucs_especificas = row['ucs_especificas']
 
@@ -364,47 +384,57 @@ def agrupar_oferta(OFERTA_POR_CURSO: pd.DataFrame, df_matrizes: pd.DataFrame) ->
             if not matriz_uc.empty:
                 semestre = matriz_uc['Semestre'].iloc[0]
                 semestre_key = f"Semestre {semestre}"
-                tipo_uc = matriz_uc['Tipo de UC'].iloc[0]
                 num_alunos = alunos_por_semestre.get(semestre_key, 0)
 
                 if uc == "AFP":
                     afp_acumulador[semestre] = afp_acumulador.get(semestre, 0) + num_alunos
                 else:
+                    # ALTERAÇÃO AQUI: Lógica de múltiplas CHs também para UCs Específicas
+                    tipo_uc = matriz_uc['Tipo de UC'].iloc[0]
+
                     oferta_rows.append({
                         "UC": uc,
                         "Tipo de UC": tipo_uc,
                         "Chave": f"{marca_nome} - {uc} - {curso_nome} - {modelo_nome} - {polo_nome}",
                         "Semestre": semestre,
                         "Modelo": modelo_nome,
-                        "Base de Alunos": num_alunos
-                    })
+                        "Base de Alunos": num_alunos,
+                        "Marca": marca_nome,
+                        "Polo": polo_nome,
+                        "Tipo de CH": "Todas"
+                        })
 
-    # Adicionar as UCs sinérgicas
-    for (uc, tipo_uc, cluster, modelo, semestre), total_alunos in sinergia_acumulador.items():
+    # --- Montagem Final (sem alterações, já está preparada para a chave mais longa) ---
+    for (uc, tipo_uc, marca, cluster, modelo, semestre, tipo_ch, polo), total_alunos in sinergia_acumulador.items():
         oferta_rows.append({
             "UC": uc,
             "Tipo de UC": tipo_uc,
-            "Chave": f"{marca_nome} - {uc} - {cluster} - {modelo}",
+            "Chave": f"{marca} - {uc} - {cluster} - {modelo} - {semestre} - {tipo_ch} - {polo}",
             "Semestre": semestre,
             "Modelo": modelo,
-            "Base de Alunos": total_alunos
+            "Base de Alunos": total_alunos,
+            "Marca": marca,
+            "Polo": polo,
+            "Tipo de CH": tipo_ch
         })
 
     for semestre, total_alunos in afp_acumulador.items():
         if total_alunos > 0:
             oferta_rows.append({
-                "UC": "AFP",
-                "Tipo de UC": "AFP",
-                "Chave": "AFP",
-                "Semestre": semestre,
-                "Modelo": "Semi Presencial 30.20 Bacharelado",
-                "Base de Alunos": total_alunos
+                "UC": "AFP", "Tipo de UC": "AFP", "Chave": "AFP",
+                "Semestre": semestre, "Modelo": "N/A", "Base de Alunos": total_alunos,
+                "Marca": "Todas", "Polo": "Todos (Agrupado)", "Tipo de CH": "N/A"
             })
-        
+            
+    if not oferta_rows:
+        return pd.DataFrame()
+
     OFERTA_POR_UC = pd.DataFrame(oferta_rows)
-    OFERTA_POR_UC = OFERTA_POR_UC.sort_values(by=['Semestre', 'UC']).reset_index(drop=True)
-    OFERTA_POR_UC["TIPO DE OFERTA"] = OFERTA_POR_UC["UC"].apply(lambda row: len(row.split(" - ")))
-    OFERTA_POR_UC["TIPO DE OFERTA"] = OFERTA_POR_UC["TIPO DE OFERTA"].map({1: "MARCA", 2:"CLUSTER", 3:"CURSO"})
+    
+    OFERTA_POR_UC = OFERTA_POR_UC.sort_values(
+        by=['Marca', 'Polo', 'Semestre', 'UC', 'Tipo de CH']
+    ).reset_index(drop=True)
+    
     return OFERTA_POR_UC
 
 
@@ -504,6 +534,15 @@ def formatar_df_precificacao_oferta(df: pd.DataFrame):
     configuracao_segura = {col: cfg for col, cfg in column_config_mestre.items() if col in df.columns}
 
     df = df.drop(columns=["Eficiência da UC"]) if "Eficiência da UC" in df.columns else df
+
+    # Ordenar e deixar o "x" por ultimo
+    numeric_mask = pd.to_numeric(df['Semestre'], errors='coerce').notna()
+    df_numeric = df[numeric_mask]
+    df_text = df[~numeric_mask]
+    df_numeric['Semestre'] = pd.to_numeric(df_numeric['Semestre'])
+    df_numeric_sorted = df_numeric.sort_values(by='Semestre')
+    df = pd.concat([df_numeric_sorted, df_text])
+
     # Aplica o estilo usando o dicionário de formatação seguro
     df_styled = df.style.apply(highlight_total, axis=1).format(formatadores_seguros)
 
@@ -518,11 +557,16 @@ def formatar_df_precificacao_oferta(df: pd.DataFrame):
     return df_formatado
 
 def calcula_df_final(df_parametros_editado: pd.DataFrame, OFERTA_POR_UC: pd.DataFrame) -> pd.DataFrame:
+    df_sinergicas = OFERTA_POR_UC[OFERTA_POR_UC['Tipo de CH']!="Todas"]
+    df_especificas = OFERTA_POR_UC[OFERTA_POR_UC['Tipo de CH']=="Todas"].drop(columns=['Tipo de CH'])
+
     # Max de alunos
     filtro = (df_parametros_editado['Parâmetro']=='Máximo de Alunos por Turma')
-    df_precificacao_oferta = OFERTA_POR_UC.merge(right=df_parametros_editado[filtro], how='left',on=['Tipo de UC','Modelo'])
-    df_precificacao_oferta = df_precificacao_oferta.drop(columns=["Parâmetro"]).rename(columns={"Valor": "Máximo de Alunos"})
-    
+    df_precificacao_oferta_especificas = df_especificas.merge(right=df_parametros_editado[filtro], how='left',on=['Tipo de UC','Modelo'])
+    df_precificacao_oferta_especificas = df_precificacao_oferta_especificas.drop(columns=["Parâmetro"]).rename(columns={"Valor": "Máximo de Alunos"})
+    df_precificacao_oferta_sinergicas = df_sinergicas.merge(right=df_parametros_editado[filtro], how='left',on=['Tipo de UC','Modelo', 'Tipo de CH'])
+    df_precificacao_oferta_sinergicas = df_precificacao_oferta_sinergicas.drop(columns=["Parâmetro"]).rename(columns={"Valor": "Máximo de Alunos"})
+    df_precificacao_oferta = pd.concat([df_precificacao_oferta_especificas, df_precificacao_oferta_sinergicas], ignore_index=True)
     # Remuneração
     filtro = (df_parametros_editado['Parâmetro']=='Remuneração por Hora')
     df_precificacao_oferta = df_precificacao_oferta.merge(right=df_parametros_editado[filtro], how='left',on=['Tipo de UC','Modelo', 'Tipo de CH', 'Ator Pedagógico'])
@@ -974,3 +1018,19 @@ def projetar_base_alunos(base_alunos_inicial: int, n_semestres_curso: int, dist_
     }
 
     return resultado_final
+
+def calcula_ticket_medio(config: dict) -> float:
+    cursos = config.get("cursos_selecionados", {})
+
+    alunos_total = 0
+    ticket_total = 0
+    for _, dados_chave in cursos.items():
+        ticket_curso = dados_chave.get("ticket", 0)
+        alunos_curso = 0
+        for _, num in dados_chave.get("alunos_por_semestre", {}).items():
+            alunos_curso += num
+            alunos_total += num
+        ticket_total += ticket_curso * alunos_curso
+        
+    ticket_medio = ticket_total / alunos_total 
+    return ticket_medio
