@@ -304,7 +304,9 @@ def oferta_resumida_por_curso(df_matrizes: pd.DataFrame) -> pd.DataFrame:
         new_row["ucs_especificas"] = ucs_especificas
         
         rows.append(new_row)
-    return pd.DataFrame(rows)
+
+    df = pd.DataFrame(rows)
+    return df
 
 def agrupar_oferta(OFERTA_POR_CURSO: pd.DataFrame, df_matrizes: pd.DataFrame) -> pd.DataFrame:
     # Dicionários para acumular a base de alunos.
@@ -743,6 +745,15 @@ def calcula_eficiencia_para_todos_semestre(df:pd.DataFrame, session_state:dict) 
         dict_semestres[i] = eficiencia
     return dict_semestres
 
+def calcula_custo_aluno_para_todos_semestre(df:pd.DataFrame, session_state:dict) -> dict:
+    dict_semestres = {}
+    for i in range(df["Semestre"].max()):
+        df_por_semestre = df[df['Semestre'] == (i+1)]
+        base_alunos_semestre = calcula_base_alunos_por_semestre(session_state, i+1)
+        _, custo_total_semestre, _, _ = calcular_resumo_semestre(df_por_semestre, base_alunos_semestre)
+        dict_semestres[i] = custo_total_semestre/base_alunos_semestre if base_alunos_semestre > 0 else 0
+    return dict_semestres
+
 
 def plot_eficiencia_por_semestre_pag2(dict_semestres: dict):
     if not dict_semestres:
@@ -810,6 +821,76 @@ def plot_eficiencia_por_semestre_pag2(dict_semestres: dict):
 
     return fig
 
+def plot_custo_aluno_por_semestre_pag2(dict_semestres: dict, ticket: float):
+    if not dict_semestres:
+        fig, ax = plt.subplots(figsize=(6, 4))
+        fig.patch.set_facecolor('#0E1117')
+        ax.set_facecolor('#0E1117')
+        ax.text(0.5, 0.5, 'Dados insuficientes para gerar o gráfico.',
+                color='white', ha='center', va='center')
+        return fig
+
+    df = pd.DataFrame.from_dict(dict_semestres, orient='index', columns=["eficiencia"])
+
+    fig, ax = plt.subplots(figsize=(6, 4))
+    fig.patch.set_facecolor('#0E1117')
+    ax.set_facecolor('#0E1117')
+
+    # Cores
+    line_color = '#1f77b4'
+    ticket_line_color = '#d62728'
+    
+    # Dados para o gráfico
+    x = df.index
+    x = x.astype(int) + 1
+    y = df['eficiencia']
+
+    # Gráfico de linha padrão com marcadores
+    ax.plot(x, y, color=line_color, linewidth=2.5, marker='o', markersize=8, label='Custo por Aluno')
+
+    # Encontrar e destacar o maior valor
+    max_val = y.max()
+    max_idx = y.idxmax() + 1
+    # Formata o texto do maior valor para não ter casas decimais e adicionar "R$"
+    ax.plot(max_idx, max_val, marker='o', markersize=10, color='red', linestyle='None', label=f'Maior Custo/Aluno (R$ {int(max_val):,})')
+    
+    # Adicionar a linha constante para o valor do ticket
+    ax.axhline(y=ticket, color=ticket_line_color, linestyle='--', linewidth=2, label=f'Ticket R$ {int(ticket):,}')
+
+    # Adicionar data labels com formatação em reais e sem centavos
+    for xi, yi in zip(x, y):
+        ax.text(
+            xi,
+            yi + yi * 0.05,  # Posição um pouco acima do ponto
+            f'R$ {int(yi):,}',
+            ha='center',
+            va='bottom',
+            color='white',
+            fontsize=10,
+            fontweight='bold'
+        )
+    
+    # Aumenta o limite superior do eixo Y para dar espaço para as labels e a linha do ticket
+    ax.set_ylim(bottom=0, top=max(y.max() * 1.25, ticket * 1.25))
+    ax.set_xlim(x.min() - 0.5, x.max() + 0.5)
+
+    # Formatação e estilo
+    ax.tick_params(colors='white', axis='y', labelsize=8)
+    ax.tick_params(colors='white', axis='x', labelsize=8)
+    ax.set_xticks(x)
+    ax.set_xticklabels(x.astype(int))
+
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    ax.spines['left'].set_color('white')
+    ax.spines['bottom'].set_color('white')
+    
+    ax.set_xlabel("Semestre", fontdict={"color": "white", "fontsize": 12})
+    
+    legend = ax.legend(facecolor='#0E1117', edgecolor='white', labelcolor='white')
+    
+    return fig
+
 def formatar_df_por_semestre(df: pd.DataFrame):
     
     def highlight_total(row):
@@ -841,6 +922,7 @@ def formatar_df_por_semestre(df: pd.DataFrame):
 
     formatadores_seguros = {col: func for col, func in formatador_mestre.items() if col in df.columns}
     configuracao_segura = {col: cfg for col, cfg in column_config_mestre.items() if col in df.columns}
+    df = df.drop(columns='Eficiência da UC', errors='ignore')
     df_styled = df.style.apply(highlight_total, axis=1).format(formatadores_seguros)
 
     df_formatado = st.dataframe(

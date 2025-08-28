@@ -1,6 +1,6 @@
 import streamlit as st
 from src.data import carregar_dados
-from src.utils import obter_modelos_para_curso, oferta_resumida_por_curso, agrupar_oferta, agrupar_oferta_v2, formatar_df_precificacao_oferta, calcular_resumo_semestre, calcula_base_alunos_por_semestre, calcula_base_alunos_total, adiciona_linha_total,calcula_df_final, plotar_custo_total_pag2, plotar_ch_total_pag2, plot_custo_docente_pag2, plot_ch_docente_por_categoria_pag2, calcula_eficiencia_para_todos_semestre, plot_eficiencia_por_semestre_pag2, formatar_df_por_semestre
+from src.utils import obter_modelos_para_curso, oferta_resumida_por_curso, agrupar_oferta, agrupar_oferta_v2, formatar_df_precificacao_oferta, calcular_resumo_semestre, calcula_base_alunos_por_semestre, calcula_base_alunos_total, adiciona_linha_total,calcula_df_final, plotar_custo_total_pag2, plotar_ch_total_pag2, plot_custo_docente_pag2, plot_ch_docente_por_categoria_pag2, calcula_eficiencia_para_todos_semestre, plot_eficiencia_por_semestre_pag2, formatar_df_por_semestre, calcula_custo_aluno_para_todos_semestre, plot_custo_aluno_por_semestre_pag2
 from src.formatting import formatar_valor_brl
 import pandas as pd
 import numpy as np
@@ -23,8 +23,7 @@ if 'cursos_selecionados' not in st.session_state:
 LISTA_CURSOS_COMPLETA = sorted(df_dimensao_cursos['Curso'].unique().tolist())
 
 
-st.markdown("Você selecionou a Simulação com Base de Alunos Específica, isso significa que você deve preencher manualmente um quantitativo de alunos em todos os semestres dos cursos selecionados.")
-
+st.markdown("Você selecionou a Simulação com Base de Alunos Específica, isso significa que você deve preencher manualmente um quantitativo de alunos em todos os semestres para cada curso selecionado.")
 # --- Seção 1 (Adicionar Cursos) ---
 st.header("1. Adicione as Ofertas de Curso para Simulação", divider='rainbow')
 
@@ -63,12 +62,14 @@ with col3:
                 filtro = (df_dimensao_cursos['Curso'] == curso_para_adicionar) & (df_dimensao_cursos['Modelo'] == modelo_para_adicionar)
                 cluster = df_dimensao_cursos.loc[filtro, 'Cluster'].iloc[0]
                 sinergia = df_dimensao_cursos.loc[filtro, 'Sinergia'].iloc[0]
+                ticket = df_dimensao_cursos.loc[filtro, 'Ticket'].iloc[0]
                 num_semestres = int(df_dimensao_cursos.loc[filtro, 'Qtde Semestres'].iloc[0])
                 alunos_por_semestre = {f"Semestre {i}": 50 for i in range(1, num_semestres + 1)}
 
                 st.session_state.cursos_selecionados[chave_oferta] = {
                     "curso": curso_para_adicionar,
                     "modelo": modelo_para_adicionar,
+                    "ticket": ticket,
                     "cluster": cluster,
                     "sinergia": sinergia,
                     "num_semestres": num_semestres,
@@ -143,6 +144,7 @@ with st.expander("Mostrar Parâmetros", expanded=True):
 
     ignorar_tcc = st.checkbox(
         label="Não considerar o TCC na análise"
+        ,value=True
     )
     if ignorar_tcc:
         df_parametros_editado = df_parametros_editado[df_parametros_editado["Tipo de UC"] != "TCC"]
@@ -151,18 +153,21 @@ with st.expander("Mostrar Parâmetros", expanded=True):
 
     ignorar_estagio = st.checkbox(
         label="Não considerar Estágio na análise"
+        ,value=True
     )
     if ignorar_estagio:
         df_parametros_editado = df_parametros_editado[df_parametros_editado["Tipo de UC"] != "ESTÁGIO"]
 
     ignorar_AFP = st.checkbox(
         label="Não considerar AFP na análise"
+        ,value=True
     )
     if ignorar_AFP:
         df_parametros_editado = df_parametros_editado[df_parametros_editado["Tipo de UC"] != "AFP"]
 
     ignorar_extensao = st.checkbox(
         label="Não considerar Extensão na análise"
+        ,value=True
     )
     if ignorar_extensao:
         df_parametros_editado = df_parametros_editado[df_parametros_editado["Tipo de UC"] != "EXTENSÃO"]
@@ -207,20 +212,24 @@ if st.session_state.cursos_selecionados:
                 ,width='stretch'
             )
             st.metric(label="Base de Alunos", value=locale.format_string('%d',base_alunos, grouping=True),width='content')
-            st.metric(label="Custo por Aluno", value=locale.currency(plotar_custo_total_pag2(df_final)/base_alunos, grouping=True, symbol="R$"))
+            ticket = config.get("ticket",0)
+            st.metric(label="Ticket Médio", value=locale.currency(ticket, grouping=True, symbol="R$"),width='content')
         with col4:
             st.metric(label="CH Total", value=locale.format_string('%.1f', plotar_ch_total_pag2(df_final), grouping=True),width='content')
-            eficiencia = np.round(base_alunos/plotar_ch_total_pag2(df_final),2)
-            st.metric(label="Eficiência", value = eficiencia,width='content')
+            #eficiencia = np.round(base_alunos/plotar_ch_total_pag2(df_final),2)
+            #st.metric(label="Eficiência", value = eficiencia,width='content')
+            custo_por_aluno = plotar_custo_total_pag2(df_final)/base_alunos
+            delta = np.round((ticket-custo_por_aluno)/ticket*100,2)
+            st.metric(label="Custo por Aluno", value=locale.currency(custo_por_aluno, grouping=True, symbol="R$"))
+            st.metric(label="Margem", value=locale.currency(ticket-custo_por_aluno, grouping=True, symbol="R$"), delta=f"{delta}%")
         st.pyplot(plot_custo_docente_pag2(df_final), use_container_width=False)
         
     with col2:
         st.pyplot(plot_ch_docente_por_categoria_pag2(df_final))
-        dict_semestres = calcula_eficiencia_para_todos_semestre(df_final, st.session_state)
-        st.pyplot(plot_eficiencia_por_semestre_pag2(dict_semestres), use_container_width=False)
-
+        dict_semestres = calcula_custo_aluno_para_todos_semestre(df_final, st.session_state)
+        st.pyplot(plot_custo_aluno_por_semestre_pag2(dict_semestres, ticket), use_container_width=False)
         
-    with st.expander("Detalhamento por Semestre"):
+    with st.expander("Detalhamento por Semestre", expanded=True):
         for i in range(df_final['Semestre'].max()):
             df_por_semestre = df_final[df_final['Semestre'] == (i+1)]
             base_alunos_semestre = calcula_base_alunos_por_semestre(st.session_state, i+1)
@@ -245,20 +254,29 @@ if st.session_state.cursos_selecionados:
                     )
                     try:
                         st.metric(
-                        label="Eficiência do Semestre",
-                        value=f"{eficiencia:.2f}"
+                        label="Custo por Aluno",
+                        value=formatar_valor_brl(custo_total_semestre/base_alunos_semestre)
                     )
                     except:
                         pass
                 st.divider()
                 df_por_semestre_format = formatar_df_por_semestre(df_por_semestre)
     with st.expander("Oferta resumida por curso"):
+        OFERTA_POR_CURSO = OFERTA_POR_CURSO.rename(columns={
+        "curso": "Curso",
+        "modelo": "Modelo",
+        "cluster": "Cluster",
+        "ch_sinergica": "CH Sinérgica",
+        "percentual_sinergico": "% Sinérgica",
+        "ucs_sinergicas": "UCs Sinérgicas",
+        "ucs_especificas": "UCs Específicas"
+    })
         OFERTA_POR_CURSO
 
     with st.expander("Oferta resumida por UC"):
         OFERTA_POR_UC
         
-    with st.expander("Detalhamento da Oferta", expanded=True):
+    with st.expander("Detalhamento da Oferta", expanded=False):
         df_precificacao_oferta_formatado = formatar_df_precificacao_oferta(df_com_total)
     
 # --- Debug na Barra Lateral ---
