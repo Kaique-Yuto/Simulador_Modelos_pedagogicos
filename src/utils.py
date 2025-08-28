@@ -499,6 +499,7 @@ def formatar_df_precificacao_oferta(df: pd.DataFrame):
     formatadores_seguros = {col: func for col, func in formatador_mestre.items() if col in df.columns}
     configuracao_segura = {col: cfg for col, cfg in column_config_mestre.items() if col in df.columns}
 
+    df = df.drop(columns=["Eficiência da UC"]) if "Eficiência da UC" in df.columns else df
     # Aplica o estilo usando o dicionário de formatação seguro
     df_styled = df.style.apply(highlight_total, axis=1).format(formatadores_seguros)
 

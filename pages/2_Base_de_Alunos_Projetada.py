@@ -67,6 +67,7 @@ with col3:
                 filtro = (df_dimensao_cursos['Curso'] == curso_para_adicionar) & (df_dimensao_cursos['Modelo'] == modelo_para_adicionar)
                 cluster = df_dimensao_cursos.loc[filtro, 'Cluster'].iloc[0]
                 sinergia = df_dimensao_cursos.loc[filtro, 'Sinergia'].iloc[0]
+                ticket = df_dimensao_cursos.loc[filtro, 'Ticket'].iloc[0]
                 num_semestres = int(df_dimensao_cursos.loc[filtro, 'Qtde Semestres'].iloc[0])
                 alunos_por_semestre = {f"Semestre {i}": 50 for i in range(1, num_semestres + 1)}
 
@@ -74,6 +75,7 @@ with col3:
                     "curso": curso_para_adicionar,
                     "modelo": modelo_para_adicionar,
                     "cluster": cluster,
+                    "ticket": ticket,
                     "sinergia": sinergia,
                     "num_semestres": num_semestres,
                     "alunos_por_semestre": alunos_por_semestre
@@ -343,7 +345,7 @@ if st.session_state.cursos_selecionados:
                         pass
                 st.divider()
                 df_por_semestre_format = formatar_df_por_semestre(df_por_semestre)
-    with st.expander("Oferta resumida por curso"):
+    with st.expander("Detalhamento da Sinergia"):
         OFERTA_POR_CURSO = OFERTA_POR_CURSO.rename(columns={
         "curso": "Curso",
         "modelo": "Modelo",
@@ -354,9 +356,6 @@ if st.session_state.cursos_selecionados:
         "ucs_especificas": "UCs Específicas"
     })
         OFERTA_POR_CURSO
-
-    with st.expander("Oferta resumida por UC"):
-        OFERTA_POR_UC
         
     with st.expander("Detalhamento da Oferta", expanded=True):
         df_precificacao_oferta_formatado = formatar_df_precificacao_oferta(df_com_total)

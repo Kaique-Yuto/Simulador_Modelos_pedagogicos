@@ -261,7 +261,7 @@ if st.session_state.cursos_selecionados:
                         pass
                 st.divider()
                 df_por_semestre_format = formatar_df_por_semestre(df_por_semestre)
-    with st.expander("Oferta resumida por curso"):
+    with st.expander("Detalhamento da Sinergia"):
         OFERTA_POR_CURSO = OFERTA_POR_CURSO.rename(columns={
         "curso": "Curso",
         "modelo": "Modelo",
@@ -273,9 +273,6 @@ if st.session_state.cursos_selecionados:
     })
         OFERTA_POR_CURSO
 
-    with st.expander("Oferta resumida por UC"):
-        OFERTA_POR_UC
-        
     with st.expander("Detalhamento da Oferta", expanded=False):
         df_precificacao_oferta_formatado = formatar_df_precificacao_oferta(df_com_total)
     
