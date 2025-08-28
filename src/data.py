@@ -13,3 +13,20 @@ def carregar_dados(caminho_arquivo: str):
     except Exception as e:
         st.error(f"Ocorreu um erro ao ler o arquivo '{caminho_arquivo}': {e}")
         return None
+
+@st.cache_data    
+def carregar_lista_marca_polo(caminho_arquivo: str):
+    """Carrega a lista de marcas e polos de um arquivo CSV e retorna listas únicas."""
+    try:
+        lista = pd.read_csv(caminho_arquivo, sep=',')
+        lista_marca = sorted(lista['MARCA'].unique().tolist())
+        lista_polo = sorted(lista['CAMPUS'].unique().tolist())
+        #adiciona "Novo Polo" no início da lista de polos
+        lista_polo.insert(0, "Novo Polo")
+        return lista_marca, lista_polo
+    except FileNotFoundError:
+        st.error(f"Erro: Arquivo '{caminho_arquivo}' não encontrado. Verifique o caminho.")
+        return [], []
+    except Exception as e:
+        st.error(f"Ocorreu um erro ao ler o arquivo '{caminho_arquivo}': {e}")
+        return [], []

@@ -1,5 +1,5 @@
 import streamlit as st
-from src.data import carregar_dados
+from src.data import carregar_dados, carregar_lista_marca_polo
 from src.utils import obter_modelos_para_curso, oferta_resumida_por_curso, agrupar_oferta, agrupar_oferta_v2, formatar_df_precificacao_oferta, calcular_resumo_semestre, calcula_base_alunos_por_semestre, calcula_base_alunos_total, adiciona_linha_total,calcula_df_final, plotar_custo_total_pag2, plotar_ch_total_pag2, plot_custo_docente_pag2, plot_ch_docente_por_categoria_pag2, calcula_eficiencia_para_todos_semestre, plot_eficiencia_por_semestre_pag2, formatar_df_por_semestre, calcula_custo_aluno_para_todos_semestre, plot_custo_aluno_por_semestre_pag2
 from src.formatting import formatar_valor_brl
 import pandas as pd
@@ -21,84 +21,117 @@ if 'cursos_selecionados' not in st.session_state:
     st.session_state.cursos_selecionados = {}
 
 LISTA_CURSOS_COMPLETA = sorted(df_dimensao_cursos['Curso'].unique().tolist())
-
+LISTA_MARCAS, LISTA_POLOS = carregar_lista_marca_polo("databases/marcas_polos.csv")
 
 st.markdown("Você selecionou a Simulação com Base de Alunos Específica, isso significa que você deve preencher manualmente um quantitativo de alunos em todos os semestres para cada curso selecionado.")
 # --- Seção 1 (Adicionar Cursos) ---
 st.header("1. Adicione as Ofertas de Curso para Simulação", divider='rainbow')
 
-col1, col2, col3 = st.columns([2, 2, 1])
+# Layout com 4 colunas para os 4 seletores
+col1, col2, col3, col4 = st.columns(4)
 
 with col1:
-    curso_para_adicionar = st.selectbox(
-        "Escolha um curso", 
-        options=LISTA_CURSOS_COMPLETA, 
-        index=None, 
-        placeholder="Selecione o curso..."
+    marca_para_adicionar = st.selectbox(
+        "Escolha uma marca",
+        options=LISTA_MARCAS,
+        index=None,
+        placeholder="Selecione a marca..."
     )
 
-modelos_disponiveis = []
-if curso_para_adicionar:
-    modelos_disponiveis = obter_modelos_para_curso(df_dimensao_cursos, curso_para_adicionar)
-
 with col2:
-    modelo_para_adicionar = st.selectbox(
-        "Escolha o modelo de oferta", 
-        options=modelos_disponiveis, 
-        index=None, 
-        placeholder="Selecione o modelo...",
-        disabled=not curso_para_adicionar # Desabilita se nenhum curso for escolhido
+    polo_para_adicionar = st.selectbox(
+        "Escolha um polo",
+        options=LISTA_POLOS,
+        index=None,
+        placeholder="Selecione o polo...",
+        disabled=not marca_para_adicionar
     )
 
 with col3:
-    st.write(" ") 
-    add_button_disabled = not (curso_para_adicionar and modelo_para_adicionar)
-    
-    if st.button("Adicionar Oferta", type="primary", use_container_width=True, disabled=add_button_disabled):
-        chave_oferta = f"{curso_para_adicionar} ({modelo_para_adicionar})"
-        if chave_oferta not in st.session_state.cursos_selecionados:
-            try:
-                # Busca o número de semestres filtrando por CURSO e MODELO
-                filtro = (df_dimensao_cursos['Curso'] == curso_para_adicionar) & (df_dimensao_cursos['Modelo'] == modelo_para_adicionar)
-                cluster = df_dimensao_cursos.loc[filtro, 'Cluster'].iloc[0]
-                sinergia = df_dimensao_cursos.loc[filtro, 'Sinergia'].iloc[0]
-                ticket = df_dimensao_cursos.loc[filtro, 'Ticket'].iloc[0]
-                num_semestres = int(df_dimensao_cursos.loc[filtro, 'Qtde Semestres'].iloc[0])
-                alunos_por_semestre = {f"Semestre {i}": 50 for i in range(1, num_semestres + 1)}
+    curso_para_adicionar = st.selectbox(
+        "Escolha um curso",
+        options=LISTA_CURSOS_COMPLETA,
+        index=None,
+        placeholder="Selecione o curso...",
+        disabled=not polo_para_adicionar
+    )
 
-                st.session_state.cursos_selecionados[chave_oferta] = {
-                    "curso": curso_para_adicionar,
-                    "modelo": modelo_para_adicionar,
-                    "ticket": ticket,
-                    "cluster": cluster,
-                    "sinergia": sinergia,
-                    "num_semestres": num_semestres,
-                    "alunos_por_semestre": alunos_por_semestre
-                }
-            except (IndexError, TypeError):
-                st.error(f"Não foi possível encontrar a 'Qtde Semestres' para o curso '{curso_para_adicionar}' com o modelo '{modelo_para_adicionar}'.")
-        else:
-            st.warning(f"A oferta '{chave_oferta}' já foi adicionada.")
+# A lógica para obter modelos disponíveis permanece a mesma
+modelos_disponiveis = obter_modelos_para_curso(df_dimensao_cursos, curso_para_adicionar)
+
+with col4:
+    modelo_para_adicionar = st.selectbox(
+        "Escolha o modelo",
+        options=modelos_disponiveis,
+        index=None,
+        placeholder="Selecione o modelo...",
+        disabled=not curso_para_adicionar
+    )
+
+st.write("") # Adiciona um espaço antes do botão
+
+# O botão de adicionar agora depende dos 4 campos
+add_button_disabled = not all([marca_para_adicionar, polo_para_adicionar, curso_para_adicionar, modelo_para_adicionar])
+
+if st.button("Adicionar Oferta", type="primary", use_container_width=True, disabled=add_button_disabled):
+    # NOVA CHAVE: Garante que cada oferta seja única por Marca, Polo, Curso e Modelo
+    chave_oferta = f"{marca_para_adicionar} - {polo_para_adicionar} - {curso_para_adicionar} ({modelo_para_adicionar})"
+    
+    if chave_oferta not in st.session_state.cursos_selecionados:
+        try:
+            # A busca pelos dados do curso continua a mesma
+            filtro = (df_dimensao_cursos['Curso'] == curso_para_adicionar) & (df_dimensao_cursos['Modelo'] == modelo_para_adicionar)
+            dados_curso = df_dimensao_cursos[filtro].iloc[0]
+            
+            num_semestres = int(dados_curso['Qtde Semestres'])
+            alunos_por_semestre = {f"Semestre {i}": 50 for i in range(1, num_semestres + 1)}
+
+            # Adicionando os novos campos (MARCA e POLO) ao dicionário da oferta
+            st.session_state.cursos_selecionados[chave_oferta] = {
+                "marca": marca_para_adicionar,
+                "polo": polo_para_adicionar,
+                "curso": curso_para_adicionar,
+                "modelo": modelo_para_adicionar,
+                "ticket": dados_curso['Ticket'],
+                "cluster": dados_curso['Cluster'],
+                "sinergia": dados_curso['Sinergia'],
+                "num_semestres": num_semestres,
+                "alunos_por_semestre": alunos_por_semestre
+            }
+
+        except (IndexError, TypeError):
+            st.error(f"Não foi possível encontrar os dados para o curso '{curso_para_adicionar}' com o modelo '{modelo_para_adicionar}'.")
+    else:
+        st.warning(f"A oferta '{chave_oferta}' já foi adicionada.")
 
 # --- Seção 2 (Configurar Cursos) ---
 st.header("2. Configure os Parâmetros de Cada Oferta", divider='rainbow')
-st.markdown("Aqui estão todas as ofertas que você adicionou para a simulação...") 
+st.markdown("Aqui estão todas as ofertas que você adicionou para a simulação...")
 
 if not st.session_state.cursos_selecionados:
-    st.info("Nenhuma oferta adicionada ainda. Comece selecionando um curso e um modelo acima.")
+    st.info("Nenhuma oferta adicionada ainda. Comece selecionando todos os campos acima.")
 else:
-    for chave_oferta in list(st.session_state.cursos_selecionados.keys()):
+    # ORDENAÇÃO HIERÁRQUICA:
+    # 1. Pega os itens do dicionário (chave, valor)
+    # 2. Usa a função sorted com uma chave lambda para ordenar pelos valores de marca, polo, curso e modelo.
+    ofertas_ordenadas = sorted(
+        st.session_state.cursos_selecionados.items(),
+        key=lambda item: (item[1]['marca'], item[1]['polo'], item[1]['curso'], item[1]['modelo'])
+    )
+
+    # Itera sobre a lista JÁ ORDENADA
+    for chave_oferta, config in ofertas_ordenadas:
         if chave_oferta in st.session_state.cursos_selecionados:
-            config = st.session_state.cursos_selecionados[chave_oferta]
             
-            with st.expander(f"Configurações para: **{chave_oferta}**", expanded=True):
+            with st.expander(f"**{chave_oferta}**", expanded=True):
                 
                 # --- Linha 1: Informações e Botão de Remover ---
                 info_col1, info_col2 = st.columns([4, 1])
                 
                 with info_col1:
-                    st.markdown(f"**Curso:** `{config['curso']}`")
-                    st.markdown(f"**Modelo de Oferta:** `{config['modelo']}`")
+                    # Mostra as novas informações de Marca e Polo
+                    st.markdown(f"**Marca:** `{config['marca']}` | **Polo:** `{config['polo']}`")
+                    st.markdown(f"**Curso:** `{config['curso']}` | **Modelo:** `{config['modelo']}`")
 
                 with info_col2:
                     st.write("")
@@ -106,25 +139,29 @@ else:
                         del st.session_state.cursos_selecionados[chave_oferta]
                         st.rerun()
                 
-                st.markdown("---") 
+                st.markdown("---")
 
-                # --- Linhas 2+: Inputs para cada semestre ---
+                # --- Linhas 2+: Inputs para cada semestre (lógica inalterada) ---
                 st.write("**Número de Alunos Projetado por Semestre:**")
                 
                 num_semestres = config.get("num_semestres", 0)
                 alunos_data = config.get("alunos_por_semestre", {})
 
-                cols = st.columns(4) 
+                # Criando colunas dinamicamente para melhor responsividade
+                num_cols = 4 if num_semestres > 3 else num_semestres
+                if num_cols == 0: continue
+                
+                cols = st.columns(num_cols) 
                 
                 for i in range(num_semestres):
                     semestre_key = f"Semestre {i + 1}"
-                    col_index = i % 4
+                    col_index = i % num_cols
 
                     with cols[col_index]:
                         alunos = st.number_input(
                             label=semestre_key,
-                            min_value=0, 
-                            step=1, 
+                            min_value=0,
+                            step=1,
                             key=f"alunos_{chave_oferta}_{semestre_key}",
                             value=alunos_data.get(semestre_key, 0)
                         )
@@ -192,7 +229,7 @@ if st.session_state.cursos_selecionados:
     OFERTA_POR_CURSO = oferta_resumida_por_curso(df_matrizes)
 
     OFERTA_POR_UC = agrupar_oferta(OFERTA_POR_CURSO, df_matrizes)
-
+    OFERTA_POR_UC
     df_final = calcula_df_final(df_parametros_editado, OFERTA_POR_UC)
 
     df_final = df_final[df_final['Custo Total']>0]

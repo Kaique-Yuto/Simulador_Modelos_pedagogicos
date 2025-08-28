@@ -283,6 +283,8 @@ def oferta_resumida_por_curso(df_matrizes: pd.DataFrame) -> pd.DataFrame:
     rows = []
     for key,item in st.session_state.cursos_selecionados.items():
         new_row = {}
+        new_row["marca"] = item.get("marca")
+        new_row["polo"] = item.get("polo")
         new_row["curso"] = item.get("curso")
         new_row["modelo"] = item.get("modelo")
         new_row["cluster"] = item.get("cluster")
@@ -317,11 +319,13 @@ def agrupar_oferta(OFERTA_POR_CURSO: pd.DataFrame, df_matrizes: pd.DataFrame) ->
     oferta_rows = []
 
     for _, row in OFERTA_POR_CURSO.iterrows():
+        marca_nome = row['marca']
+        polo_nome = row['polo']
         curso_nome = row['curso']
         modelo_nome = row['modelo']
         cluster_nome = row['cluster']
         
-        curso_key = f"{curso_nome} ({modelo_nome})"
+        curso_key = f"{marca_nome} - {polo_nome} - {curso_nome} ({modelo_nome})"
         curso_selecionado = st.session_state.cursos_selecionados.get(curso_key)
         
         if not curso_selecionado:
@@ -369,7 +373,7 @@ def agrupar_oferta(OFERTA_POR_CURSO: pd.DataFrame, df_matrizes: pd.DataFrame) ->
                     oferta_rows.append({
                         "UC": uc,
                         "Tipo de UC": tipo_uc,
-                        "Chave": f"{uc} - {curso_nome} - {modelo_nome}",
+                        "Chave": f"{marca_nome} - {uc} - {curso_nome} - {modelo_nome} - {polo_nome}",
                         "Semestre": semestre,
                         "Modelo": modelo_nome,
                         "Base de Alunos": num_alunos
@@ -380,7 +384,7 @@ def agrupar_oferta(OFERTA_POR_CURSO: pd.DataFrame, df_matrizes: pd.DataFrame) ->
         oferta_rows.append({
             "UC": uc,
             "Tipo de UC": tipo_uc,
-            "Chave": f"{uc} - {cluster}",
+            "Chave": f"{marca_nome} - {uc} - {cluster} - {modelo}",
             "Semestre": semestre,
             "Modelo": modelo,
             "Base de Alunos": total_alunos

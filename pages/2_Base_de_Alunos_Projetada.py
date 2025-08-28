@@ -277,7 +277,7 @@ if st.session_state.cursos_selecionados:
     OFERTA_POR_CURSO = oferta_resumida_por_curso(df_matrizes)
 
     OFERTA_POR_UC = agrupar_oferta(OFERTA_POR_CURSO, df_matrizes)
-
+    OFERTA_POR_UC
     df_final = calcula_df_final(df_parametros_editado, OFERTA_POR_UC)
 
     base_alunos = calcula_base_alunos_total(st.session_state)
