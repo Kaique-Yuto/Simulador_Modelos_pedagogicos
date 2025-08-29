@@ -21,11 +21,12 @@ df_base_alunos = carregar_base_alunos()
 if 'cursos_selecionados' not in st.session_state:
     st.session_state.cursos_selecionados = {}
 
+# --- Listas ---
 LISTA_CURSOS_COMPLETA = sorted(df_dimensao_cursos['Curso'].unique().tolist())
-
 df_marcas_polos = carregar_lista_marca_polo("databases/marcas_polos.csv")
 LISTA_MARCAS = sorted(df_marcas_polos['MARCA'].unique().tolist())
 st.markdown("Você selecionou a Simulação com Base de Alunos Específica, isso significa que você deve preencher manualmente um quantitativo de alunos em todos os semestres para cada curso selecionado.")
+
 # --- Seção 1 (Adicionar Cursos) ---
 st.header("1. Adicione as Ofertas de Curso para Simulação", divider='rainbow')
 
@@ -78,7 +79,6 @@ with col4:
 
 st.write("") # Adiciona um espaço antes do botão
 
-# O botão de adicionar agora depende dos 4 campos
 add_button_disabled = not all([marca_para_adicionar, polo_para_adicionar, curso_para_adicionar, modelo_para_adicionar])
 
 if st.button("Adicionar Oferta", type="primary", use_container_width=True, disabled=add_button_disabled):
@@ -86,14 +86,12 @@ if st.button("Adicionar Oferta", type="primary", use_container_width=True, disab
     
     if chave_oferta not in st.session_state.cursos_selecionados:
         try:
-            # A busca pelos dados do curso continua a mesma
             filtro = (df_dimensao_cursos['Curso'] == curso_para_adicionar) & (df_dimensao_cursos['Modelo'] == modelo_para_adicionar)
             dados_curso = df_dimensao_cursos[filtro].iloc[0]
             
             num_semestres = int(dados_curso['Qtde Semestres'])
             alunos_por_semestre = {f"Semestre {i}": 50 for i in range(1, num_semestres + 1)}
 
-            # Adicionando os novos campos (MARCA e POLO) ao dicionário da oferta
             st.session_state.cursos_selecionados[chave_oferta] = {
                 "marca": marca_para_adicionar,
                 "polo": polo_para_adicionar,
@@ -124,62 +122,56 @@ else:
     )
 
     # Itera sobre a lista JÁ ORDENADA
-    for chave_oferta, config in ofertas_ordenadas:
-        if chave_oferta in st.session_state.cursos_selecionados:
+    for chave_oferta, config in ofertas_ordenadas:            
+        with st.expander(f"**{chave_oferta}**", expanded=True):
+            info_col1, info_col2 = st.columns([4, 1])
             
-            with st.expander(f"**{chave_oferta}**", expanded=True):
-                
-                # --- Linha 1: Informações e Botão de Remover ---
-                info_col1, info_col2 = st.columns([4, 1])
-                
-                with info_col1:
-                    # Mostra as novas informações de Marca e Polo
-                    st.markdown(f"**Marca:** `{config['marca']}` | **Polo:** `{config['polo']}`")
-                    st.markdown(f"**Curso:** `{config['curso']}` | **Modelo:** `{config['modelo']}`")
+            with info_col1:
+                st.markdown(f"**Marca:** `{config['marca']}` | **Polo:** `{config['polo']}`")
+                st.markdown(f"**Curso:** `{config['curso']}` | **Modelo:** `{config['modelo']}`")
 
-                with info_col2:
-                    st.write("")
-                    if st.button("Remover", key=f"remover_{chave_oferta}", use_container_width=True):
-                        del st.session_state.cursos_selecionados[chave_oferta]
-                        st.rerun()
-                
-                st.markdown("---")
+            with info_col2:
+                st.write("")
+                if st.button("Remover", key=f"remover_{chave_oferta}", use_container_width=True):
+                    del st.session_state.cursos_selecionados[chave_oferta]
+                    st.rerun()
+            
+            st.markdown("---")
 
-                # --- Linhas 2+: Inputs para cada semestre (lógica inalterada) ---
-                st.write("**Número de Alunos Projetado por Semestre:**")
-                
-                num_semestres = config.get("num_semestres", 0)
-                alunos_data = config.get("alunos_por_semestre", {})
+            st.write("**Número de Alunos Projetado por Semestre:**")
+            
+            num_semestres = config.get("num_semestres", 0)
+            alunos_data = config.get("alunos_por_semestre", {})
 
-                # Criando colunas dinamicamente para melhor responsividade
-                num_cols = 4 if num_semestres > 3 else num_semestres
-                if num_cols == 0: continue
-                
-                cols = st.columns(num_cols) 
-                
-                for i in range(num_semestres):
-                    semestre_key = f"Semestre {i + 1}"
-                    col_index = i % num_cols
+            # Criando colunas dinamicamente para melhor responsividade
+            num_cols = 4 if num_semestres > 3 else num_semestres
+            if num_cols == 0: continue
+            
+            cols = st.columns(num_cols) 
+            
+            for i in range(num_semestres):
+                semestre_key = f"Semestre {i + 1}"
+                col_index = i % num_cols
 
-                    with cols[col_index]:
-                        alunos = st.number_input(
-                            label=semestre_key,
-                            min_value=0,
-                            step=1,
-                            key=f"alunos_{chave_oferta}_{semestre_key}",
-                            value=alunos_data.get(semestre_key, 0)
-                        )
-                        st.session_state.cursos_selecionados[chave_oferta]["alunos_por_semestre"][semestre_key] = alunos
+                with cols[col_index]:
+                    alunos = st.number_input(
+                        label=semestre_key,
+                        min_value=0,
+                        step=1,
+                        key=f"alunos_{chave_oferta}_{semestre_key}",
+                        value=alunos_data.get(semestre_key, 0)
+                    )
+                    st.session_state.cursos_selecionados[chave_oferta]["alunos_por_semestre"][semestre_key] = alunos
+
+# --- Seção 3: Executar Simulação ---
+st.header("3. Executar Simulação", divider='rainbow')
 
 # Filtrar apenas modelos selecionados para mostrar nos parâmetros
 modelos_selecionados = set([])
 for key, item in st.session_state.cursos_selecionados.items():
     modelos_selecionados.add(item.get('modelo')) 
-df_parametros_editado = df_parametros[(df_parametros["Modelo"].isin(modelos_selecionados)) | (df_parametros["Tipo de UC"] == "AFP")]
+df_parametros_editado = df_parametros[(df_parametros["Modelo"].isin(modelos_selecionados)) | ((df_parametros["Tipo de UC"] == "AFP") & (df_parametros["Modelo"].isin(modelos_selecionados)))]
 
-
-# --- Seção 3: Executar Simulação ---
-st.header("3. Executar Simulação", divider='rainbow')
 with st.expander("Mostrar Parâmetros", expanded=True):
     st.subheader(f"Parâmetros de Simulação")
 
@@ -187,32 +179,36 @@ with st.expander("Mostrar Parâmetros", expanded=True):
         label="Não considerar o TCC na análise"
         ,value=True
     )
+    
     if ignorar_tcc:
         df_parametros_editado = df_parametros_editado[df_parametros_editado["Tipo de UC"] != "TCC"]
         df_matrizes = df_matrizes[df_matrizes["Tipo de UC"] != "TCC"]
-
 
     ignorar_estagio = st.checkbox(
         label="Não considerar Estágio na análise"
         ,value=True
     )
+    
     if ignorar_estagio:
         df_parametros_editado = df_parametros_editado[df_parametros_editado["Tipo de UC"] != "ESTÁGIO"]
+        df_matrizes = df_matrizes[df_matrizes["Tipo de UC"] != "ESTÁGIO"]
 
     ignorar_AFP = st.checkbox(
         label="Não considerar AFP na análise"
         ,value=True
     )
+    
     if ignorar_AFP:
         df_parametros_editado = df_parametros_editado[df_parametros_editado["Tipo de UC"] != "AFP"]
-
+        df_matrizes = df_matrizes[df_matrizes["Tipo de UC"] != "AFP"]
+    
     ignorar_extensao = st.checkbox(
         label="Não considerar Extensão na análise"
         ,value=True
     )
     if ignorar_extensao:
         df_parametros_editado = df_parametros_editado[df_parametros_editado["Tipo de UC"] != "EXTENSÃO"]
-
+        df_matrizes = df_matrizes[df_matrizes["Tipo de UC"] != "EXTENSÃO"]
     df_parametros_editado = st.data_editor(df_parametros_editado,
                                            hide_index=True,
                                             use_container_width=True,
@@ -231,14 +227,12 @@ if st.button("Confirmar e Rodar Cálculos", type="primary", use_container_width=
 if st.session_state.cursos_selecionados:
     st.header("4. Analítico de Custos", divider='rainbow')
     OFERTA_POR_CURSO = oferta_resumida_por_curso(df_matrizes)
-
     OFERTA_POR_UC = agrupar_oferta(OFERTA_POR_CURSO, df_matrizes, df_parametros=df_parametros_editado)
-    OFERTA_POR_UC = OFERTA_POR_UC[OFERTA_POR_UC['Tipo de UC'].isin(df_parametros_editado['Tipo de UC'].unique().tolist())]
-
+    OFERTA_POR_UC = OFERTA_POR_UC[(OFERTA_POR_UC['Tipo de UC'].isin(df_parametros_editado['Tipo de UC'].unique().tolist())) | (OFERTA_POR_UC['Tipo de UC'] == 'AFP')]
 
     df_final = calcula_df_final(df_parametros_editado, OFERTA_POR_UC)
-
     df_final = df_final[df_final['Custo Total']>0]
+
     base_alunos = calcula_base_alunos_total(st.session_state)
 
     df_com_total = adiciona_linha_total(df_final, base_alunos)

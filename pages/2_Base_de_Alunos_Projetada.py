@@ -21,18 +21,6 @@ if 'cursos_selecionados' not in st.session_state:
     st.session_state.cursos_selecionados = {}
 
 # --- Listas ---
-# Simulação de dados para df_dimensao_cursos se estiver vazio
-if df_dimensao_cursos.empty:
-    import pandas as pd
-    df_dimensao_cursos = pd.DataFrame({
-        'Curso': ['Curso Alpha', 'Curso Beta'],
-        'Modelo': ['Modelo 1', 'Modelo 2'],
-        'Qtde Semestres': [8, 10],
-        'Ticket': [500, 600],
-        'Cluster': ['C1', 'C2'],
-        'Sinergia': [0.1, 0.2]
-    })
-
 LISTA_CURSOS_COMPLETA = sorted(df_dimensao_cursos['Curso'].unique().tolist())
 df_marcas_polos = carregar_lista_marca_polo("databases/marcas_polos.csv")
 LISTA_MARCAS = sorted(df_marcas_polos['MARCA'].unique().tolist())
@@ -90,7 +78,6 @@ with col4:
 
 st.write("") # Adiciona um espaço antes do botão
 
-# O botão de adicionar agora depende dos 4 campos
 add_button_disabled = not all([marca_para_adicionar, polo_para_adicionar, curso_para_adicionar, modelo_para_adicionar])
 
 if st.button("Adicionar Oferta", type="primary", use_container_width=True, disabled=add_button_disabled):
@@ -135,139 +122,131 @@ else:
 
     # Itera sobre a lista JÁ ORDENADA
     for chave_oferta, config in ofertas_ordenadas:
-        if chave_oferta in st.session_state.cursos_selecionados:
+        with st.expander(f"**{chave_oferta}**", expanded=True):
+            info_col1, info_col2 = st.columns([4, 1])
             
-            # Expander com título melhorado
-            with st.expander(f"**{chave_oferta}**", expanded=True):
-                
-                # --- Linha 1: Informações e Botão de Remover (Melhorado) ---
-                info_col1, info_col2 = st.columns([4, 1])
-                
-                with info_col1:
-                    # Mostra as novas informações de Marca e Polo
-                    st.markdown(f"**Marca:** `{config['marca']}` | **Polo:** `{config['polo']}`")
-                    st.markdown(f"**Curso:** `{config['curso']}` | **Modelo:** `{config['modelo']}`")
+            with info_col1:
+                st.markdown(f"**Marca:** `{config['marca']}` | **Polo:** `{config['polo']}`")
+                st.markdown(f"**Curso:** `{config['curso']}` | **Modelo:** `{config['modelo']}`")
 
-                with info_col2:
-                    st.write("")
-                    if st.button("Remover", key=f"remover_{chave_oferta}", use_container_width=True):
-                        del st.session_state.cursos_selecionados[chave_oferta]
-                        st.rerun()
-                
-                st.markdown("---")
-
-                # --- LÓGICA DA PÁGINA 2 (SIMULAÇÃO) MANTIDA INTEGRALMENTE ---
-                st.write("**Parâmetros para Simulação da Base de Alunos:**")
-
-                sim_col1, sim_col2 = st.columns(2)
-
-                with sim_col1:
-                    alunos_iniciais = st.number_input(
-                        "Alunos da turma inicial", 
-                        min_value=0, 
-                        step=5, 
-                        value=100, 
-                        key=f"sim_iniciais_{chave_oferta}"
-                    )
-                    media_ingressantes = st.number_input(
-                        "Média de ingressantes por semestre", 
-                        min_value=0, 
-                        step=5, 
-                        value=100, 
-                        key=f"sim_media_{chave_oferta}"
-                    )
-                    taxa_evasao_inicial = st.slider(
-                        "Taxa de Evasão Inicial (%)", 
-                        min_value=0, 
-                        max_value=100, 
-                        value=30, 
-                        key=f"sim_evasao_{chave_oferta}"
-                    )
-
-                with sim_col2:
-                    n_semestres = st.slider(
-                        "Número de semestres",
-                        min_value=1,
-                        max_value=config.get("num_semestres"),
-                        value=config.get("num_semestres"),
-                        step=1,
-                        key = f"sim_n_semestres_{chave_oferta}"
-                    )
-                    
-                    desvio_padrao_ingressantes = st.number_input(
-                        "Desvio padrão dos ingressantes", 
-                        min_value=0, 
-                        step=1, 
-                        value=0, 
-                        key=f"sim_dp_{chave_oferta}"
-                    )
-
-                    decaimento_evasao = st.slider(
-                        "Decaimento da Evasão a/s (%)", 
-                        min_value=0, 
-                        max_value=100, 
-                        value=10, 
-                        key=f"sim_decaimento_{chave_oferta}"
-                    )
-                
-                if st.button("Simular Base de Alunos", key=f"simular_{chave_oferta}", use_container_width=True, type="primary"):
-                    resultado_simulacao = projetar_base_alunos(
-                        base_alunos_inicial=alunos_iniciais,
-                        n_semestres_curso=n_semestres,
-                        dist_ingresso=(media_ingressantes, desvio_padrao_ingressantes),
-                        taxa_evasao_inicial=taxa_evasao_inicial / 100.0,
-                        decaimento_evasao=decaimento_evasao / 100.0
-                    )
-                    
-                    st.session_state.cursos_selecionados[chave_oferta]["alunos_por_semestre"] = resultado_simulacao["alunos_por_semestre"]
+            with info_col2:
+                st.write("")
+                if st.button("Remover", key=f"remover_{chave_oferta}", use_container_width=True):
+                    del st.session_state.cursos_selecionados[chave_oferta]
                     st.rerun()
+            
+            st.markdown("---")
 
-                st.markdown("---")
+            st.write("**Parâmetros para Simulação da Base de Alunos:**")
+
+            sim_col1, sim_col2 = st.columns(2)
+
+            with sim_col1:
+                alunos_iniciais = st.number_input(
+                    "Alunos da turma inicial", 
+                    min_value=0, 
+                    step=5, 
+                    value=100, 
+                    key=f"sim_iniciais_{chave_oferta}"
+                )
+                media_ingressantes = st.number_input(
+                    "Média de ingressantes por semestre", 
+                    min_value=0, 
+                    step=5, 
+                    value=100, 
+                    key=f"sim_media_{chave_oferta}"
+                )
+                taxa_evasao_inicial = st.slider(
+                    "Taxa de Evasão Inicial (%)", 
+                    min_value=0, 
+                    max_value=100, 
+                    value=30, 
+                    key=f"sim_evasao_{chave_oferta}"
+                )
+
+            with sim_col2:
+                n_semestres = st.slider(
+                    "Número de semestres",
+                    min_value=1,
+                    max_value=config.get("num_semestres"),
+                    value=config.get("num_semestres"),
+                    step=1,
+                    key = f"sim_n_semestres_{chave_oferta}"
+                )
                 
-                # Exibição dos resultados da simulação (mantido)
-                alunos_data = config.get("alunos_por_semestre", {})
-                if not alunos_data:
-                    st.info("Clique em 'Simular Base de Alunos' para gerar a projeção.")
-                else:
-                    st.subheader("**Base de Alunos projetada**")
-                    num_semestres_config = config.get("num_semestres", 0)
+                desvio_padrao_ingressantes = st.number_input(
+                    "Desvio padrão dos ingressantes", 
+                    min_value=0, 
+                    step=1, 
+                    value=0, 
+                    key=f"sim_dp_{chave_oferta}"
+                )
+
+                decaimento_evasao = st.slider(
+                    "Decaimento da Evasão a/s (%)", 
+                    min_value=0, 
+                    max_value=100, 
+                    value=10, 
+                    key=f"sim_decaimento_{chave_oferta}"
+                )
+            
+            if st.button("Simular Base de Alunos", key=f"simular_{chave_oferta}", use_container_width=True, type="primary"):
+                resultado_simulacao = projetar_base_alunos(
+                    base_alunos_inicial=alunos_iniciais,
+                    n_semestres_curso=n_semestres,
+                    dist_ingresso=(media_ingressantes, desvio_padrao_ingressantes),
+                    taxa_evasao_inicial=taxa_evasao_inicial / 100.0,
+                    decaimento_evasao=decaimento_evasao / 100.0
+                )
+                
+                st.session_state.cursos_selecionados[chave_oferta]["alunos_por_semestre"] = resultado_simulacao["alunos_por_semestre"]
+                st.rerun()
+
+            st.markdown("---")
+            
+            # Exibição dos resultados da simulação (mantido)
+            alunos_data = config.get("alunos_por_semestre", {})
+            if not alunos_data:
+                st.info("Clique em 'Simular Base de Alunos' para gerar a projeção.")
+            else:
+                st.subheader("**Base de Alunos projetada**")
+                num_semestres_config = config.get("num_semestres", 0)
+                
+                with st.expander("**Alunos por Período**"):
+                    cols = st.columns(4)
+                    alunos_acumulados = 0
                     
-                    with st.expander("**Alunos por Período**"):
-                        cols = st.columns(4)
-                        alunos_acumulados = 0
+                    for i in range(num_semestres_config):
+                        semestre_key = f"Semestre {i + 1}"
+                        col_index = i % 4
+                        semestre_index = i % 2 + 1
+                        ano_index = 2026 + i // 2
                         
-                        for i in range(num_semestres_config):
-                            semestre_key = f"Semestre {i + 1}"
-                            col_index = i % 4
-                            semestre_index = i % 2 + 1
-                            ano_index = 2026 + i // 2
-                            
-                            alunos_acumulados += alunos_data.get(semestre_key, 0)
-                            with cols[col_index]:
-                                st.metric(
-                                    label=f"Alunos em {ano_index}/{semestre_index}",
-                                    value=alunos_acumulados
-                                )
-                    with st.expander("**Alunos por série**"):
-                        cols = st.columns(4)
-                        for i in range(num_semestres_config):
-                            semestre_key = f"Semestre {i + 1}"
-                            col_index = i % 4
-                            with cols[col_index]:
-                                st.metric(
-                                    label=f"Alunos na Série {i+1}",
-                                    value=int(alunos_data.get(semestre_key, 0))
-                                )
+                        alunos_acumulados += alunos_data.get(semestre_key, 0)
+                        with cols[col_index]:
+                            st.metric(
+                                label=f"Alunos em {ano_index}/{semestre_index}",
+                                value=alunos_acumulados
+                            )
+                with st.expander("**Alunos por série**"):
+                    cols = st.columns(4)
+                    for i in range(num_semestres_config):
+                        semestre_key = f"Semestre {i + 1}"
+                        col_index = i % 4
+                        with cols[col_index]:
+                            st.metric(
+                                label=f"Alunos na Série {i+1}",
+                                value=int(alunos_data.get(semestre_key, 0))
+                            )
 
 # --- Seção 3: Executar Simulação ---
-# Esta seção já estava idêntica à da página 1, então não precisa de grandes alterações.
 st.header("3. Executar Simulação", divider='rainbow')
 
 # Filtrar apenas modelos selecionados para mostrar nos parâmetros
 modelos_selecionados = set([])
 for key, item in st.session_state.cursos_selecionados.items():
     modelos_selecionados.add(item.get('modelo')) 
-df_parametros_editado = df_parametros[(df_parametros["Modelo"].isin(modelos_selecionados)) | (df_parametros["Tipo de UC"] == "AFP")]
+df_parametros_editado = df_parametros[(df_parametros["Modelo"].isin(modelos_selecionados)) | ((df_parametros["Tipo de UC"] == "AFP") & (df_parametros["Modelo"].isin(modelos_selecionados)))]
 
 with st.expander("Mostrar Parâmetros", expanded=True):
     st.subheader(f"Parâmetros de Simulação")
@@ -276,6 +255,7 @@ with st.expander("Mostrar Parâmetros", expanded=True):
         label="Não considerar o TCC na análise",
         value=True
     )
+    
     if ignorar_tcc:
         df_parametros_editado = df_parametros_editado[df_parametros_editado["Tipo de UC"] != "TCC"]
         df_matrizes = df_matrizes[df_matrizes["Tipo de UC"] != "TCC"]
@@ -284,25 +264,28 @@ with st.expander("Mostrar Parâmetros", expanded=True):
         label="Não considerar Estágio na análise",
         value=True
     )
+    
     if ignorar_estagio:
         df_parametros_editado = df_parametros_editado[df_parametros_editado["Tipo de UC"] != "ESTÁGIO"]
         df_matrizes = df_matrizes[df_matrizes["Tipo de UC"] != "ESTÁGIO"]
-
 
     ignorar_AFP = st.checkbox(
         label="Não considerar AFP na análise",
         value=True
     )
+    
     if ignorar_AFP:
         df_parametros_editado = df_parametros_editado[df_parametros_editado["Tipo de UC"] != "AFP"]
+        df_matrizes = df_matrizes[df_matrizes["Tipo de UC"] != "AFP"]
 
     ignorar_extensao = st.checkbox(
         label="Não considerar Extensão na análise",
         value=True
     )
+    
     if ignorar_extensao:
         df_parametros_editado = df_parametros_editado[df_parametros_editado["Tipo de UC"] != "EXTENSÃO"]
-
+        df_matrizes = df_matrizes[df_matrizes["Tipo de UC"] != "EXTENSÃO"]
     df_parametros_editado = st.data_editor(df_parametros_editado,
                                            hide_index=True,
                                            use_container_width=True,
@@ -324,8 +307,10 @@ if st.session_state.cursos_selecionados:
     OFERTA_POR_CURSO = oferta_resumida_por_curso(df_matrizes)
 
     OFERTA_POR_UC = agrupar_oferta(OFERTA_POR_CURSO, df_matrizes, df_parametros=df_parametros_editado)
-    OFERTA_POR_UC = OFERTA_POR_UC[OFERTA_POR_UC['Tipo de UC'].isin(df_parametros_editado['Tipo de UC'].unique().tolist())]
+    OFERTA_POR_UC = OFERTA_POR_UC[(OFERTA_POR_UC['Tipo de UC'].isin(df_parametros_editado['Tipo de UC'].unique().tolist())) | (OFERTA_POR_UC['Tipo de UC'] == 'AFP')]
+    
     df_final = calcula_df_final(df_parametros_editado, OFERTA_POR_UC)
+    df_final = df_final[df_final['Custo Total']>0]
 
     base_alunos = calcula_base_alunos_total(st.session_state)
 
@@ -343,6 +328,7 @@ if st.session_state.cursos_selecionados:
                 ,width='stretch'
             )
             st.metric(label="Base de Alunos", value=locale.format_string('%d',base_alunos, grouping=True),width='content')
+            
             ticket = calcula_ticket_medio(st.session_state)
             st.metric(label="Ticket Médio", value=locale.currency(ticket, grouping=True, symbol="R$"),width='content')
         with col4:

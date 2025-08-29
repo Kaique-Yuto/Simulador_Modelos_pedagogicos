@@ -329,36 +329,28 @@ def agrupar_oferta(OFERTA_POR_CURSO: pd.DataFrame, df_matrizes: pd.DataFrame, df
         
         curso_key = f"{marca_nome} - {polo_nome} - {curso_nome} ({modelo_nome})"
         curso_selecionado = st.session_state.cursos_selecionados.get(curso_key)
-        
-        if not curso_selecionado:
-            print(f"Aviso: Curso '{curso_key}' não encontrado em st.session_state.cursos_selecionados.")
-            continue
-            
+                    
         alunos_por_semestre = curso_selecionado.get("alunos_por_semestre", {})
         
+
         # --- Processamento das UCs Sinérgicas ---
         ucs_sinergicas = row['ucs_sinergicas']
-        
-        for uc in ucs_sinergicas:
-            if not uc: continue
-            
+        for uc in ucs_sinergicas:            
             matriz_uc = df_matrizes[(df_matrizes['MODELO'] == modelo_nome) & (df_matrizes['UC'] == uc)]
-            if matriz_uc.empty: continue
 
             semestre = matriz_uc['Semestre'].iloc[0]
             semestre_key = f"Semestre {semestre}"
             num_alunos = alunos_por_semestre.get(semestre_key, 0)
             tipo_uc = matriz_uc['Tipo de UC'].iloc[0]
-
             if uc == "AFP":
-                afp_acumulador[semestre] = afp_acumulador.get(semestre, 0) + num_alunos
-                continue # Pula para a próxima UC sinérgica
+                afp_acumulador[marca_nome] = afp_acumulador.get(marca_nome,0) + num_alunos
+                continue
 
-            # ALTERAÇÃO AQUI: Busca todos os Tipos de CH para esta UC/Modelo em df_parametros
+            #Busca todos os Tipos de CH para esta UC/Modelo em df_parametros
             parametros_filtrados = df_parametros[(df_parametros['Tipo de UC'] == tipo_uc) & (df_parametros['Modelo'] == modelo_nome)]
             tipos_ch_para_esta_uc = parametros_filtrados['Tipo de CH'].unique().tolist()
             
-            # ALTERAÇÃO AQUI: Novo loop para iterar em cada Tipo de CH encontrado
+            # itera em cada Tipo de CH encontrado
             for tipo_ch_atual in tipos_ch_para_esta_uc:
                 chave_acumulador = None
                 
@@ -386,23 +378,19 @@ def agrupar_oferta(OFERTA_POR_CURSO: pd.DataFrame, df_matrizes: pd.DataFrame, df
                 semestre_key = f"Semestre {semestre}"
                 num_alunos = alunos_por_semestre.get(semestre_key, 0)
 
-                if uc == "AFP":
-                    afp_acumulador[semestre] = afp_acumulador.get(semestre, 0) + num_alunos
-                else:
-                    # ALTERAÇÃO AQUI: Lógica de múltiplas CHs também para UCs Específicas
-                    tipo_uc = matriz_uc['Tipo de UC'].iloc[0]
+                tipo_uc = matriz_uc['Tipo de UC'].iloc[0]
 
-                    oferta_rows.append({
-                        "UC": uc,
-                        "Tipo de UC": tipo_uc,
-                        "Chave": f"{marca_nome} - {uc} - {curso_nome} - {modelo_nome} - {polo_nome}",
-                        "Semestre": semestre,
-                        "Modelo": modelo_nome,
-                        "Base de Alunos": num_alunos,
-                        "Marca": marca_nome,
-                        "Polo": polo_nome,
-                        "Tipo de CH": "Todas"
-                        })
+                oferta_rows.append({
+                    "UC": uc,
+                    "Tipo de UC": tipo_uc,
+                    "Chave": f"{marca_nome} - {uc} - {curso_nome} - {modelo_nome} - {polo_nome}",
+                    "Semestre": semestre,
+                    "Modelo": modelo_nome,
+                    "Base de Alunos": num_alunos,
+                    "Marca": marca_nome,
+                    "Polo": polo_nome,
+                    "Tipo de CH": "Todas"
+                    })
 
     # --- Montagem Final (sem alterações, já está preparada para a chave mais longa) ---
     for (uc, tipo_uc, marca, cluster, modelo, semestre, tipo_ch, polo), total_alunos in sinergia_acumulador.items():
@@ -418,13 +406,13 @@ def agrupar_oferta(OFERTA_POR_CURSO: pd.DataFrame, df_matrizes: pd.DataFrame, df
             "Tipo de CH": tipo_ch
         })
 
-    for semestre, total_alunos in afp_acumulador.items():
-        if total_alunos > 0:
-            oferta_rows.append({
-                "UC": "AFP", "Tipo de UC": "AFP", "Chave": "AFP",
-                "Semestre": semestre, "Modelo": "N/A", "Base de Alunos": total_alunos,
-                "Marca": "Todas", "Polo": "Todos (Agrupado)", "Tipo de CH": "N/A"
-            })
+    # Adicionar AFP
+    for marca, alunos in afp_acumulador.items():
+        oferta_rows.append({
+            "UC": "AFP", "Tipo de UC": "AFP", "Chave": f"AFP - {marca} - Todos os polos - Todos os cursos",
+            "Semestre": 1, "Modelo": f"{modelo_nome}", "Base de Alunos": alunos,
+            "Marca": marca, "Polo": "Todos (Agrupado)", "Tipo de CH": "Assíncrono"
+        })
             
     if not oferta_rows:
         return pd.DataFrame()
