@@ -34,8 +34,8 @@ if df_dimensao_cursos.empty:
     })
 
 LISTA_CURSOS_COMPLETA = sorted(df_dimensao_cursos['Curso'].unique().tolist())
-LISTA_MARCAS, LISTA_POLOS = carregar_lista_marca_polo("databases/marcas_polos.csv")
-
+df_marcas_polos = carregar_lista_marca_polo("databases/marcas_polos.csv")
+LISTA_MARCAS = sorted(df_marcas_polos['MARCA'].unique().tolist())
 st.markdown("Você selecionou a Simulação com Base de Alunos Projetada, isso significa que você poderá escolher uma base inicial de calouros para os cursos selecionados. Para cada um dos cursos você deverá preencher uma premissa de ingresso e evasão, o aplicativo irá simular o avanço e a formação de novas turmas automaticamente")
 
 # --- Seção 1 (Adicionar Cursos) ---
@@ -51,6 +51,11 @@ with col1:
         index=None,
         placeholder="Selecione a marca..."
     )
+
+# Filtra a lista de polos com base na marca selecionada
+df_marcas_polos = df_marcas_polos[df_marcas_polos['MARCA'] == marca_para_adicionar]
+LISTA_POLOS = df_marcas_polos['CAMPUS'].unique().tolist()
+LISTA_POLOS.insert(0, "Novo Polo")
 
 with col2:
     polo_para_adicionar = st.selectbox(
