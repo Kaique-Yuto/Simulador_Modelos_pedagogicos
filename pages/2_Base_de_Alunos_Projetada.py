@@ -191,7 +191,7 @@ else:
                 )
             
             if st.button("Simular Base de Alunos", key=f"simular_{chave_oferta}", use_container_width=True, type="primary"):
-                resultado_simulacao = projetar_base_alunos(
+                resultado_simulacao, historico = projetar_base_alunos(
                     base_alunos_inicial=alunos_iniciais,
                     n_semestres_curso=n_semestres,
                     dist_ingresso=(media_ingressantes, desvio_padrao_ingressantes),
@@ -200,40 +200,47 @@ else:
                 )
                 
                 st.session_state.cursos_selecionados[chave_oferta]["alunos_por_semestre"] = resultado_simulacao["alunos_por_semestre"]
+                st.session_state.cursos_selecionados[chave_oferta]["historico_simulacao"] = historico
                 st.rerun()
 
             st.markdown("---")
             
             # Exibição dos resultados da simulação (mantido)
             alunos_data = config.get("alunos_por_semestre", {})
+            historico_data = config.get("historico_simulacao", [])
             if not alunos_data:
                 st.info("Clique em 'Simular Base de Alunos' para gerar a projeção.")
             else:
                 st.subheader("**Base de Alunos projetada**")
                 num_semestres_config = config.get("num_semestres", 0)
                 
-                with st.expander("**Alunos por Período**"):
+                with st.expander("**Alunos por Período**", expanded=True): # Adicionei expanded=True para começar aberto
                     cols = st.columns(4)
-                    alunos_acumulados = 0
                     
-                    for i in range(num_semestres_config):
-                        semestre_key = f"Semestre {i + 1}"
+                    # Itera diretamente sobre o histórico da simulação
+                    for i, alunos_data_semestre in enumerate(historico_data):
+                        # Calcula o total de alunos NAQUELE semestre da simulação
+                        total_alunos_no_periodo = sum(alunos_data_semestre.values())
+                        
+                        # Lógica para determinar o rótulo do período (ano/semestre)
                         col_index = i % 4
                         semestre_index = i % 2 + 1
                         ano_index = 2026 + i // 2
                         
-                        alunos_acumulados += alunos_data.get(semestre_key, 0)
                         with cols[col_index]:
                             st.metric(
-                                label=f"Alunos em {ano_index}/{semestre_index}",
-                                value=alunos_acumulados
+                                label=f"Total em {ano_index}/{semestre_index}",
+                                value=int(total_alunos_no_periodo)
                             )
+
+                # A segunda parte, "Alunos por série", permanece inalterada
                 with st.expander("**Alunos por série**"):
-                    cols = st.columns(4)
+                    num_semestres_config = len(alunos_data)
+                    cols_serie = st.columns(4)
                     for i in range(num_semestres_config):
                         semestre_key = f"Semestre {i + 1}"
                         col_index = i % 4
-                        with cols[col_index]:
+                        with cols_serie[col_index]:
                             st.metric(
                                 label=f"Alunos na Série {i+1}",
                                 value=int(alunos_data.get(semestre_key, 0))

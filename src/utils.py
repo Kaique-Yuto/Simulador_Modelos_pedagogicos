@@ -919,22 +919,32 @@ def formatar_df_por_semestre(df: pd.DataFrame):
     return df_formatado
 
 def projetar_base_alunos(base_alunos_inicial: int, n_semestres_curso: int, dist_ingresso: tuple, taxa_evasao_inicial: float, decaimento_evasao: float):
+
     taxas_evasao = np.array([taxa_evasao_inicial * (decaimento_evasao ** i) for i in range(n_semestres_curso)])
     taxas_permanencia = 1 - taxas_evasao
 
     turmas = np.zeros(n_semestres_curso, dtype=int)
     turmas[0] = base_alunos_inicial
 
+    historico_completo = []
+    
+    # Armazena o estado inicial
+    alunos_por_semestre_dict = {f"Semestre {i + 1}": int(num_alunos) for i, num_alunos in enumerate(turmas)}
+    historico_completo.append(alunos_por_semestre_dict)
+
     for semestre_da_simulacao in range(1, n_semestres_curso):
+
         turmas_seguinte = np.zeros(n_semestres_curso, dtype=int)
 
         for i in range(n_semestres_curso - 1, 0, -1):
             alunos_para_avancar = turmas[i-1]
             taxa_de_permanencia = taxas_permanencia[i-1]
+
             if alunos_para_avancar > 0:
                 sobreviventes = np.random.binomial(n=alunos_para_avancar, p=taxa_de_permanencia)
             else:
                 sobreviventes = 0
+
             turmas_seguinte[i] = int(max(0, sobreviventes))
 
         media_ingressantes, desvio_padrao_ingressantes = dist_ingresso
@@ -943,16 +953,17 @@ def projetar_base_alunos(base_alunos_inicial: int, n_semestres_curso: int, dist_
 
         turmas = turmas_seguinte.copy()
 
-    alunos_por_semestre_dict = {}
-    for i, num_alunos in enumerate(turmas):
-        chave = f"Semestre {i + 1}"
-        alunos_por_semestre_dict[chave] = int(num_alunos) 
-
+        # Armazena o estado atual no histórico
+        alunos_por_semestre_dict = {f"Semestre {i + 1}": int(num_alunos) for i, num_alunos in enumerate(turmas)}
+        historico_completo.append(alunos_por_semestre_dict)
+    
+    # Prepara o objeto de resultado final
     resultado_final = {
-        "alunos_por_semestre": alunos_por_semestre_dict
+        "alunos_por_semestre": {f"Semestre {i + 1}": int(num_alunos) for i, num_alunos in enumerate(turmas)}
     }
 
-    return resultado_final
+    return resultado_final, historico_completo
+
 
 def calcula_ticket_medio(config: dict) -> float:
     cursos = config.get("cursos_selecionados", {})
