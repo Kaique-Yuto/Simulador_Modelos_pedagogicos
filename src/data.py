@@ -32,5 +32,50 @@ def carregar_base_alunos(caminho_arquivo: str = "databases/base_alunos_curso_mar
     df = pd.read_csv(caminho_arquivo,sep=",")
     df = df.rename(columns={"Max of Contagem de CPF": "ALUNOS", "NOME_CURSO": "CURSO"})
     df['ALUNOS'] = df['ALUNOS'].astype(int)
-    df_pivot = df.pivot_table(index=['MARCA','CURSO'], columns='SERIE', values='ALUNOS', fill_value=0).reset_index()
+    df_pivot = df.pivot_table(index=['MARCA','CAMPUS','CURSO','MODALIDADE_OFERTA'], columns='SERIE', values='ALUNOS', fill_value=0).reset_index()
     return df_pivot
+
+@st.cache_data
+def carregar_tickets(caminho_arquivo: str = "databases/ticket.xlsx"):
+    df_curso_marca_modalidade = pd.read_excel(caminho_arquivo, sheet_name="CURSO_MARCA_MODALIDADE").dropna()
+    df_curso_modalidade = pd.read_excel(caminho_arquivo, sheet_name="CURSO_MODALIDADE").dropna()
+    df_modalidade = pd.read_excel(caminho_arquivo, sheet_name="MODALIDADE").dropna()
+    return df_curso_marca_modalidade, df_curso_modalidade, df_modalidade
+
+def encontrar_ticket(curso: str, marca: str, modalidade: str,
+                               df_curso_marca_modalidade: pd.DataFrame,
+                               df_curso_modalidade: pd.DataFrame,
+                               df_modalidade: pd.DataFrame) -> float: # Alterado para float, pois ticket é um valor numérico
+
+    mapper = {
+        "EAD 10.10": "LIVE",
+        "EAD Atual": "LIVE",
+        "Semi Presencial 30.20 Bacharelado": "SEMIPRESENCIAL",
+        "Semi Presencial 30.20 Licenciatura": "SEMIPRESENCIAL",
+        "Semi Presencial 40.20 Bacharelado": "SEMIPRESENCIAL",
+        "Semi Presencial Atual": "SEMIPRESENCIAL",
+        "Presencial 70.30": "PRESENCIAL"
+    }
+    modalidade = mapper.get(modalidade, modalidade)
+    
+    df_filtrado1 = df_curso_marca_modalidade[
+        (df_curso_marca_modalidade["CURSO"] == curso) &
+        (df_curso_marca_modalidade["IES"] == marca) &
+        (df_curso_marca_modalidade["MODALIDADE"] == modalidade)
+    ]
+    if not df_filtrado1.empty:
+        return df_filtrado1.iloc[0]["Average of Ticket Médio"]
+
+    df_filtrado2 = df_curso_modalidade[
+        (df_curso_modalidade["CURSO"] == curso) &
+        (df_curso_modalidade["MODALIDADE"] == modalidade)
+    ]
+    if not df_filtrado2.empty:
+        return df_filtrado2.iloc[0]["Average of Ticket Médio"]
+
+    df_filtrado3 = df_modalidade[df_modalidade["MODALIDADE"] == modalidade]
+    if not df_filtrado3.empty:
+        return df_filtrado3.iloc[0]["Average of Ticket Médio"]
+
+    return 685.0
+    

@@ -980,3 +980,21 @@ def calcula_ticket_medio(config: dict) -> float:
 
     ticket_medio = ticket_total / alunos_total 
     return ticket_medio
+
+def busca_base_de_alunos(df: pd.DataFrame, marca: str, campus: str, curso: str, modalidade: str, num_semestres: int):    
+    filtro = (
+        (df['MARCA'] == marca) &
+        (df['CAMPUS'] == campus) &
+        (df['CURSO'] == curso) &
+        (df['MODALIDADE_OFERTA'] == modalidade)
+    )
+    df_filtrado = df.loc[filtro]
+    if not df_filtrado.empty:
+        dados_aluno = df_filtrado.iloc[0]
+        alunos_por_semestre = {
+            f"Semestre {i}": int(dados_aluno.get(i, 0))
+            for i in range(1, num_semestres + 1)
+        }
+    else:
+        alunos_por_semestre = {f"Semestre {i}": 50 for i in range(1, num_semestres + 1)}
+    return alunos_por_semestre
