@@ -437,59 +437,6 @@ def agrupar_oferta(OFERTA_POR_CURSO: pd.DataFrame, df_matrizes: pd.DataFrame, df
     
     return OFERTA_POR_UC
 
-
-def agrupar_oferta_v2(OFERTA_POR_CURSO: pd.DataFrame, df_matrizes: pd.DataFrame) -> pd.DataFrame:
-    # Dicionários para acumular a base de alunos.
-    sinergia_acumulador = {}  
-    afp_acumulador = {}       
-
-    # Lista para armazenar as linhas do novo dataframe (para UCs específicas)
-    oferta_rows = []
-
-    for _, row in OFERTA_POR_CURSO.iterrows():
-        curso_nome = row['curso']
-        modelo_nome = row['modelo']
-        cluster_nome = row['cluster']
-        
-        curso_key = f"{curso_nome} ({modelo_nome})"
-        curso_selecionado = st.session_state.cursos_selecionados.get(curso_key)
-        
-        if not curso_selecionado:
-            print(f"Aviso: Curso '{curso_key}' não encontrado em st.session_state.cursos_selecionados.")
-            continue
-
-        alunos_por_semestre = curso_selecionado.get("alunos_por_semestre", {})           
-        # --- Processamento das UCs Sinérgicas ---
-        ucs_sinergicas = row['ucs_sinergicas']
-        for uc in ucs_sinergicas:
-            if not uc: continue
-            new_row = {}
-            matriz_uc = df_matrizes[(df_matrizes['MODELO'] == modelo_nome) & (df_matrizes['UC'] == uc)]
-            semestre = matriz_uc['Semestre'].iloc[0]
-
-            semestre_key = f"Semestre {semestre}"
-            BASE_ALUNOS = alunos_por_semestre.get(semestre_key, 0)
-
-            PRESENCIALIDADE = matriz_uc['PRESENCIALIDADE'].iloc[0]
-            AMBIENTE_PROFISSIONAL = matriz_uc['AMBIENTE PROFISSIONAL'].iloc[0]
-            ASSINCRONA = matriz_uc['ASSÍNCRONA'].iloc[0]
-            SINCRONA_MED = matriz_uc['SÍNCRONA MED'].iloc[0]
-            SINCRONA = matriz_uc['SÍNCRONA'].iloc[0]
-            
-            new_row["curso"] = curso_nome
-            new_row["modelo"] = modelo_nome
-            new_row["cluster"] = cluster_nome
-            new_row["semestres"] = semestre
-            new_row["UC"] = uc
-            new_row["PRESENCIALIDADE"] = PRESENCIALIDADE
-            new_row["AMBIENTE_PROFISSIONAL"] = AMBIENTE_PROFISSIONAL
-            new_row["ASSINCRONA"] = ASSINCRONA
-            new_row["SINCRONA_MED"] = SINCRONA_MED
-            new_row["SINCRONA"] = SINCRONA
-            new_row["BASE_ALUNOS"] = BASE_ALUNOS
-            oferta_rows.append(new_row)
-    return pd.DataFrame(oferta_rows)
-
 def formatar_df_precificacao_oferta(df: pd.DataFrame):
     """
     Formata e exibe um DataFrame de precificação no Streamlit,
@@ -576,7 +523,7 @@ def calcula_df_final(df_parametros_editado: pd.DataFrame, OFERTA_POR_UC: pd.Data
     filtro = (df_parametros_editado['Parâmetro']=='CH Semanal')
     df_precificacao_oferta = df_precificacao_oferta.merge(right=df_parametros_editado[filtro], how='left',on=['Tipo de UC','Modelo', 'Tipo de CH', 'Ator Pedagógico'])
     df_precificacao_oferta = df_precificacao_oferta.drop(columns=["Parâmetro"]).rename(columns={"Valor": "CH Semanal"})
-
+    #df_precificacao_oferta['CH Semanal'] = df_precificacao_oferta['CH Semanal'] + 1 if df_precificacao_oferta['Tipo de CH'] == "Assíncrona" else df_precificacao_oferta['CH Semanal']
 
     df_precificacao_oferta["Qtde Turmas"] = np.ceil(df_precificacao_oferta["Base de Alunos"]/df_precificacao_oferta["Máximo de Alunos"])
     df_precificacao_oferta["CH por Semestre"] = df_precificacao_oferta["CH Semanal"] * df_precificacao_oferta["Qtde Turmas"] * 20
@@ -1031,6 +978,6 @@ def calcula_ticket_medio(config: dict) -> float:
             alunos_curso += num
             alunos_total += num
         ticket_total += ticket_curso * alunos_curso
-        
+
     ticket_medio = ticket_total / alunos_total 
     return ticket_medio

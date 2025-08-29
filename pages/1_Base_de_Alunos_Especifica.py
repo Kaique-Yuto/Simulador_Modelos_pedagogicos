@@ -1,6 +1,6 @@
 import streamlit as st
-from src.data import carregar_dados, carregar_lista_marca_polo
-from src.utils import obter_modelos_para_curso, oferta_resumida_por_curso, agrupar_oferta, agrupar_oferta_v2, formatar_df_precificacao_oferta, calcular_resumo_semestre, calcula_base_alunos_por_semestre, calcula_base_alunos_total, adiciona_linha_total,calcula_df_final, plotar_custo_total_pag2, plotar_ch_total_pag2, plot_custo_docente_pag2, plot_ch_docente_por_categoria_pag2, calcula_eficiencia_para_todos_semestre, plot_eficiencia_por_semestre_pag2, formatar_df_por_semestre, calcula_custo_aluno_para_todos_semestre, plot_custo_aluno_por_semestre_pag2, calcula_ticket_medio
+from src.data import carregar_dados, carregar_lista_marca_polo, carregar_base_alunos
+from src.utils import obter_modelos_para_curso, oferta_resumida_por_curso, agrupar_oferta, formatar_df_precificacao_oferta, calcular_resumo_semestre, calcula_base_alunos_por_semestre, calcula_base_alunos_total, adiciona_linha_total,calcula_df_final, plotar_custo_total_pag2, plotar_ch_total_pag2, plot_custo_docente_pag2, plot_ch_docente_por_categoria_pag2, calcula_eficiencia_para_todos_semestre, plot_eficiencia_por_semestre_pag2, formatar_df_por_semestre, calcula_custo_aluno_para_todos_semestre, plot_custo_aluno_por_semestre_pag2, calcula_ticket_medio
 from src.formatting import formatar_valor_brl
 import pandas as pd
 import numpy as np
@@ -16,6 +16,7 @@ st.set_page_config(
 df_matrizes = carregar_dados("databases/matrizes.xlsx")
 df_parametros = carregar_dados("databases/parametros_turma.xlsx")
 df_dimensao_cursos = carregar_dados("databases/dimensao_curso_modelo.xlsx")
+#df_base_alunos = carregar_base_alunos()
 
 if 'cursos_selecionados' not in st.session_state:
     st.session_state.cursos_selecionados = {}
