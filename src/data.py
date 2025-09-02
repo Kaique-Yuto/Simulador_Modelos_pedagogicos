@@ -28,12 +28,19 @@ def carregar_lista_marca_polo(caminho_arquivo: str):
         return [], []
     
 @st.cache_data
-def carregar_base_alunos(caminho_arquivo: str = "databases/base_alunos_curso_marca.csv"):
-    df = pd.read_csv(caminho_arquivo,sep=",")
-    df = df.rename(columns={"Max of Contagem de CPF": "ALUNOS", "NOME_CURSO": "CURSO"})
-    df['ALUNOS'] = df['ALUNOS'].astype(int)
-    df_pivot = df.pivot_table(index=['MARCA','CAMPUS','CURSO','MODALIDADE_OFERTA'], columns='SERIE', values='ALUNOS', fill_value=0).reset_index()
-    return df_pivot
+def carregar_base_alunos(caminho_arquivo: str = "databases/base_alunos_curso_marca.csv", version: str="v1"):
+    if version == "v1":
+        df = pd.read_csv(caminho_arquivo,sep=",")
+        df = df.rename(columns={"Max of Contagem de CPF": "ALUNOS", "NOME_CURSO": "CURSO"})
+        df['ALUNOS'] = df['ALUNOS'].astype(int)
+        df_pivot = df.pivot_table(index=['MARCA','CAMPUS','CURSO','MODALIDADE_OFERTA'], columns='SERIE', values='ALUNOS', fill_value=0).reset_index()
+        return df_pivot
+    elif version == "v2":
+        df = pd.read_excel(caminho_arquivo, sheet_name="Export")
+        df = df.rename(columns={"Max of Contagem de CPF": "ALUNOS", "NOME_CURSO": "CURSO"})
+        df['ALUNOS'] = df['ALUNOS'].astype(int)
+        df_pivot = df.pivot_table(index=['MARCA','CAMPUS','CURSO','MODALIDADE_OFERTA'], columns='SERIE', values='ALUNOS', fill_value=0).reset_index()
+        return df_pivot
 
 @st.cache_data
 def carregar_tickets(caminho_arquivo: str = "databases/ticket.xlsx"):
@@ -54,7 +61,8 @@ def encontrar_ticket(curso: str, marca: str, modalidade: str,
         "Semi Presencial 30.20 Licenciatura": "SEMIPRESENCIAL",
         "Semi Presencial 40.20 Bacharelado": "SEMIPRESENCIAL",
         "Semi Presencial Atual": "SEMIPRESENCIAL",
-        "Presencial 70.30": "PRESENCIAL"
+        "Presencial 70.30": "PRESENCIAL",
+        "Presencial Atual": "PRESENCIAL"
     }
     modalidade = mapper.get(modalidade, modalidade)
     

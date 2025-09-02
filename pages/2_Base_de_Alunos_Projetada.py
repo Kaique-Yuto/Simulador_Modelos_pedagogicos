@@ -1,6 +1,6 @@
 import streamlit as st
 from src.data import carregar_dados, carregar_lista_marca_polo, carregar_base_alunos, carregar_tickets, encontrar_ticket
-from src.utils import obter_modelos_para_curso, oferta_resumida_por_curso, agrupar_oferta, formatar_df_precificacao_oferta, calcular_resumo_semestre, calcula_base_alunos_por_semestre, calcula_base_alunos_total, adiciona_linha_total,calcula_df_final, plotar_custo_total_pag2, plotar_ch_total_pag2, plot_custo_docente_pag2, plot_ch_docente_por_categoria_pag2, formatar_df_por_semestre, projetar_base_alunos, calcula_custo_aluno_para_todos_semestre,plot_custo_aluno_por_semestre_pag2, calcula_ticket_medio,  busca_base_de_alunos
+from src.utils import obter_modelos_para_curso, oferta_resumida_por_curso, agrupar_oferta, formatar_df_precificacao_oferta, calcular_resumo_semestre, calcula_base_alunos_por_semestre, calcula_base_alunos_total, adiciona_linha_total,calcula_df_final, plotar_custo_total_pag2, plotar_ch_total_pag2, plot_custo_docente_pag2, plot_ch_docente_por_categoria_pag2, formatar_df_por_semestre, projetar_base_alunos, calcula_custo_aluno_para_todos_semestre,plot_custo_aluno_por_semestre_pag2, calcula_ticket_medio,  busca_base_de_alunos, adicionar_todas_ofertas_do_polo, remover_ofertas_por_marca, remover_ofertas_por_polo, trazer_ofertas_para_novo_modelo
 from src.formatting import formatar_valor_brl
 import pandas as pd
 import numpy as np
@@ -39,7 +39,7 @@ df_matrizes = carregar_dados("databases/matrizes.xlsx")
 df_parametros = carregar_dados("databases/parametros_turma.xlsx")
 df_dimensao_cursos = carregar_dados("databases/dimensao_curso_modelo.xlsx")
 df_curso_marca_modalidade, df_curso_modalidade, df_modalidade = carregar_tickets()
-df_base_alunos = carregar_base_alunos()
+df_base_alunos = carregar_base_alunos("databases/base_alunos_curso_marca_v2.xlsx", version="v2")
 
 
 if 'cursos_selecionados' not in st.session_state:
@@ -53,7 +53,7 @@ if 'confirmacao_remover_todas' not in st.session_state:
 
 # --- Listas ---
 LISTA_CURSOS_COMPLETA = sorted(df_dimensao_cursos['Curso'].unique().tolist())
-df_marcas_polos = carregar_lista_marca_polo("databases/marcas_polos.csv")
+df_marcas_polos = carregar_lista_marca_polo("databases/marcas_polos_v2.csv")
 LISTA_MARCAS = sorted(df_marcas_polos['MARCA'].unique().tolist())
 st.markdown("Você selecionou a Simulação com Base de Alunos Projetada, isso significa que você poderá escolher uma base inicial de calouros para os cursos selecionados. Para cada um dos cursos você deverá preencher uma premissa de ingresso e evasão, o aplicativo irá simular o avanço e a formação de novas turmas automaticamente")
 
@@ -85,132 +85,181 @@ with col2:
         disabled=not marca_para_adicionar
     )
 
-with col3:
-    curso_para_adicionar = st.selectbox(
-        "Escolha um curso",
-        options=LISTA_CURSOS_COMPLETA,
-        index=None,
-        placeholder="Selecione o curso...",
-        disabled=not polo_para_adicionar
+
+st.write("")
+st.markdown("##### Preenchimento Automático")
+add_all_disabled = not (marca_para_adicionar and polo_para_adicionar and polo_para_adicionar != "Novo Polo")
+if st.button("Adicionar Todas as Ofertas do Polo (com base histórica)", type="primary", use_container_width=True, disabled=add_all_disabled, help="Busca e adiciona todos os cursos com base de alunos histórica para a marca e polo selecionados."):
+    adicionar_todas_ofertas_do_polo(
+        marca=marca_para_adicionar,
+        polo=polo_para_adicionar,
+        df_base_alunos=df_base_alunos,
+        df_dimensao_cursos=df_dimensao_cursos,
+        df_curso_marca_modalidade=df_curso_marca_modalidade,
+        df_curso_modalidade=df_curso_modalidade,
+        df_modalidade=df_modalidade
     )
 
-modelos_disponiveis = []
-if curso_para_adicionar:
-    modelos_disponiveis = obter_modelos_para_curso(df_dimensao_cursos, curso_para_adicionar)
 
-with col4:
-    modelo_para_adicionar = st.selectbox(
-        "Escolha o modelo",
-        options=modelos_disponiveis,
-        index=None,
-        placeholder="Selecione o modelo...",
-        disabled=not curso_para_adicionar
-    )
+st.write("")
+st.markdown("##### Adicionar Oferta Manualmente")
+with st.container(border=True):
+    col3, col4 = st.columns(2)
+    with col3:
+        curso_para_adicionar = st.selectbox(
+            "Escolha um curso",
+            options=LISTA_CURSOS_COMPLETA,
+            index=None,
+            placeholder="Selecione o curso...",
+            disabled=not polo_para_adicionar
+        )
 
-st.write("") # Adiciona um espaço antes do botão
+    modelos_disponiveis = []
+    if curso_para_adicionar:
+        modelos_disponiveis = obter_modelos_para_curso(df_dimensao_cursos, curso_para_adicionar)
 
-add_button_disabled = not all([marca_para_adicionar, polo_para_adicionar, curso_para_adicionar, modelo_para_adicionar])
-
-col1, col2, col3 = st.columns([1,1,4])
-with col1:
-    checkbox_base_alunos = st.checkbox(
-        label="Buscar a base de alunos em 2025/1 para essa oferta.",
-        help="O sistema buscará a base de alunos histórica e preencherá automaticamente todas as 'séries' do curso. Se uma base não for encontrada, todos os semestres são preenchidos com 50 estudantes",
-        value=False
-    )
-with col2:
-    checkbox_calda_longa_oferta = st.checkbox(
-        label="Remover turmas abaixo de 25 alunos nessa oferta.",
-        value=False
-    )
-with col3:
-    if st.button("Adicionar Oferta", type="primary", use_container_width=True, disabled=add_button_disabled):
-        chave_oferta = f"{marca_para_adicionar} - {polo_para_adicionar} - {curso_para_adicionar} ({modelo_para_adicionar})"
-        
-        if chave_oferta not in st.session_state.cursos_selecionados:
-            try:
-                filtro = (df_dimensao_cursos['Curso'] == curso_para_adicionar) & (df_dimensao_cursos['Modelo'] == modelo_para_adicionar)
-                dados_curso = df_dimensao_cursos[filtro].iloc[0]
-                
-                num_semestres = int(dados_curso['Qtde Semestres'])
-                if checkbox_base_alunos:
-                    alunos_por_semestre = busca_base_de_alunos(df_base_alunos, marca_para_adicionar, polo_para_adicionar, curso_para_adicionar, modelo_para_adicionar, num_semestres)
-                else:
-                    alunos_por_semestre = {}
-
-                if checkbox_calda_longa_oferta:
-                    alunos_por_semestre = {semestre: alunos for semestre, alunos in alunos_por_semestre.items() if alunos >= 25}
-
-                st.session_state.cursos_selecionados[chave_oferta] = {
-                    "marca": marca_para_adicionar,
-                    "polo": polo_para_adicionar,
-                    "curso": curso_para_adicionar,
-                    "modelo": modelo_para_adicionar,
-                    "ticket": encontrar_ticket(curso_para_adicionar, marca_para_adicionar, modelo_para_adicionar, df_curso_marca_modalidade, df_curso_modalidade, df_modalidade),
-                    "cluster": dados_curso['Cluster'],
-                    "sinergia": dados_curso['Sinergia'],
-                    "num_semestres": num_semestres,
-                    "alunos_por_semestre": alunos_por_semestre
-                }
-            except (IndexError, TypeError):
-                st.error(f"Não foi possível encontrar os dados para o curso '{curso_para_adicionar}' com o modelo '{modelo_para_adicionar}'.")
-        else:
-            st.warning(f"A oferta '{chave_oferta}' já foi adicionada.")
-st.divider()
-# --- Seção 2 (Configurar Cursos) ---
-st.header("2. Configure os Parâmetros de Cada Oferta", divider='rainbow')
-
-col1, col2, col3, col4, col5 = st.columns(5)
-with col1:
-    st.metric(
-        label="Total de Alunos",
-        value=locale.format_string('%d', sum(sum(config['alunos_por_semestre'].values()) for config in st.session_state.cursos_selecionados.values()), grouping=True),
-    )
-with col2:
-    num_polos = len(set(config['polo'] for config in st.session_state.cursos_selecionados.values()))
-    st.metric(
-        label="Total de Polos",
-        value=num_polos
-    )
-with col3:
-    st.metric(
-        label="Total de Ofertas",
-        value=locale.format_string('%d', len(st.session_state.cursos_selecionados), grouping=True),
-    )
-with col4:
-    if st.button("Remover calda longa", help="Remove todas as turmas com menos de 25 alunos.", type="primary"):
-        st.session_state.confirmacao_calda_longa = True
-
-    if st.session_state.confirmacao_calda_longa:
-        st.warning("**Atenção:** Você tem certeza que deseja remover a calda longa? Esta ação não pode ser desfeita.")
-        
-        col_sim, col_nao = st.columns(2)
-        with col_sim:
-            if st.button("Sim, tenho certeza", key='confirma_calda'):
-                remover_calda_longa()
-                st.session_state.confirmacao_calda_longa = False
-                st.rerun()
-        with col_nao:
-            if st.button("Cancelar", key='cancela_calda'):
-                st.session_state.confirmacao_calda_longa = False
-                st.rerun()
-with col5:
-    if st.button("Limpar todas as ofertas", help="Limpa todas as ofertas para começar do zero.", type="primary", use_container_width=True):
-        st.session_state.confirmacao_remover_todas = True
+    with col4:
+        modelo_para_adicionar = st.selectbox(
+            "Escolha o modelo",
+            options=modelos_disponiveis,
+            index=None,
+            placeholder="Selecione o modelo...",
+            disabled=not curso_para_adicionar
+        )
     
-    if st.session_state.confirmacao_remover_todas:
-        st.error("Esta ação é irreversível e limpará TODAS as ofertas adicionadas. Deseja continuar?")
-        
-        col_sim2, col_nao2 = st.columns(2)
-        with col_sim2:
-            if st.button("Sim, quero limpar tudo", key='confirma_limpar', type="primary"):
-                limpar_todas_as_ofertas()
-                st.session_state.confirmacao_remover_todas = False
-                st.rerun()
-        with col_nao2:
-            if st.button("Cancelar", key='cancela_limpar'):
-                st.session_state.confirmacao_remover_todas = False
-                st.rerun()
+    st.write("") # Adiciona um espaço antes do botão
+
+    add_button_disabled = not all([marca_para_adicionar, polo_para_adicionar, curso_para_adicionar, modelo_para_adicionar])
+
+    col1, col2, col3 = st.columns([1,1,2])
+    with col1:
+        checkbox_base_alunos = st.checkbox(
+            label="Buscar base de alunos (2025/1)",
+            help="O sistema buscará a base de alunos histórica e preencherá automaticamente todas as 'séries' do curso. Se uma base não for encontrada, todos os semestres são preenchidos com 50 estudantes",
+            value=False
+        )
+    with col2:
+        checkbox_calda_longa_oferta = st.checkbox(
+            label="Remover turmas < 25 alunos",
+            help="Ao adicionar, já remove as turmas com menos de 25 alunos para esta oferta específica.",
+            value=False
+        )
+
+    with col3:
+        if st.button("Adicionar Oferta", type="primary", use_container_width=True, disabled=add_button_disabled):
+            chave_oferta = f"{marca_para_adicionar} - {polo_para_adicionar} - {curso_para_adicionar} ({modelo_para_adicionar})"
+            
+            if chave_oferta not in st.session_state.cursos_selecionados:
+                try:
+                    filtro = (df_dimensao_cursos['Curso'] == curso_para_adicionar) & (df_dimensao_cursos['Modelo'] == modelo_para_adicionar)
+                    dados_curso = df_dimensao_cursos[filtro].iloc[0]
+                    
+                    num_semestres = int(dados_curso['Qtde Semestres'])
+                    if checkbox_base_alunos:
+                        alunos_por_semestre = busca_base_de_alunos(df_base_alunos, marca_para_adicionar, polo_para_adicionar, curso_para_adicionar, modelo_para_adicionar, num_semestres)
+                    else:
+                        alunos_por_semestre = {f"Semestre {i}": 50 for i in range(1, num_semestres + 1)}
+
+                    if checkbox_calda_longa_oferta:
+                        alunos_por_semestre = {semestre: alunos for semestre, alunos in alunos_por_semestre.items() if alunos >= 25}
+
+                    st.session_state.cursos_selecionados[chave_oferta] = {
+                        "marca": marca_para_adicionar,
+                        "polo": polo_para_adicionar,
+                        "curso": curso_para_adicionar,
+                        "modelo": modelo_para_adicionar,
+                        "ticket": encontrar_ticket(curso_para_adicionar, marca_para_adicionar, modelo_para_adicionar, df_curso_marca_modalidade, df_curso_modalidade, df_modalidade),
+                        "cluster": dados_curso['Cluster'],
+                        "sinergia": dados_curso['Sinergia'],
+                        "num_semestres": num_semestres,
+                        "alunos_por_semestre": alunos_por_semestre
+                    }
+                except (IndexError, TypeError):
+                    st.error(f"Não foi possível encontrar os dados para o curso '{curso_para_adicionar}' com o modelo '{modelo_para_adicionar}'.")
+            else:
+                st.warning(f"A oferta '{chave_oferta}' já foi adicionada.")
+st.divider()
+st.write("")
+st.markdown("##### Ferramentas de Gerenciamento")
+
+# Lógica para os novos botões
+with st.container(border=True):
+    col1, col2 = st.columns(2)
+    
+    # Coluna para remoção por Marca e Polo
+    with col1:
+        st.markdown("**Remoção em Lote**")
+        # Remover por marca
+        marcas_selecionadas = sorted(list(set(config['marca'] for config in st.session_state.cursos_selecionados.values())))
+        marca_para_remover = st.selectbox(
+            "Selecione uma marca para remover",
+            options=marcas_selecionadas,
+            index=None,
+            placeholder="Escolha uma marca...",
+            label_visibility="collapsed"
+        )
+        if st.button("Remover todas as ofertas da MARCA", disabled=not marca_para_remover, use_container_width=True):
+            remover_ofertas_por_marca(marca_para_remover)
+            st.rerun()
+
+        # Remover por polo
+        polos_selecionados = sorted(list(set(config['polo'] for config in st.session_state.cursos_selecionados.values())))
+        polo_para_remover = st.selectbox(
+            "Selecione um polo para remover",
+            options=polos_selecionados,
+            index=None,
+            placeholder="Escolha um polo...",
+            label_visibility="collapsed"
+        )
+        if st.button("Remover todas as ofertas do POLO", disabled=not polo_para_remover, use_container_width=True):
+            remover_ofertas_por_polo(polo_para_remover)
+            st.rerun()
+
+    # Coluna para ações globais
+    with col2:
+        st.markdown("**Ações Globais**")
+        if st.button("Remover calda longa (< 25 alunos)", help="Remove todas as turmas com menos de 25 alunos.", use_container_width=True):
+            st.session_state.confirmacao_calda_longa = True
+
+        if st.button("Trazer ofertas para o novo modelo", help="Altera os modelos 'Atuais' para a nova nomenclatura (Ex: EAD Atual -> EAD 10.10)", use_container_width=True):
+            trazer_ofertas_para_novo_modelo(df_dimensao_cursos, df_curso_marca_modalidade, df_curso_modalidade, df_modalidade)
+            st.rerun()
+
+        if st.button("Limpar TODAS as ofertas", help="Limpa todas as ofertas para começar do zero.", type="primary", use_container_width=True):
+            st.session_state.confirmacao_remover_todas = True
+
+# Lógica de confirmação (movida para fora das colunas para melhor fluxo)
+if st.session_state.get('confirmacao_calda_longa'):
+    st.warning("**Atenção:** Você tem certeza que deseja remover a calda longa? Esta ação não pode ser desfeita.")
+    col_sim, col_nao = st.columns(2)
+    with col_sim:
+        if st.button("Sim, tenho certeza", key='confirma_calda'):
+            remover_calda_longa()
+            st.session_state.confirmacao_calda_longa = False
+            st.rerun()
+    with col_nao:
+        if st.button("Cancelar", key='cancela_calda'):
+            st.session_state.confirmacao_calda_longa = False
+            st.rerun()
+
+if st.session_state.get('confirmacao_remover_todas'):
+    st.error("Esta ação é irreversível e limpará TODAS as ofertas adicionadas. Deseja continuar?")
+    col_sim2, col_nao2 = st.columns(2)
+    with col_sim2:
+        if st.button("Sim, quero limpar tudo", key='confirma_limpar', type="primary"):
+            limpar_todas_as_ofertas()
+            st.session_state.confirmacao_remover_todas = False
+            st.rerun()
+    with col_nao2:
+        if st.button("Cancelar", key='cancela_limpar'):
+            st.session_state.confirmacao_remover_todas = False
+            st.rerun()
+st.divider()
+
+# --- Seção 2 (Configurar Cursos) ---
+st.subheader("Configuração de Ofertas Adicionadas")
+st.markdown("Aqui estão todas as ofertas que você adicionou para a simulação... você pode expandir cada uma para ajustar o número de alunos por semestre")
+col1, col2, col3 = st.columns(3)
 
 st.markdown("Aqui estão todas as ofertas que você adicionou para a simulação...")
 if not st.session_state.cursos_selecionados:
@@ -223,7 +272,7 @@ else:
 
     # Itera sobre a lista JÁ ORDENADA
     for chave_oferta, config in ofertas_ordenadas:
-        with st.expander(f"**{chave_oferta}**", expanded=True):
+        with st.expander(f"**{chave_oferta}**", expanded=False):
             info_col1, info_col2 = st.columns([4, 1])
             
             with info_col1:
@@ -464,13 +513,13 @@ if st.session_state.cursos_selecionados:
         dict_semestres = calcula_custo_aluno_para_todos_semestre(df_final, st.session_state)
         st.pyplot(plot_custo_aluno_por_semestre_pag2(dict_semestres, ticket), use_container_width=False)
     
-    with st.expander("Detalhamento por Semestre", expanded=True):
+    with st.expander("Detalhamento por Série", expanded=True):
         for i in range(df_final['Semestre'].max()):
             df_por_semestre = df_final[df_final['Semestre'] == (i+1)]
             base_alunos_semestre = calcula_base_alunos_por_semestre(st.session_state, i+1)
             ch_total_semestre, custo_total_semestre, custo_mensal, eficiencia = calcular_resumo_semestre(df_por_semestre, base_alunos_semestre)          
             df_por_semestre = adiciona_linha_total(df_por_semestre, base_alunos_semestre)
-            with st.expander(f"{i+1}º Semestre"):
+            with st.expander(f"{i+1}º Série"):
                 st.markdown(f"Base de alunos: {base_alunos_semestre}")
                 col1, col2, col3 = st.columns(3)
                 with col1: 

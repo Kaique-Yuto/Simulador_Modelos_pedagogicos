@@ -5,7 +5,8 @@ from streamlit import column_config
 import matplotlib.pyplot as plt
 from matplotlib.ticker import FuncFormatter
 from .formatting import formatador_k
-
+from .data import encontrar_ticket
+import time
 def obter_modelos_para_curso(df: pd.DataFrame, nome_curso: str) -> list:
     """
     Garante a árvore de escolhas para a configuração de cursos
@@ -74,14 +75,10 @@ def plot_custo_docente(df_precificacao_curso):
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
     
-    ax.set_xlabel("Custo Docente por Semestre", fontdict={"color": "white", "fontsize": 13})
+    ax.set_xlabel("Custo Docente por Série", fontdict={"color": "white", "fontsize": 13})
     return fig
 
 def plot_eficiencia_por_semestre(df_precificacao_curso, base_alunos=70):
-    """
-    Plota a eficiência por semestre como um gráfico de linha padrão,
-    destacando o ponto de menor valor.
-    """
     # Agregar os dados
     df_plot = df_precificacao_curso.groupby('Semestre').agg(func='sum')
     df_plot['Eficiencia'] = base_alunos / (df_plot['total_ch_uc'] * 20)
@@ -655,7 +652,7 @@ def plot_custo_docente_pag2(df: pd.DataFrame):
     # Define os rótulos dos ticks como números inteiros
     ax.set_xticklabels(df_plot.index.astype(int))
 
-    ax.set_xlabel("Custo Docente por Semestre", fontdict={"color": "white", "fontsize": 13})
+    ax.set_xlabel("Custo Docente por Série", fontdict={"color": "white", "fontsize": 13})
     return fig
 
 def plot_ch_docente_por_categoria_pag2(df: pd.DataFrame):
@@ -869,7 +866,7 @@ def plot_custo_aluno_por_semestre_pag2(dict_semestres: dict, ticket: float):
     ax.spines['left'].set_color('white')
     ax.spines['bottom'].set_color('white')
     
-    ax.set_xlabel("Semestre", fontdict={"color": "white", "fontsize": 12})
+    ax.set_xlabel("Série", fontdict={"color": "white", "fontsize": 12})
     
     legend = ax.legend(facecolor='#0E1117', edgecolor='white', labelcolor='white')
     
@@ -998,3 +995,133 @@ def busca_base_de_alunos(df: pd.DataFrame, marca: str, campus: str, curso: str, 
     else:
         alunos_por_semestre = {f"Semestre {i}": 50 for i in range(1, num_semestres + 1)}
     return alunos_por_semestre
+
+def adicionar_todas_ofertas_do_polo(marca, polo, df_base_alunos, df_dimensao_cursos, df_curso_marca_modalidade, df_curso_modalidade, df_modalidade):
+    """
+    Busca e adiciona todas as ofertas de um determinado polo/marca com base nos dados históricos.
+    """
+    with st.spinner(f"Buscando todas as ofertas para {marca} - {polo}..."):
+        ofertas_polo = df_base_alunos[(df_base_alunos['MARCA'] == marca) & (df_base_alunos['CAMPUS'] == polo)]
+        cursos_modelos_unicos = ofertas_polo[['CURSO', 'MODALIDADE_OFERTA']].drop_duplicates().to_numpy()
+
+        if len(cursos_modelos_unicos) == 0:
+            st.warning(f"Nenhuma oferta com base de alunos histórica foi encontrada para a marca '{marca}' e polo '{polo}'.")
+            return
+
+        cursos_adicionados = 0
+        cursos_ignorados = 0
+
+        for curso, modelo in cursos_modelos_unicos:
+            chave_oferta = f"{marca} - {polo} - {curso} ({modelo})"
+
+            if chave_oferta in st.session_state.cursos_selecionados:
+                cursos_ignorados += 1
+                continue
+
+            try:
+                filtro = (df_dimensao_cursos['Curso'] == curso) & (df_dimensao_cursos['Modelo'] == modelo)
+                dados_curso = df_dimensao_cursos[filtro].iloc[0]
+                
+                num_semestres = int(dados_curso['Qtde Semestres'])
+                
+                alunos_por_semestre = busca_base_de_alunos(df_base_alunos, marca, polo, curso, modelo, num_semestres)
+
+                # Se a busca não retornar nenhum aluno, ignora a oferta para não adicionar cursos vazios
+                if not alunos_por_semestre or sum(alunos_por_semestre.values()) == 0:
+                    cursos_ignorados += 1
+                    continue
+
+                st.session_state.cursos_selecionados[chave_oferta] = {
+                    "marca": marca,
+                    "polo": polo,
+                    "curso": curso,
+                    "modelo": modelo,
+                    "ticket": encontrar_ticket(curso, marca, modelo, df_curso_marca_modalidade, df_curso_modalidade, df_modalidade),
+                    "cluster": dados_curso['Cluster'],
+                    "sinergia": dados_curso['Sinergia'],
+                    "num_semestres": num_semestres,
+                    "alunos_por_semestre": alunos_por_semestre
+                }
+                cursos_adicionados += 1
+            except (IndexError, TypeError):
+                # Ocorre se o curso/modelo da base de alunos não for encontrado no df_dimensao_cursos
+                cursos_ignorados += 1
+                continue
+    
+    st.success(f"{cursos_adicionados} novas ofertas foram adicionadas com sucesso para o polo {polo}!")
+    if cursos_ignorados > 0:
+        st.info(f"{cursos_ignorados} ofertas foram ignoradas (já existentes na simulação, sem alunos na base ou sem dados de dimensionamento).")
+
+def remover_ofertas_por_marca(marca_a_remover):
+    with st.spinner(f'Removendo todas as ofertas da marca {marca_a_remover}...'):
+        time.sleep(1)
+        chaves_para_remover = [
+            chave for chave, config in st.session_state.cursos_selecionados.items()
+            if config['marca'] == marca_a_remover
+        ]
+        for chave in chaves_para_remover:
+            del st.session_state.cursos_selecionados[chave]
+    st.success(f"Todas as ofertas da marca '{marca_a_remover}' foram removidas!")
+
+def remover_ofertas_por_polo(polo_a_remover):
+    with st.spinner(f'Removendo todas as ofertas do polo {polo_a_remover}...'):
+        time.sleep(1)
+        chaves_para_remover = [
+            chave for chave, config in st.session_state.cursos_selecionados.items()
+            if config['polo'] == polo_a_remover
+        ]
+        for chave in chaves_para_remover:
+            del st.session_state.cursos_selecionados[chave]
+    st.success(f"Todas as ofertas do polo '{polo_a_remover}' foram removidas!")
+
+def trazer_ofertas_para_novo_modelo(df_dimensao_cursos, df_curso_marca_modalidade, df_curso_modalidade, df_modalidade):
+    mapper_modelos = {
+        "EAD Atual": "EAD 10.10",
+        "Semi Presencial Atual": "Semi Presencial 40.20 Bacharelado",
+        "Presencial Atual": "Presencial 70.30"
+    }
+    
+    with st.spinner("Migrando ofertas para os novos modelos..."):
+        novos_cursos_selecionados = {}
+        migrados_sucesso = 0
+        migrados_falha = 0
+        falhas = []
+
+        # Usamos list() para criar uma cópia e poder modificar o dicionário original
+        for chave_antiga, config in list(st.session_state.cursos_selecionados.items()):
+            modelo_antigo = config['modelo']
+
+            if modelo_antigo in mapper_modelos:
+                modelo_novo = mapper_modelos[modelo_antigo]
+                curso = config['curso']
+
+                # Verifica se o novo modelo é válido para o curso
+                filtro = (df_dimensao_cursos['Curso'] == curso) & (df_dimensao_cursos['Modelo'] == modelo_novo)
+                if df_dimensao_cursos[filtro].empty:
+                    migrados_falha += 1
+                    falhas.append(f"'{curso} ({modelo_novo})'")
+                    # Mantém a oferta original se a migração falhar
+                    novos_cursos_selecionados[chave_antiga] = config
+                    continue
+
+                # Se for válido, atualiza a configuração
+                dados_curso_novo = df_dimensao_cursos[filtro].iloc[0]
+                
+                config['modelo'] = modelo_novo
+                config['ticket'] = encontrar_ticket(config['curso'], config['marca'], modelo_novo, df_curso_marca_modalidade, df_curso_modalidade, df_modalidade)
+                config['cluster'] = dados_curso_novo['Cluster']
+                config['sinergia'] = dados_curso_novo['Sinergia']
+                # Mantém o num_semestres e alunos_por_semestre
+                
+                chave_nova = f"{config['marca']} - {config['polo']} - {config['curso']} ({modelo_novo})"
+                novos_cursos_selecionados[chave_nova] = config
+                migrados_sucesso += 1
+            else:
+                # Se não está no mapper, apenas mantém a oferta como está
+                novos_cursos_selecionados[chave_antiga] = config
+        
+        st.session_state.cursos_selecionados = novos_cursos_selecionados
+
+    st.success(f"{migrados_sucesso} ofertas foram migradas para o novo modelo com sucesso!")
+    if migrados_falha > 0:
+        st.warning(f"{migrados_falha} ofertas não puderam ser migradas, pois o novo modelo não foi encontrado para os seguintes cursos: {', '.join(falhas)}.")
