@@ -1090,9 +1090,9 @@ def remover_ofertas_por_polo(polo_a_remover):
 
 def trazer_ofertas_para_novo_modelo(df_dimensao_cursos, df_curso_marca_modalidade, df_curso_modalidade, df_modalidade):
     mapper_modelos = {
-        "EAD Atual": "EAD 10.10",
-        "Semi Presencial Atual": "Semi Presencial 40.20 Bacharelado",
-        "Presencial Atual": "Presencial 70.30"
+        "EAD Atual": ["EAD 10.10", "Semi Presencial 30.20 Bacharelado", "Semi Presencial 30.20 Licenciatura", "Semi Presencial 40.20 Bacharelado", "Presencial 70.30"],
+        "Semi Presencial Atual": ["Semi Presencial 40.20 Bacharelado", "Semi Presencial 30.20 Bacharelado", "Semi Presencial 30.20 Licenciatura"],
+        "Presencial Atual": ["Presencial 70.30", "Semi Presencial 40.20 Bacharelado"]
     }
     
     with st.spinner("Migrando ofertas para os novos modelos..."):
@@ -1101,44 +1101,65 @@ def trazer_ofertas_para_novo_modelo(df_dimensao_cursos, df_curso_marca_modalidad
         migrados_falha = 0
         falhas = []
 
-        # Usamos list() para criar uma cópia e poder modificar o dicionário original
-        for chave_antiga, config in list(st.session_state.cursos_selecionados.items()):
+        # Usar .items() para iterar de forma mais segura sobre a cópia do dicionário
+        for chave_antiga, config in st.session_state.cursos_selecionados.items():
             modelo_antigo = config['modelo']
+            curso = config['curso']
 
+            # Verifica se o modelo antigo tem um mapeamento para migração
             if modelo_antigo in mapper_modelos:
-                modelo_novo = mapper_modelos[modelo_antigo]
-                curso = config['curso']
+                lista_modelos_novos = mapper_modelos[modelo_antigo]
+                migracao_bem_sucedida = False
 
-                # Verifica se o novo modelo é válido para o curso
-                filtro = (df_dimensao_cursos['Curso'] == curso) & (df_dimensao_cursos['Modelo'] == modelo_novo)
-                if df_dimensao_cursos[filtro].empty:
+                # Tenta cada novo modelo na ordem da lista
+                for modelo_novo_tentativa in lista_modelos_novos:
+                    # Remove espaços em branco extras que podem causar falhas
+                    modelo_novo_tentativa = modelo_novo_tentativa.strip()
+
+                    # Verifica se o novo modelo é válido para o curso
+                    filtro = (df_dimensao_cursos['Curso'] == curso) & (df_dimensao_cursos['Modelo'] == modelo_novo_tentativa)
+                    
+                    # Se o filtro NÃO estiver vazio, a combinação é válida
+                    if not df_dimensao_cursos[filtro].empty:
+                        # --- SUCESSO: Encontramos um modelo válido ---
+                        dados_curso_novo = df_dimensao_cursos[filtro].iloc[0]
+                        
+                        # Cria uma cópia da configuração para evitar modificar a original no meio do loop
+                        nova_config = config.copy()
+                        
+                        nova_config['modelo'] = modelo_novo_tentativa
+                        nova_config['ticket'] = encontrar_ticket(nova_config['curso'], nova_config['marca'], modelo_novo_tentativa, df_curso_marca_modalidade, df_curso_modalidade, df_modalidade)
+                        nova_config['cluster'] = dados_curso_novo['Cluster']
+                        nova_config['sinergia'] = dados_curso_novo['Sinergia']
+                        
+                        chave_nova = f"{nova_config['marca']} - {nova_config['polo']} - {nova_config['curso']} ({modelo_novo_tentativa})"
+                        novos_cursos_selecionados[chave_nova] = nova_config
+                        
+                        migrados_sucesso += 1
+                        migracao_bem_sucedida = True
+                        
+                        # Interrompe o loop interno, pois já encontramos um modelo válido
+                        break 
+                
+                # Se, após testar todos os modelos da lista, nenhum funcionou
+                if not migracao_bem_sucedida:
                     migrados_falha += 1
-                    falhas.append(f"'{curso} ({modelo_novo})'")
+                    # A mensagem de falha agora informa todas as tentativas
+                    falhas.append(f"'{curso}' (tentativas: {', '.join(lista_modelos_novos)})")
                     # Mantém a oferta original se a migração falhar
                     novos_cursos_selecionados[chave_antiga] = config
-                    continue
-
-                # Se for válido, atualiza a configuração
-                dados_curso_novo = df_dimensao_cursos[filtro].iloc[0]
-                
-                config['modelo'] = modelo_novo
-                config['ticket'] = encontrar_ticket(config['curso'], config['marca'], modelo_novo, df_curso_marca_modalidade, df_curso_modalidade, df_modalidade)
-                config['cluster'] = dados_curso_novo['Cluster']
-                config['sinergia'] = dados_curso_novo['Sinergia']
-                # Mantém o num_semestres e alunos_por_semestre
-                
-                chave_nova = f"{config['marca']} - {config['polo']} - {config['curso']} ({modelo_novo})"
-                novos_cursos_selecionados[chave_nova] = config
-                migrados_sucesso += 1
+            
             else:
                 # Se não está no mapper, apenas mantém a oferta como está
                 novos_cursos_selecionados[chave_antiga] = config
         
+        # Atualiza o estado da sessão com as novas ofertas
         st.session_state.cursos_selecionados = novos_cursos_selecionados
 
     st.success(f"{migrados_sucesso} ofertas foram migradas para o novo modelo com sucesso!")
     if migrados_falha > 0:
-        st.warning(f"{migrados_falha} ofertas não puderam ser migradas, pois o novo modelo não foi encontrado para os seguintes cursos: {', '.join(falhas)}.")
+        st.warning(f"{migrados_falha} ofertas não puderam ser migradas, pois nenhuma combinação válida foi encontrada para: {', '.join(falhas)}.")
+
     
 
 def adicionar_todas_ofertas_da_marca(marca, df_marcas_polos, df_base_alunos, df_dimensao_cursos, df_curso_marca_modalidade, df_curso_modalidade, df_modalidade):
