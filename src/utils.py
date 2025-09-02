@@ -1139,7 +1139,7 @@ def trazer_ofertas_para_novo_modelo(df_dimensao_cursos, df_curso_marca_modalidad
     st.success(f"{migrados_sucesso} ofertas foram migradas para o novo modelo com sucesso!")
     if migrados_falha > 0:
         st.warning(f"{migrados_falha} ofertas não puderam ser migradas, pois o novo modelo não foi encontrado para os seguintes cursos: {', '.join(falhas)}.")
-
+    
 
 def adicionar_todas_ofertas_da_marca(marca, df_marcas_polos, df_base_alunos, df_dimensao_cursos, df_curso_marca_modalidade, df_curso_modalidade, df_modalidade):
     st.info(f"Iniciando busca em massa para a marca '{marca}'. Esta ação pode levar alguns minutos...")
@@ -1171,3 +1171,37 @@ def adicionar_todas_ofertas_da_marca(marca, df_marcas_polos, df_base_alunos, df_
     progress_bar.empty() # Limpa a barra de progresso ao final
     st.success(f"Busca em massa para a marca '{marca}' foi concluída!")
     st.balloons()
+
+def cria_select_box_modelo(df_dimensao_cursos, config, chave_oferta, df_curso_marca_modalidade, df_curso_modalidade, df_modalidade):
+    modelos_disponiveis = obter_modelos_para_curso(df_dimensao_cursos, config['curso'])
+    try:
+        index_atual = modelos_disponiveis.index(config['modelo'])
+    except ValueError:
+        index_atual = 0
+    novo_modelo_selecionado = st.selectbox(
+        "Modelo",
+        options=modelos_disponiveis,
+        index=index_atual,
+        key=f"modelo_select_{chave_oferta}"
+    )
+    if novo_modelo_selecionado != config['modelo']:
+        nova_chave = f"{config['marca']} - {config['polo']} - {config['curso']} ({novo_modelo_selecionado})"
+        if nova_chave in st.session_state.cursos_selecionados:
+            st.warning(f"A oferta '{nova_chave}' já existe na simulação. Não é possível fazer a troca.")
+        else:
+            filtro = (df_dimensao_cursos['Curso'] == config['curso']) & (df_dimensao_cursos['Modelo'] == novo_modelo_selecionado)
+            dados_curso_novo = df_dimensao_cursos[filtro].iloc[0]
+            nova_config = {
+                "marca": config['marca'],
+                "polo": config['polo'],
+                "curso": config['curso'],
+                "modelo": novo_modelo_selecionado,
+                "ticket": encontrar_ticket(config['curso'], config['marca'], novo_modelo_selecionado, df_curso_marca_modalidade, df_curso_modalidade, df_modalidade),
+                "cluster": dados_curso_novo['Cluster'],
+                "sinergia": dados_curso_novo['Sinergia'],
+                "num_semestres": config['num_semestres'], # Mantém o mesmo
+                "alunos_por_semestre": config['alunos_por_semestre'] # Mantém os mesmos alunos
+            }
+            st.session_state.cursos_selecionados[nova_chave] = nova_config
+            del st.session_state.cursos_selecionados[chave_oferta]
+            st.rerun()

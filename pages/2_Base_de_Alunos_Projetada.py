@@ -1,6 +1,6 @@
 import streamlit as st
 from src.data import carregar_dados, carregar_lista_marca_polo, carregar_base_alunos, carregar_tickets, encontrar_ticket
-from src.utils import obter_modelos_para_curso, oferta_resumida_por_curso, agrupar_oferta, formatar_df_precificacao_oferta, calcular_resumo_semestre, calcula_base_alunos_por_semestre, calcula_base_alunos_total, adiciona_linha_total,calcula_df_final, plotar_custo_total_pag2, plotar_ch_total_pag2, plot_custo_docente_pag2, plot_ch_docente_por_categoria_pag2, formatar_df_por_semestre, projetar_base_alunos, calcula_custo_aluno_para_todos_semestre,plot_custo_aluno_por_semestre_pag2, calcula_ticket_medio,  busca_base_de_alunos, adicionar_todas_ofertas_do_polo, remover_ofertas_por_marca, remover_ofertas_por_polo, trazer_ofertas_para_novo_modelo, adicionar_todas_ofertas_da_marca
+from src.utils import obter_modelos_para_curso, oferta_resumida_por_curso, agrupar_oferta,formatar_df_precificacao_oferta, calcular_resumo_semestre, calcula_base_alunos_por_semestre, calcula_base_alunos_total, adiciona_linha_total,calcula_df_final, plotar_custo_total_pag2, plotar_ch_total_pag2, plot_custo_docente_pag2, plot_ch_docente_por_categoria_pag2, formatar_df_por_semestre, projetar_base_alunos, calcula_custo_aluno_para_todos_semestre,plot_custo_aluno_por_semestre_pag2, calcula_ticket_medio,  busca_base_de_alunos, adicionar_todas_ofertas_do_polo, remover_ofertas_por_marca, remover_ofertas_por_polo, trazer_ofertas_para_novo_modelo, adicionar_todas_ofertas_da_marca, cria_select_box_modelo
 from src.formatting import formatar_valor_brl
 import pandas as pd
 import numpy as np
@@ -45,11 +45,6 @@ df_base_alunos = carregar_base_alunos("databases/base_alunos_curso_marca_v2.xlsx
 if 'cursos_selecionados' not in st.session_state:
     st.session_state.cursos_selecionados = {}
 
-if 'confirmacao_calda_longa' not in st.session_state:
-    st.session_state.confirmacao_calda_longa = False
-
-if 'confirmacao_remover_todas' not in st.session_state:
-    st.session_state.confirmacao_remover_todas = False
 
 # --- Listas ---
 LISTA_CURSOS_COMPLETA = sorted(df_dimensao_cursos['Curso'].unique().tolist())
@@ -233,43 +228,17 @@ with st.container(border=True):
     with col2:
         st.markdown("**Ações Globais**")
         if st.button("Remover calda longa (< 25 alunos)", help="Remove todas as turmas com menos de 25 alunos.", use_container_width=True):
-            st.session_state.confirmacao_calda_longa = True
+            remover_calda_longa()
 
         if st.button("Trazer ofertas para o novo modelo", help="Altera os modelos 'Atuais' para a nova nomenclatura (Ex: EAD Atual -> EAD 10.10)", use_container_width=True):
             trazer_ofertas_para_novo_modelo(df_dimensao_cursos, df_curso_marca_modalidade, df_curso_modalidade, df_modalidade)
-            st.rerun()
+            time.sleep(5)
 
         if st.button("Limpar TODAS as ofertas", help="Limpa todas as ofertas para começar do zero.", type="primary", use_container_width=True):
-            st.session_state.confirmacao_remover_todas = True
-
-# Lógica de confirmação (movida para fora das colunas para melhor fluxo)
-if st.session_state.get('confirmacao_calda_longa'):
-    st.warning("**Atenção:** Você tem certeza que deseja remover a calda longa? Esta ação não pode ser desfeita.")
-    col_sim, col_nao = st.columns(2)
-    with col_sim:
-        if st.button("Sim, tenho certeza", key='confirma_calda'):
-            remover_calda_longa()
-            st.session_state.confirmacao_calda_longa = False
-            st.rerun()
-    with col_nao:
-        if st.button("Cancelar", key='cancela_calda'):
-            st.session_state.confirmacao_calda_longa = False
-            st.rerun()
-
-if st.session_state.get('confirmacao_remover_todas'):
-    st.error("Esta ação é irreversível e limpará TODAS as ofertas adicionadas. Deseja continuar?")
-    col_sim2, col_nao2 = st.columns(2)
-    with col_sim2:
-        if st.button("Sim, quero limpar tudo", key='confirma_limpar', type="primary"):
             limpar_todas_as_ofertas()
-            st.session_state.confirmacao_remover_todas = False
-            st.rerun()
-    with col_nao2:
-        if st.button("Cancelar", key='cancela_limpar'):
-            st.session_state.confirmacao_remover_todas = False
-            st.rerun()
-st.divider()
 
+
+st.divider()
 # --- Seção 2 (Configurar Cursos) ---
 st.subheader("Configuração de Ofertas Adicionadas")
 st.markdown("Aqui estão todas as ofertas que você adicionou para a simulação... você pode expandir cada uma para ajustar o número de alunos por semestre")
@@ -311,10 +280,10 @@ else:
                     st.markdown(f"**Curso:** `{config['curso']}`")
                 with col2:
                     st.markdown(f"**Polo:** `{config['polo']}`")
-                    st.markdown(f"**Modelo:** `{config['modelo']}`")
-                with col3:
                     st.markdown(f"**Cluster:** `{config['cluster']}`")
-                    st.markdown(f"**Ticket Médio:** {formatar_valor_brl(config['ticket'])}")
+                    st.markdown(f"**Ticket Médio:** `{formatar_valor_brl(config['ticket'])}`")
+                with col3:
+                    cria_select_box_modelo(df_dimensao_cursos, config, chave_oferta, df_curso_marca_modalidade, df_curso_modalidade, df_modalidade)
 
             with info_col2:
                 st.write("")
@@ -337,7 +306,7 @@ else:
                     key=f"sim_iniciais_{chave_oferta}"
                 )
                 media_ingressantes = st.number_input(
-                    "Média de ingressantes por semestre", 
+                    "Média de ingressantes por Ano", 
                     min_value=0, 
                     step=5, 
                     value=100, 
