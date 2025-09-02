@@ -306,7 +306,7 @@ else:
                     key=f"sim_iniciais_{chave_oferta}"
                 )
                 media_ingressantes = st.number_input(
-                    "Média de ingressantes por Ano", 
+                    "Média de ingressantes por Ano (60% para o 1° semestre, 40% para o 2° semestre)", 
                     min_value=0, 
                     step=5, 
                     value=100, 
