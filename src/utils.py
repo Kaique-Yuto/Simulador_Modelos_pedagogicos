@@ -920,58 +920,57 @@ def formatar_df_por_semestre(df: pd.DataFrame):
     return df_formatado
 
 def projetar_base_alunos(base_alunos_inicial: int, n_semestres_curso: int, dist_ingresso: tuple, taxa_evasao_inicial: float, decaimento_evasao: float):
-
+    
     taxas_evasao = np.array([taxa_evasao_inicial * (decaimento_evasao ** i) for i in range(n_semestres_curso)])
     taxas_permanencia = 1 - taxas_evasao
 
     turmas = np.zeros(n_semestres_curso, dtype=int)
     turmas[0] = base_alunos_inicial
 
-    historico_completo = []
+    projecao_temporal = {}
     
-    # Armazena o estado inicial
-    alunos_por_semestre_dict = {f"Semestre {i + 1}": int(num_alunos) for i, num_alunos in enumerate(turmas)}
-    historico_completo.append(alunos_por_semestre_dict)
+    # Armazena o estado inicial (T=0), que será o nosso 2026/1
+    chave_temporal_inicial = "alunos_por_semestre_2026_1"
+    alunos_por_semestre_dict_inicial = {f"Semestre {i + 1}": int(num_alunos) for i, num_alunos in enumerate(turmas)}
+    projecao_temporal[chave_temporal_inicial] = alunos_por_semestre_dict_inicial
 
-    for semestre_da_simulacao in range(1, n_semestres_curso):
-
+    for i in range(1, n_semestres_curso):
         turmas_seguinte = np.zeros(n_semestres_curso, dtype=int)
 
-        for i in range(n_semestres_curso - 1, 0, -1):
-            alunos_para_avancar = turmas[i-1]
-            taxa_de_permanencia = taxas_permanencia[i-1]
+        for j in range(n_semestres_curso - 1, 0, -1):
+            alunos_para_avancar = turmas[j-1]
+            taxa_de_permanencia = taxas_permanencia[j-1]
 
             if alunos_para_avancar > 0:
                 sobreviventes = np.random.binomial(n=alunos_para_avancar, p=taxa_de_permanencia)
             else:
                 sobreviventes = 0
 
-            turmas_seguinte[i] = int(max(0, sobreviventes))
+            turmas_seguinte[j] = int(max(0, sobreviventes))
 
         media_ingressantes, desvio_padrao_ingressantes = dist_ingresso
-        # Divide a media_ingressantes em 60%/40% para semestres ímpares e pares
-        if semestre_da_simulacao % 2 == 0:
-            media_ingressantes *= 0.4
-            desvio_padrao_ingressantes *= 0.4
-        else:
-            media_ingressantes *= 0.6
-            desvio_padrao_ingressantes *= 0.6
+        
+        if i % 2 == 0: # Semestres pares na simulação correspondem ao primeiro semestre do ano (2027/1, 2028/1...)
+             media_ingressantes *= 0.6
+             desvio_padrao_ingressantes *= 0.6
+        else: # Semestres ímpares (correspondem ao segundo semestre do ano (2026/2, 2027/2...)
+             media_ingressantes *= 0.4
+             desvio_padrao_ingressantes *= 0.4
         
         novos_ingressantes = np.round(np.random.normal(media_ingressantes, desvio_padrao_ingressantes))
         turmas_seguinte[0] = int(max(0, novos_ingressantes))
 
         turmas = turmas_seguinte.copy()
 
-        # Armazena o estado atual no histórico
-        alunos_por_semestre_dict = {f"Semestre {i + 1}": int(num_alunos) for i, num_alunos in enumerate(turmas)}
-        historico_completo.append(alunos_por_semestre_dict)
-    
-    # Prepara o objeto de resultado final
-    resultado_final = {
-        "alunos_por_semestre": {f"Semestre {i + 1}": int(num_alunos) for i, num_alunos in enumerate(turmas)}
-    }
 
-    return resultado_final, historico_completo
+        ano = 2026 + i // 2
+        semestre = i % 2 + 1
+        chave_temporal = f"alunos_por_semestre_{ano}_{semestre}"
+        
+        alunos_por_semestre_dict = {f"Semestre {k + 1}": int(num_alunos) for k, num_alunos in enumerate(turmas)}
+        projecao_temporal[chave_temporal] = alunos_por_semestre_dict
+    
+    return projecao_temporal
 
 
 def calcula_ticket_medio(config: dict, serie: int) -> float:
@@ -1226,3 +1225,88 @@ def cria_select_box_modelo(df_dimensao_cursos, config, chave_oferta, df_curso_ma
             st.session_state.cursos_selecionados[nova_chave] = nova_config
             del st.session_state.cursos_selecionados[chave_oferta]
             st.rerun()
+
+def plotar_evolucao_total_alunos(cursos_selecionados):
+    """
+    Agrega o total de alunos de todas as ofertas ao longo do tempo e gera um gráfico de linha.
+    """
+    # Dicionário para armazenar o total de alunos por período
+    evolucao_total = {}
+
+    for config in cursos_selecionados.values():
+        # Encontra todas as chaves de projeção de alunos para a oferta atual
+        chaves_projecao = sorted([k for k in config if k.startswith("alunos_por_semestre_")])
+        
+        for chave in chaves_projecao:
+            periodo = chave.replace("alunos_por_semestre_", "").replace("_", "/")
+            total_alunos_no_periodo = sum(config[chave].values())
+            
+            # Adiciona (ou soma) o total de alunos ao período correspondente
+            if periodo in evolucao_total:
+                evolucao_total[periodo] += total_alunos_no_periodo
+            else:
+                evolucao_total[periodo] = total_alunos_no_periodo
+
+    if not evolucao_total:
+        return None
+
+    # Cria um DataFrame para facilitar a plotagem
+    df_evolucao = pd.DataFrame(list(evolucao_total.items()), columns=['Período', 'Total de Alunos']).set_index('Período')
+    
+    # Gera o gráfico
+    fig, ax = plt.subplots(figsize=(10, 5))
+    ax.plot(df_evolucao.index, df_evolucao['Total de Alunos'], marker='o', linestyle='-')
+    ax.set_title('Evolução do Total de Alunos (Agregado)')
+    ax.set_ylabel('Número Total de Alunos')
+    ax.set_xlabel('Período da Simulação')
+    ax.grid(True, which='both', linestyle='--', linewidth=0.5)
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+    
+    return fig
+
+
+def plotar_composicao_alunos_por_serie(cursos_selecionados, periodo_selecionado):
+    """
+    Agrega a composição de alunos por série para um dado período e gera um gráfico de barras.
+    """
+    composicao_total = {}
+    chave_projecao = f"alunos_por_semestre_{periodo_selecionado.replace('/', '_')}"
+
+    for config in cursos_selecionados.values():
+        if chave_projecao in config:
+            dados_do_periodo = config[chave_projecao]
+            for serie, n_alunos in dados_do_periodo.items():
+                if serie in composicao_total:
+                    composicao_total[serie] += n_alunos
+                else:
+                    composicao_total[serie] = n_alunos
+    
+    if not composicao_total:
+        return None
+
+    # Ordena as séries corretamente (ex: Semestre 1, Semestre 2, ...)
+    sorted_series = sorted(composicao_total.keys(), key=lambda x: int(x.split(' ')[1]))
+    sorted_values = [composicao_total[k] for k in sorted_series]
+
+    df_composicao = pd.DataFrame({
+        'Série': sorted_series,
+        'Número de Alunos': sorted_values
+    })
+
+    # Gera o gráfico
+    fig, ax = plt.subplots(figsize=(10, 5))
+    bars = ax.bar(df_composicao['Série'], df_composicao['Número de Alunos'])
+    ax.set_title(f'Composição Agregada de Alunos por Série em {periodo_selecionado}')
+    ax.set_ylabel('Número de Alunos')
+    ax.set_xlabel('Série do Curso')
+    plt.xticks(rotation=45)
+
+    # Adiciona os data labels em cima de cada barra
+    for bar in bars:
+        yval = bar.get_height()
+        ax.text(bar.get_x() + bar.get_width()/2.0, yval, int(yval), va='bottom', ha='center')
+
+    plt.tight_layout()
+
+    return fig

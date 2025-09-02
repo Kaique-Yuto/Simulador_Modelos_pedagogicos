@@ -1,6 +1,6 @@
 import streamlit as st
 from src.data import carregar_dados, carregar_lista_marca_polo, carregar_base_alunos, carregar_tickets, encontrar_ticket
-from src.utils import obter_modelos_para_curso, oferta_resumida_por_curso, agrupar_oferta,formatar_df_precificacao_oferta, calcular_resumo_semestre, calcula_base_alunos_por_semestre, calcula_base_alunos_total, adiciona_linha_total,calcula_df_final, plotar_custo_total_pag2, plotar_ch_total_pag2, plot_custo_docente_pag2, plot_ch_docente_por_categoria_pag2, formatar_df_por_semestre, projetar_base_alunos, calcula_custo_aluno_para_todos_semestre,plot_custo_aluno_por_semestre_pag2, calcula_ticket_medio,  busca_base_de_alunos, adicionar_todas_ofertas_do_polo, remover_ofertas_por_marca, remover_ofertas_por_polo, trazer_ofertas_para_novo_modelo, adicionar_todas_ofertas_da_marca, cria_select_box_modelo
+from src.utils import obter_modelos_para_curso, oferta_resumida_por_curso, agrupar_oferta,formatar_df_precificacao_oferta, calcular_resumo_semestre, calcula_base_alunos_por_semestre, calcula_base_alunos_total, adiciona_linha_total,calcula_df_final, plotar_custo_total_pag2, plotar_ch_total_pag2, plot_custo_docente_pag2, plot_ch_docente_por_categoria_pag2, formatar_df_por_semestre, projetar_base_alunos, calcula_custo_aluno_para_todos_semestre,plot_custo_aluno_por_semestre_pag2, calcula_ticket_medio,  busca_base_de_alunos, adicionar_todas_ofertas_do_polo, remover_ofertas_por_marca, remover_ofertas_por_polo, trazer_ofertas_para_novo_modelo, adicionar_todas_ofertas_da_marca, cria_select_box_modelo, plotar_composicao_alunos_por_serie, plotar_evolucao_total_alunos
 from src.formatting import formatar_valor_brl
 import pandas as pd
 import numpy as np
@@ -45,7 +45,14 @@ df_base_alunos = carregar_base_alunos("databases/base_alunos_curso_marca_v2.xlsx
 if 'cursos_selecionados' not in st.session_state:
     st.session_state.cursos_selecionados = {}
 
-
+if 'parametros_globais' not in st.session_state:
+    st.session_state.parametros_globais = {
+        "alunos_iniciais": 60,
+        "media_ingressantes": 100,
+        "desvio_padrao_ingressantes": 10,
+        "taxa_evasao_inicial": 30,
+        "decaimento_evasao": 10,
+    }
 # --- Listas ---
 LISTA_CURSOS_COMPLETA = sorted(df_dimensao_cursos['Curso'].unique().tolist())
 df_marcas_polos = carregar_lista_marca_polo("databases/marcas_polos_v2.csv")
@@ -188,9 +195,89 @@ with st.container(border=True):
             else:
                 st.warning(f"A oferta '{chave_oferta}' já foi adicionada.")
 st.divider()
-st.write("")
-st.markdown("##### Ferramentas de Gerenciamento")
 
+# -- Seção 2. Parâmetros de simulação de base de alunos ---
+st.header("2. Defina os Parâmetros da Projeção", divider='rainbow')
+
+with st.container(border=True):
+    st.markdown("##### Parâmetros Globais (Padrão para todas as ofertas)")
+    st.info("Estes valores servirão como padrão para todas as ofertas. Você poderá ajustar individualmente cada uma na seção abaixo.")
+
+    pcol1, pcol2 = st.columns(2)
+    with pcol1:
+        st.session_state.parametros_globais["alunos_iniciais"] = st.number_input(
+            "Alunos da turma inicial", 
+            min_value=0, step=5, 
+            value=st.session_state.parametros_globais["alunos_iniciais"], 
+            key="global_iniciais"
+        )
+        st.session_state.parametros_globais["media_ingressantes"] = st.number_input(
+            "Média de ingressantes por Ano", 
+            min_value=0, step=5, 
+            value=st.session_state.parametros_globais["media_ingressantes"],
+            key="global_media"
+        )
+        st.session_state.parametros_globais["taxa_evasao_inicial"] = st.slider(
+            "Taxa de Evasão Inicial (%)", 
+            min_value=0, max_value=100, 
+            value=st.session_state.parametros_globais["taxa_evasao_inicial"],
+            key="global_evasao"
+        )
+
+    with pcol2:
+        # Nota: O número de semestres da simulação continuará sendo individual por curso.
+        # Não faz sentido ter um n_semestres global, pois cada curso tem sua duração.
+        st.session_state.parametros_globais["desvio_padrao_ingressantes"] = st.number_input(
+            "Desvio padrão dos ingressantes", 
+            min_value=0, step=1, 
+            value=st.session_state.parametros_globais["desvio_padrao_ingressantes"],
+            key="global_dp"
+        )
+        st.session_state.parametros_globais["decaimento_evasao"] = st.slider(
+            "Decaimento da Evasão a/s (%)", 
+            min_value=0, max_value=100, 
+            value=st.session_state.parametros_globais["decaimento_evasao"],
+            key="global_decaimento"
+        )
+    
+    st.write("") # Espaçamento
+    
+    if st.button("Simular TODAS as Bases de Alunos", type="primary", use_container_width=True, help="Roda a simulação de projeção para todas as ofertas adicionadas usando os parâmetros definidos em cada uma."):
+        with st.spinner("Projetando base de alunos para todas as ofertas..."):
+            for chave, config in st.session_state.cursos_selecionados.items():
+                # Pega os parâmetros individuais de cada curso (que estarão com o default global)
+                params = st.session_state[f"params_sim_{chave}"]
+                
+                # Chama a nova função que retorna o dicionário temporal
+                projecao_temporal = projetar_base_alunos(
+                    base_alunos_inicial=params["alunos_iniciais"],
+                    n_semestres_curso=params["n_semestres"],
+                    dist_ingresso=(params["media_ingressantes"], params["desvio_padrao_ingressantes"]),
+                    taxa_evasao_inicial=params["taxa_evasao_inicial"] / 100.0,
+                    decaimento_evasao=params["decaimento_evasao"] / 100.0
+                )
+                
+                # Limpa chaves antigas de simulação antes de adicionar as novas
+                for k in list(config.keys()):
+                    if k.startswith("alunos_por_semestre"):
+                        del st.session_state.cursos_selecionados[chave][k]
+
+                # Adiciona as novas chaves temporais ao config da oferta
+                for chave_temporal, dados_semestre in projecao_temporal.items():
+                    st.session_state.cursos_selecionados[chave][chave_temporal] = dados_semestre
+        st.success("Projeção de base de alunos concluída para todas as ofertas!")
+        st.rerun()
+st.divider()
+
+
+st.write("")
+
+
+st.divider()
+# --- Seção 3 (Configurar Cursos) ---
+st.subheader("Configuração de Ofertas Adicionadas")
+st.markdown("Aqui estão todas as ofertas que você adicionou para a simulação... você pode expandir cada uma para ajustar o número de alunos por semestre")
+st.markdown("##### Ferramentas de Gerenciamento")
 # Lógica para os novos botões
 with st.container(border=True):
     col1, col2 = st.columns(2)
@@ -237,18 +324,13 @@ with st.container(border=True):
         if st.button("Limpar TODAS as ofertas", help="Limpa todas as ofertas para começar do zero.", type="primary", use_container_width=True):
             limpar_todas_as_ofertas()
 
-
-st.divider()
-# --- Seção 2 (Configurar Cursos) ---
-st.subheader("Configuração de Ofertas Adicionadas")
-st.markdown("Aqui estão todas as ofertas que você adicionou para a simulação... você pode expandir cada uma para ajustar o número de alunos por semestre")
 col1, col2, col3 = st.columns(3)
 
-with col1:
+""" with col1:
     st.metric(
         label="Total de Alunos",
         value=locale.format_string('%d', sum(sum(config['alunos_por_semestre'].values()) for config in st.session_state.cursos_selecionados.values()), grouping=True),
-    )
+    ) """
 with col2:
     num_polos = len(set(config['polo'] for config in st.session_state.cursos_selecionados.values()))
     st.metric(
@@ -295,72 +377,63 @@ else:
 
             st.write("**Parâmetros para Simulação da Base de Alunos:**")
 
+            if f"params_sim_{chave_oferta}" not in st.session_state:
+                st.session_state[f"params_sim_{chave_oferta}"] = {}
+            
             sim_col1, sim_col2 = st.columns(2)
-
             with sim_col1:
+                # O 'value' agora busca o default dos parâmetros GLOBAIS
                 alunos_iniciais = st.number_input(
                     "Alunos da turma inicial", 
-                    min_value=0, 
-                    step=5, 
-                    value=100, 
+                    min_value=0, step=5, 
+                    value=st.session_state.parametros_globais["alunos_iniciais"], 
                     key=f"sim_iniciais_{chave_oferta}"
                 )
                 media_ingressantes = st.number_input(
                     "Média de ingressantes por Ano", 
-                    min_value=0, 
-                    step=5, 
-                    value=100, 
+                    min_value=0, step=5, 
+                    value=st.session_state.parametros_globais["media_ingressantes"], 
                     key=f"sim_media_{chave_oferta}"
                 )
                 taxa_evasao_inicial = st.slider(
                     "Taxa de Evasão Inicial (%)", 
-                    min_value=0, 
-                    max_value=100, 
-                    value=30, 
+                    min_value=0, max_value=100, 
+                    value=st.session_state.parametros_globais["taxa_evasao_inicial"], 
                     key=f"sim_evasao_{chave_oferta}"
                 )
 
             with sim_col2:
                 n_semestres = st.slider(
-                    "Número de semestres",
+                    "Número de semestres a simular",
                     min_value=1,
                     max_value=config.get("num_semestres"),
                     value=config.get("num_semestres"),
                     step=1,
-                    key = f"sim_n_semestres_{chave_oferta}"
+                    key=f"sim_n_semestres_{chave_oferta}"
                 )
-                
                 desvio_padrao_ingressantes = st.number_input(
                     "Desvio padrão dos ingressantes", 
-                    min_value=0, 
-                    step=1, 
-                    value=0, 
+                    min_value=0, step=1, 
+                    value=st.session_state.parametros_globais["desvio_padrao_ingressantes"], 
                     key=f"sim_dp_{chave_oferta}"
                 )
-
                 decaimento_evasao = st.slider(
                     "Decaimento da Evasão a/s (%)", 
-                    min_value=0, 
-                    max_value=100, 
-                    value=10, 
+                    min_value=0, max_value=100, 
+                    value=st.session_state.parametros_globais["decaimento_evasao"], 
                     key=f"sim_decaimento_{chave_oferta}"
                 )
-            
-            if st.button("Simular Base de Alunos", key=f"simular_{chave_oferta}", use_container_width=True, type="primary"):
-                resultado_simulacao, historico = projetar_base_alunos(
-                    base_alunos_inicial=alunos_iniciais,
-                    n_semestres_curso=n_semestres,
-                    dist_ingresso=(media_ingressantes, desvio_padrao_ingressantes),
-                    taxa_evasao_inicial=taxa_evasao_inicial / 100.0,
-                    decaimento_evasao=decaimento_evasao / 100.0
-                )
-                
-                st.session_state.cursos_selecionados[chave_oferta]["alunos_por_semestre"] = resultado_simulacao["alunos_por_semestre"]
-                st.session_state.cursos_selecionados[chave_oferta]["historico_simulacao"] = historico
-                st.rerun()
+            # Atualiza o dicionário de parâmetros na sessão
+                st.session_state[f"params_sim_{chave_oferta}"] = {
+                "alunos_iniciais": alunos_iniciais,
+                "media_ingressantes": media_ingressantes,
+                "taxa_evasao_inicial": taxa_evasao_inicial,
+                "n_semestres": n_semestres,
+                "desvio_padrao_ingressantes": desvio_padrao_ingressantes,
+                "decaimento_evasao": decaimento_evasao
+            }
 
-            st.markdown("---")
-            
+
             alunos_data = config.get("alunos_por_semestre", {})
             historico_data = config.get("historico_simulacao", [])
             if not alunos_data:
@@ -368,27 +441,7 @@ else:
             else:
                 st.subheader("**Base de Alunos projetada**")
                 num_semestres_config = config.get("num_semestres", 0)
-                
-                with st.expander("**Alunos por Período**", expanded=True): # Adicionei expanded=True para começar aberto
-                    cols = st.columns(4)
-                    
-                    # Itera diretamente sobre o histórico da simulação
-                    for i, alunos_data_semestre in enumerate(historico_data):
-                        # Calcula o total de alunos NAQUELE semestre da simulação
-                        total_alunos_no_periodo = sum(alunos_data_semestre.values())
-                        
-                        # Lógica para determinar o rótulo do período (ano/semestre)
-                        col_index = i % 4
-                        semestre_index = i % 2 + 1
-                        ano_index = 2026 + i // 2
-                        
-                        with cols[col_index]:
-                            st.metric(
-                                label=f"Total em {ano_index}/{semestre_index}",
-                                value=int(total_alunos_no_periodo)
-                            )
 
-                # A segunda parte, "Alunos por série", permanece inalterada
                 with st.expander("**Alunos por série**"):
                     num_semestres_config = len(alunos_data)
                     cols_serie = st.columns(4)
@@ -400,6 +453,51 @@ else:
                                 label=f"Alunos na Série {i+1}",
                                 value=int(alunos_data.get(semestre_key, 0))
                             )
+st.divider()
+
+st.header("Análise Agregada da Projeção", divider='rainbow')
+
+# Verifica se já existem projeções no session_state
+houve_projecao = any(k.startswith("alunos_por_semestre_") for config in st.session_state.cursos_selecionados.values() for k in config)
+
+if not houve_projecao:
+    st.info("Clique em 'Simular TODAS as Bases de Alunos' na seção de parâmetros para gerar a projeção e visualizar a análise agregada.")
+else:
+    # 1. Gráfico de Evolução (Visão Macro)
+    fig_evolucao = plotar_evolucao_total_alunos(st.session_state.cursos_selecionados)
+    if fig_evolucao:
+        st.pyplot(fig_evolucao)
+
+    st.markdown("---")
+
+    # 2. Análise Detalhada (Visão Micro)
+    st.subheader("Análise Detalhada por Período")
+
+    # Obtém a lista de períodos simulados para popular o selectbox
+    todos_os_periodos = sorted(list(set(
+        k.replace("alunos_por_semestre_", "").replace("_", "/")
+        for config in st.session_state.cursos_selecionados.values()
+        for k in config if k.startswith("alunos_por_semestre_")
+    )))
+    
+    # Verifica se a lista de períodos não está vazia antes de prosseguir
+    if todos_os_periodos:
+        # Define o índice do último período da lista como o padrão para o selectbox
+        default_index = len(todos_os_periodos) - 1
+
+        periodo_selecionado = st.selectbox(
+            "Selecione o período para detalhar a composição por série:",
+            options=todos_os_periodos,
+            index=default_index  # Define o valor padrão aqui
+        )
+        
+        # Com o valor padrão garantido, podemos gerar o gráfico com segurança
+        if periodo_selecionado:
+            fig_composicao = plotar_composicao_alunos_por_serie(st.session_state.cursos_selecionados, periodo_selecionado)
+            if fig_composicao:
+                st.pyplot(fig_composicao)
+
+
 st.divider()
 # --- Seção 3: Executar Simulação ---
 st.header("3. Executar Simulação", divider='rainbow')
