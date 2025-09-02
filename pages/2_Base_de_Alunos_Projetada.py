@@ -1,6 +1,6 @@
 import streamlit as st
 from src.data import carregar_dados, carregar_lista_marca_polo, carregar_base_alunos, carregar_tickets, encontrar_ticket
-from src.utils import obter_modelos_para_curso, oferta_resumida_por_curso, agrupar_oferta, formatar_df_precificacao_oferta, calcular_resumo_semestre, calcula_base_alunos_por_semestre, calcula_base_alunos_total, adiciona_linha_total,calcula_df_final, plotar_custo_total_pag2, plotar_ch_total_pag2, plot_custo_docente_pag2, plot_ch_docente_por_categoria_pag2, formatar_df_por_semestre, projetar_base_alunos, calcula_custo_aluno_para_todos_semestre,plot_custo_aluno_por_semestre_pag2, calcula_ticket_medio,  busca_base_de_alunos, adicionar_todas_ofertas_do_polo, remover_ofertas_por_marca, remover_ofertas_por_polo, trazer_ofertas_para_novo_modelo
+from src.utils import obter_modelos_para_curso, oferta_resumida_por_curso, agrupar_oferta, formatar_df_precificacao_oferta, calcular_resumo_semestre, calcula_base_alunos_por_semestre, calcula_base_alunos_total, adiciona_linha_total,calcula_df_final, plotar_custo_total_pag2, plotar_ch_total_pag2, plot_custo_docente_pag2, plot_ch_docente_por_categoria_pag2, formatar_df_por_semestre, projetar_base_alunos, calcula_custo_aluno_para_todos_semestre,plot_custo_aluno_por_semestre_pag2, calcula_ticket_medio,  busca_base_de_alunos, adicionar_todas_ofertas_do_polo, remover_ofertas_por_marca, remover_ofertas_por_polo, trazer_ofertas_para_novo_modelo, adicionar_todas_ofertas_da_marca
 from src.formatting import formatar_valor_brl
 import pandas as pd
 import numpy as np
@@ -88,6 +88,20 @@ with col2:
 
 st.write("")
 st.markdown("##### Preenchimento Automático")
+
+add_brand_disabled = not marca_para_adicionar
+if st.button("Adicionar Todas as Ofertas da MARCA Selecionada", disabled=add_brand_disabled, use_container_width=True, help="Busca e adiciona os cursos de TODOS os polos da marca selecionada."):
+    adicionar_todas_ofertas_da_marca(
+        marca=marca_para_adicionar,
+        df_marcas_polos=df_marcas_polos,
+        df_base_alunos=df_base_alunos,
+        df_dimensao_cursos=df_dimensao_cursos,
+        df_curso_marca_modalidade=df_curso_marca_modalidade,
+        df_curso_modalidade=df_curso_modalidade,
+        df_modalidade=df_modalidade
+    )
+    st.rerun()
+
 add_all_disabled = not (marca_para_adicionar and polo_para_adicionar and polo_para_adicionar != "Novo Polo")
 if st.button("Adicionar Todas as Ofertas do Polo (com base histórica)", type="primary", use_container_width=True, disabled=add_all_disabled, help="Busca e adiciona todos os cursos com base de alunos histórica para a marca e polo selecionados."):
     adicionar_todas_ofertas_do_polo(
@@ -261,7 +275,22 @@ st.subheader("Configuração de Ofertas Adicionadas")
 st.markdown("Aqui estão todas as ofertas que você adicionou para a simulação... você pode expandir cada uma para ajustar o número de alunos por semestre")
 col1, col2, col3 = st.columns(3)
 
-st.markdown("Aqui estão todas as ofertas que você adicionou para a simulação...")
+with col1:
+    st.metric(
+        label="Total de Alunos",
+        value=locale.format_string('%d', sum(sum(config['alunos_por_semestre'].values()) for config in st.session_state.cursos_selecionados.values()), grouping=True),
+    )
+with col2:
+    num_polos = len(set(config['polo'] for config in st.session_state.cursos_selecionados.values()))
+    st.metric(
+        label="Total de Polos",
+        value=num_polos
+    )
+with col3:
+    st.metric(
+        label="Total de Ofertas",
+        value=locale.format_string('%d', len(st.session_state.cursos_selecionados), grouping=True),
+    )
 if not st.session_state.cursos_selecionados:
     st.info("Nenhuma oferta adicionada ainda. Comece selecionando todos os campos acima.")
 else:
@@ -496,7 +525,7 @@ if st.session_state.cursos_selecionados:
             )
             st.metric(label="Base de Alunos", value=locale.format_string('%d',base_alunos, grouping=True),width='content')
             
-            ticket = calcula_ticket_medio(st.session_state)
+            ticket = calcula_ticket_medio(st.session_state, None)
             st.metric(label="Ticket Médio", value=locale.currency(ticket, grouping=True, symbol="R$"),width='content')
         with col4:
             st.metric(label="CH Total", value=locale.format_string('%.1f', plotar_ch_total_pag2(df_final), grouping=True),width='content')
@@ -536,21 +565,23 @@ if st.session_state.cursos_selecionados:
                         label="Custo Total do Semestre", 
                         value=formatar_valor_brl(custo_total_semestre)
                     )
-                    try:
-                        st.metric(
-                        label="Custo por Aluno",
-                        value=formatar_valor_brl(custo_total_semestre/base_alunos_semestre)
+                    st.metric(
+                    label="Custo por Aluno",
+                    value=formatar_valor_brl(custo_total_semestre/base_alunos_semestre)
                     )
-                    except:
-                        pass
+
                 with col3:
-                    try:
-                        st.metric(
-                            label="Ticket Médio",
-                            value=formatar_valor_brl(calcula_ticket_medio(st.session_state))
-                        )
-                    except:
-                        pass
+                    ticket_medio = calcula_ticket_medio(st.session_state, i+1)
+                    st.metric(
+                        label="Ticket Médio",
+                        value=formatar_valor_brl(ticket_medio)
+                    )
+                    margem = ticket_medio - (custo_total_semestre/base_alunos_semestre)
+                    st.metric(
+                        label="Margem",
+                        value=formatar_valor_brl(margem),
+                        delta=f"{np.round(margem/ticket_medio*100,2)}%"
+                    )
                 st.divider()
                 df_por_semestre_format = formatar_df_por_semestre(df_por_semestre)
     with st.expander("Detalhamento da Sinergia"):

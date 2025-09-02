@@ -24,7 +24,7 @@ st.markdown('''
             - O agrupamento de oferta considera apenas UCs sinérgicas, e é feito com base na Marca, Polo, Curso, Modelo de Oferta, Área do Conhecimento, UC, dessa maneira:
                 . CH presencial de UCs sinérgicas só podem ser agrupadas dentro da mesma Marca, Polo, Modelo de Oferta e Área do Conhecimento.
                 . CHs Assíncronas, Síncronas Mediadas e Síncronas são agrupadas dentro da mesma Marca, Modelo de Oferta e Área do Conhecimento, independente do Polo.
-                . A disciplina de Academia de Futuros Profissionais (AFP) é sempre agrupada em todos os níveis, inclusive entre marcas.
+                . A disciplina de Academia de Futuros Profissionais (AFP) é agrupada na mesma marca, mas isolando o presencial com os demais tipos de oferta.
             
             - O ticket médio foi retirado por curso, com base em 2025/1, de acordo com o BI de Performance Acadêmica 2025.
             

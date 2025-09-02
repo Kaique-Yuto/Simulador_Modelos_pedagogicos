@@ -323,7 +323,8 @@ def agrupar_oferta(OFERTA_POR_CURSO: pd.DataFrame, df_matrizes: pd.DataFrame, df
         curso_nome = row['curso']
         modelo_nome = row['modelo']
         cluster_nome = row['cluster']
-        
+        flag_presencial = "Presencial" if modelo_nome in ["Presencial Atual", "Presencial 70.30"] else "EAD/Semi"
+
         curso_key = f"{marca_nome} - {polo_nome} - {curso_nome} ({modelo_nome})"
         curso_selecionado = st.session_state.cursos_selecionados.get(curso_key)
                     
@@ -340,7 +341,7 @@ def agrupar_oferta(OFERTA_POR_CURSO: pd.DataFrame, df_matrizes: pd.DataFrame, df
             num_alunos = alunos_por_semestre.get(semestre_key, 0)
             tipo_uc = matriz_uc['Tipo de UC'].iloc[0]
             if uc == "AFP":
-                afp_acumulador[marca_nome] = afp_acumulador.get(marca_nome,0) + num_alunos
+                afp_acumulador[f"{marca_nome} ({flag_presencial})"] = afp_acumulador.get(f"{marca_nome} ({flag_presencial})",0) + num_alunos
                 continue
 
             #Busca todos os Tipos de CH para esta UC/Modelo em df_parametros
@@ -404,11 +405,13 @@ def agrupar_oferta(OFERTA_POR_CURSO: pd.DataFrame, df_matrizes: pd.DataFrame, df
         })
 
     # Adicionar AFP
-    for marca, alunos in afp_acumulador.items():
+    for key, alunos in afp_acumulador.items():
+        tipo_ch = "Assíncrono" if key.split(" (")[1].replace(")","") == "EAD/Semi" else "Síncrono"
+        modelo_nome = "Presencial 70.30" if key.split(" (")[1].replace(")","") == "Presencial" else "EAD 10.10"
         oferta_rows.append({
-            "UC": "AFP", "Tipo de UC": "AFP", "Chave": f"AFP - {marca} - Todos os polos - Todos os cursos",
+            "UC": "AFP", "Tipo de UC": "AFP", "Chave": f"AFP - {key} - Todos os polos - Todos os cursos",
             "Semestre": 1, "Modelo": f"{modelo_nome}", "Base de Alunos": alunos,
-            "Marca": marca, "Polo": "Todos (Agrupado)", "Tipo de CH": "Assíncrono"
+            "Marca": key.split(" (")[0], "Polo": "Todos (Agrupado)", "Tipo de CH":tipo_ch 
         })
             
     if not oferta_rows:
@@ -904,6 +907,7 @@ def formatar_df_por_semestre(df: pd.DataFrame):
     formatadores_seguros = {col: func for col, func in formatador_mestre.items() if col in df.columns}
     configuracao_segura = {col: cfg for col, cfg in column_config_mestre.items() if col in df.columns}
     df = df.drop(columns='Eficiência da UC', errors='ignore')
+    df = df.rename(columns={"Semestre": "Série"})
     df_styled = df.style.apply(highlight_total, axis=1).format(formatadores_seguros)
 
     df_formatado = st.dataframe(
@@ -945,6 +949,14 @@ def projetar_base_alunos(base_alunos_inicial: int, n_semestres_curso: int, dist_
             turmas_seguinte[i] = int(max(0, sobreviventes))
 
         media_ingressantes, desvio_padrao_ingressantes = dist_ingresso
+        # Divide a media_ingressantes em 60%/40% para semestres ímpares e pares
+        if semestre_da_simulacao % 2 == 0:
+            media_ingressantes *= 0.4
+            desvio_padrao_ingressantes *= 0.4
+        else:
+            media_ingressantes *= 0.6
+            desvio_padrao_ingressantes *= 0.6
+        
         novos_ingressantes = np.round(np.random.normal(media_ingressantes, desvio_padrao_ingressantes))
         turmas_seguinte[0] = int(max(0, novos_ingressantes))
 
@@ -962,7 +974,7 @@ def projetar_base_alunos(base_alunos_inicial: int, n_semestres_curso: int, dist_
     return resultado_final, historico_completo
 
 
-def calcula_ticket_medio(config: dict) -> float:
+def calcula_ticket_medio(config: dict, serie: int) -> float:
     cursos = config.get("cursos_selecionados", {})
 
     alunos_total = 0
@@ -970,9 +982,13 @@ def calcula_ticket_medio(config: dict) -> float:
     for _, dados_chave in cursos.items():
         ticket_curso = dados_chave.get("ticket", 0)
         alunos_curso = 0
-        for _, num in dados_chave.get("alunos_por_semestre", {}).items():
-            alunos_curso += num
-            alunos_total += num
+        if serie:
+            alunos_curso = dados_chave.get("alunos_por_semestre", {}).get(f"Semestre {serie}", 0)
+            alunos_total += alunos_curso
+        else:
+            for _, num in dados_chave.get("alunos_por_semestre", {}).items():
+                alunos_curso += num
+                alunos_total += num
         ticket_total += ticket_curso * alunos_curso
 
     ticket_medio = ticket_total / alunos_total 
@@ -997,9 +1013,7 @@ def busca_base_de_alunos(df: pd.DataFrame, marca: str, campus: str, curso: str, 
     return alunos_por_semestre
 
 def adicionar_todas_ofertas_do_polo(marca, polo, df_base_alunos, df_dimensao_cursos, df_curso_marca_modalidade, df_curso_modalidade, df_modalidade):
-    """
-    Busca e adiciona todas as ofertas de um determinado polo/marca com base nos dados históricos.
-    """
+    time.sleep(0.5)
     with st.spinner(f"Buscando todas as ofertas para {marca} - {polo}..."):
         ofertas_polo = df_base_alunos[(df_base_alunos['MARCA'] == marca) & (df_base_alunos['CAMPUS'] == polo)]
         cursos_modelos_unicos = ofertas_polo[['CURSO', 'MODALIDADE_OFERTA']].drop_duplicates().to_numpy()
@@ -1125,3 +1139,35 @@ def trazer_ofertas_para_novo_modelo(df_dimensao_cursos, df_curso_marca_modalidad
     st.success(f"{migrados_sucesso} ofertas foram migradas para o novo modelo com sucesso!")
     if migrados_falha > 0:
         st.warning(f"{migrados_falha} ofertas não puderam ser migradas, pois o novo modelo não foi encontrado para os seguintes cursos: {', '.join(falhas)}.")
+
+
+def adicionar_todas_ofertas_da_marca(marca, df_marcas_polos, df_base_alunos, df_dimensao_cursos, df_curso_marca_modalidade, df_curso_modalidade, df_modalidade):
+    st.info(f"Iniciando busca em massa para a marca '{marca}'. Esta ação pode levar alguns minutos...")
+    
+    # 1. Encontrar todos os polos para a marca selecionada
+    polos_da_marca = sorted(df_marcas_polos[df_marcas_polos['MARCA'] == marca]['CAMPUS'].unique().tolist())
+
+    if not polos_da_marca:
+        st.warning(f"Nenhum polo encontrado para a marca '{marca}' na base de dados.")
+        return
+
+    # 2. Iterar por cada polo e chamar a função existente
+    # Usamos uma barra de progresso para melhor feedback ao usuário
+    progress_bar = st.progress(0, text=f"Buscando ofertas em {len(polos_da_marca)} polos...")
+    
+    for i, polo in enumerate(polos_da_marca):
+        # A função interna já exibe suas próprias mensagens de sucesso/aviso para cada polo
+        adicionar_todas_ofertas_do_polo(
+            marca=marca,
+            polo=polo,
+            df_base_alunos=df_base_alunos,
+            df_dimensao_cursos=df_dimensao_cursos,
+            df_curso_marca_modalidade=df_curso_marca_modalidade,
+            df_curso_modalidade=df_curso_modalidade,
+            df_modalidade=df_modalidade
+        )
+        progress_bar.progress((i + 1) / len(polos_da_marca), text=f"Processando polo: {polo} ({i+1}/{len(polos_da_marca)})")
+    
+    progress_bar.empty() # Limpa a barra de progresso ao final
+    st.success(f"Busca em massa para a marca '{marca}' foi concluída!")
+    st.balloons()
