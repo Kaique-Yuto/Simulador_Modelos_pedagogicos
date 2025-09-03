@@ -564,109 +564,156 @@ if st.button("Confirmar e Rodar Cálculos", type="primary", use_container_width=
         # Apenas um indicador de que o botão foi pressionado
         st.session_state['simulacao_ativa'] = True
 
+# --- Seção 4: Analítico de Custos (MODIFICADA) ---
+# Adicionado um verificador para garantir que a projeção foi executada.
+houve_projecao = any(k.startswith("alunos_por_semestre_") for config in st.session_state.cursos_selecionados.values() for k in config)
+
+# A análise só deve rodar se o botão foi pressionado E se existem dados de projeção.
 st.divider()
+
 if st.session_state.cursos_selecionados:
     st.header("4. Analítico de Custos", divider='rainbow')
-    OFERTA_POR_CURSO = oferta_resumida_por_curso(df_matrizes_editado)
 
-    OFERTA_POR_UC = agrupar_oferta(OFERTA_POR_CURSO, df_matrizes_editado, df_parametros=df_parametros_editado)
-    OFERTA_POR_UC = OFERTA_POR_UC[(OFERTA_POR_UC['Tipo de UC'].isin(df_parametros_editado['Tipo de UC'].unique().tolist())) | (OFERTA_POR_UC['Tipo de UC'] == 'AFP')]
-    
-    df_final = calcula_df_final(df_parametros_editado, OFERTA_POR_UC)
-    df_final = df_final[df_final['Custo Total']>0]
+    # Criar o selectbox
+    todos_os_periodos_analise = sorted(list(set(
+        k.replace("alunos_por_semestre_", "").replace("_", "/")
+        for config in st.session_state.cursos_selecionados.values()
+        for k in config if k.startswith("alunos_por_semestre_")
+    )))
 
-    base_alunos = calcula_base_alunos_total(st.session_state)
+    # Define o índice do último período da lista como o padrão
+    default_index_analise = len(todos_os_periodos_analise) - 1
+    periodo_selecionado_analise = st.selectbox(
+        "**Selecione o período para a Análise de Custos:**",
+        options=todos_os_periodos_analise,
+        index=default_index_analise,
+        help="Escolha o semestre futuro para o qual deseja calcular os custos e a rentabilidade."
+    )
 
-    df_com_total = adiciona_linha_total(df_final, base_alunos)
-
-
-    st.subheader("Resumo")
-    col1, col2 = st.columns(2, border=True)
-    with col1:
-        col3,col4 = st.columns([2,1])
-        with col3:
-            st.metric(
-                label="Custo Total",
-                value=locale.currency(plotar_custo_total_pag2(df_final), grouping=True, symbol="R$")
-                ,width='stretch'
-            )
-            st.metric(label="Base de Alunos", value=locale.format_string('%d',base_alunos, grouping=True),width='content')
+    if periodo_selecionado_analise:
+        # Preparar o Snapshot de dados
+        if st.session_state.get('simulacao_ativa', False) and houve_projecao:
+            st.session_state['simulacao_ativa'] = False  # Reseta o gatilho do botão
+            # Converte o formato '2026/2' de volta para o formato da chave '_2026_2'
+            chave_sufixo_temporal = "_" + periodo_selecionado_analise.replace("/", "_")
             
-            ticket = calcula_ticket_medio(st.session_state, None)
-            st.metric(label="Ticket Médio", value=locale.currency(ticket, grouping=True, symbol="R$"),width='content')
-        with col4:
-            st.metric(label="CH Total", value=locale.format_string('%.1f', plotar_ch_total_pag2(df_final), grouping=True),width='content')
-            #eficiencia = np.round(base_alunos/plotar_ch_total_pag2(df_final),2)
-            #st.metric(label="Eficiência", value = eficiencia,width='content')
-            custo_por_aluno = plotar_custo_total_pag2(df_final)/base_alunos
-            delta = np.round((ticket-custo_por_aluno)/ticket*100,2)
-            st.metric(label="Custo por Aluno", value=locale.currency(custo_por_aluno, grouping=True, symbol="R$"))
-            st.metric(label="Margem", value=locale.currency(ticket-custo_por_aluno, grouping=True, symbol="R$"), delta=f"{delta}%")
-        st.pyplot(plot_custo_docente_pag2(df_final), use_container_width=False)
-        
-    with col2:
-        st.pyplot(plot_ch_docente_por_categoria_pag2(df_final))
-        dict_semestres = calcula_custo_aluno_para_todos_semestre(df_final, st.session_state)
-        st.pyplot(plot_custo_aluno_por_semestre_pag2(dict_semestres, ticket), use_container_width=False)
-    
-    with st.expander("Detalhamento por Série", expanded=True):
-        for i in range(df_final['Semestre'].max()):
-            df_por_semestre = df_final[df_final['Semestre'] == (i+1)]
-            base_alunos_semestre = calcula_base_alunos_por_semestre(st.session_state, i+1)
-            ch_total_semestre, custo_total_semestre, custo_mensal, eficiencia = calcular_resumo_semestre(df_por_semestre, base_alunos_semestre)          
-            df_por_semestre = adiciona_linha_total(df_por_semestre, base_alunos_semestre)
-            with st.expander(f"{i+1}º Série"):
-                st.markdown(f"Base de alunos: {base_alunos_semestre}")
-                col1, col2, col3 = st.columns(3)
-                with col1: 
-                    st.metric(
-                        label = "Custo Mensal Aproximado",
-                        value = formatar_valor_brl(custo_mensal)
-                    )
-                    st.metric(
-                        label = "Carga Horária Total (horas)",
-                        value = locale.format_string('%.1f', ch_total_semestre, grouping=True)
-                    )
-                with col2:
-                    st.metric(
-                        label="Custo Total do Semestre", 
-                        value=formatar_valor_brl(custo_total_semestre)
-                    )
-                    st.metric(
-                    label="Custo por Aluno",
-                    value=formatar_valor_brl(custo_total_semestre/base_alunos_semestre)
-                    )
+            snapshot_cursos = {}
+            for chave_oferta, config in st.session_state.cursos_selecionados.items():
+                chave_temporal_especifica = f"alunos_por_semestre{chave_sufixo_temporal}"
+                
+                # Se a oferta tem dados para aquele período, cria a entrada no snapshot
+                if chave_temporal_especifica in config:
+                    snapshot_config = config.copy() 
+                    snapshot_config['alunos_por_semestre'] = config.get(chave_temporal_especifica, {})
+                    snapshot_cursos[chave_oferta] = snapshot_config
 
-                with col3:
-                    ticket_medio = calcula_ticket_medio(st.session_state, i+1)
-                    st.metric(
-                        label="Ticket Médio",
-                        value=formatar_valor_brl(ticket_medio)
-                    )
-                    margem = ticket_medio - (custo_total_semestre/base_alunos_semestre)
-                    st.metric(
-                        label="Margem",
-                        value=formatar_valor_brl(margem),
-                        delta=f"{np.round(margem/ticket_medio*100,2)}%"
-                    )
-                st.divider()
-                df_por_semestre_format = formatar_df_por_semestre(df_por_semestre)
-    with st.expander("Detalhamento da Sinergia"):
-        OFERTA_POR_CURSO = OFERTA_POR_CURSO.rename(columns={
-        "curso": "Curso",
-        "modelo": "Modelo",
-        "cluster": "Cluster",
-        "ch_sinergica": "CH Sinérgica",
-        "percentual_sinergico": "% Sinérgica",
-        "ucs_sinergicas": "UCs Sinérgicas",
-        "ucs_especificas": "UCs Específicas"
-    })
-        OFERTA_POR_CURSO
+            # Chamar as funções de cálculo
+            dados_para_analise = {'cursos_selecionados': snapshot_cursos}
+            OFERTA_POR_CURSO = oferta_resumida_por_curso(df_matrizes_editado)
+            OFERTA_POR_UC = agrupar_oferta(OFERTA_POR_CURSO, df_matrizes_editado, df_parametros=df_parametros_editado, session_state=dados_para_analise)
+            OFERTA_POR_UC = OFERTA_POR_UC[(OFERTA_POR_UC['Tipo de UC'].isin(df_parametros_editado['Tipo de UC'].unique().tolist())) | (OFERTA_POR_UC['Tipo de UC'] == 'AFP')]
+            df_final = calcula_df_final(df_parametros_editado, OFERTA_POR_UC)
+            df_final = df_final[df_final['Custo Total'] > 0]
+
+            # As funções agora usam o 'dados_para_analise' com o snapshot do período selecionado
+            base_alunos = calcula_base_alunos_total(dados_para_analise)
+
+            # Adiciona uma verificação para evitar divisão por zero se não houver alunos no período
+            if base_alunos == 0:
+                st.warning(f"Não há alunos projetados para o período de {periodo_selecionado_analise}. A análise de custos não pode ser gerada.")
+            else:
+                df_com_total = adiciona_linha_total(df_final, base_alunos)
+                
+                # O restante do seu código de exibição permanece praticamente o mesmo
+                st.subheader(f"Resumo para o Período: {periodo_selecionado_analise}")
+                col1, col2 = st.columns(2) # Removido o border=True que gerava erro
+                with col1:
+                    # ... (resto do seu código de métricas e plots)
+                    col3,col4 = st.columns([2,1])
+                    with col3:
+                        st.metric(
+                            label="Custo Total",
+                            value=locale.currency(plotar_custo_total_pag2(df_final), grouping=True, symbol="R$")
+                        )
+                        st.metric(label="Base de Alunos", value=locale.format_string('%d',base_alunos, grouping=True))
+                        
+                        ticket = calcula_ticket_medio(dados_para_analise, None)
+                        st.metric(label="Ticket Médio", value=locale.currency(ticket, grouping=True, symbol="R$"))
+                    with col4:
+                        st.metric(label="CH Total", value=locale.format_string('%.1f', plotar_ch_total_pag2(df_final), grouping=True))
+                        custo_por_aluno = plotar_custo_total_pag2(df_final)/base_alunos
+                        delta = np.round((ticket-custo_por_aluno)/ticket*100,2) if ticket > 0 else 0
+                        st.metric(label="Custo por Aluno", value=locale.currency(custo_por_aluno, grouping=True, symbol="R$"))
+                        st.metric(label="Margem", value=locale.currency(ticket-custo_por_aluno, grouping=True, symbol="R$"), delta=f"{delta}%")
+                    st.pyplot(plot_custo_docente_pag2(df_final), use_container_width=True)
+
+                with col2:
+                    st.pyplot(plot_ch_docente_por_categoria_pag2(df_final))
+                    dict_semestres = calcula_custo_aluno_para_todos_semestre(df_final, dados_para_analise)
+                    st.pyplot(plot_custo_aluno_por_semestre_pag2(dict_semestres, ticket), use_container_width=True)
+                
+                with st.expander("Detalhamento por Série", expanded=True):
+                    for i in range(df_final['Semestre'].max()):
+                        df_por_semestre = df_final[df_final['Semestre'] == (i+1)]
+                        # Passa 'dados_para_analise' para a função
+                        base_alunos_semestre = calcula_base_alunos_por_semestre(dados_para_analise, i+1)
+                        if base_alunos_semestre > 0:
+                            ch_total_semestre, custo_total_semestre, custo_mensal, eficiencia = calcular_resumo_semestre(df_por_semestre, base_alunos_semestre)          
+                            df_por_semestre = adiciona_linha_total(df_por_semestre, base_alunos_semestre)
+                            with st.expander(f"{i+1}º Série"):
+                                st.markdown(f"Base de alunos: {base_alunos_semestre}")
+                                col1, col2, col3 = st.columns(3)
+                                with col1: 
+                                    st.metric(
+                                        label = "Custo Mensal Aproximado",
+                                        value = formatar_valor_brl(custo_mensal)
+                                    )
+                                    st.metric(
+                                        label = "Carga Horária Total (horas)",
+                                        value = locale.format_string('%.1f', ch_total_semestre, grouping=True)
+                                    )
+                                with col2:
+                                    st.metric(
+                                        label="Custo Total do Semestre", 
+                                        value=formatar_valor_brl(custo_total_semestre)
+                                    )
+                                    st.metric(
+                                    label="Custo por Aluno",
+                                    value=formatar_valor_brl(custo_total_semestre/base_alunos_semestre)
+                                    )
+                                with col3:
+                                    ticket_medio = calcula_ticket_medio(dados_para_analise, i+1)
+                                    st.metric(
+                                        label="Ticket Médio",
+                                        value=formatar_valor_brl(ticket_medio)
+                                    )
+                                    if ticket_medio > 0:
+                                        margem = ticket_medio - (custo_total_semestre/base_alunos_semestre)
+                                        st.metric(
+                                            label="Margem",
+                                            value=formatar_valor_brl(margem),
+                                            delta=f"{np.round(margem/ticket_medio*100,2)}%"
+                                        )
+                                st.divider()
+                                df_por_semestre_format = formatar_df_por_semestre(df_por_semestre)
+
+                with st.expander("Detalhamento da Sinergia"):
+                    OFERTA_POR_CURSO = OFERTA_POR_CURSO.rename(columns={
+                    "curso": "Curso", "modelo": "Modelo", "cluster": "Cluster",
+                    "ch_sinergica": "CH Sinérgica", "percentual_sinergico": "% Sinérgica",
+                    "ucs_sinergicas": "UCs Sinérgicas", "ucs_especificas": "UCs Específicas"
+                    })
+                    st.dataframe(OFERTA_POR_CURSO)
+                    
+                with st.expander("Detalhamento da Oferta", expanded=False):
+                    df_precificacao_oferta_formatado = formatar_df_precificacao_oferta(df_com_total)
         
-    with st.expander("Detalhamento da Oferta", expanded=False):
-        df_precificacao_oferta_formatado = formatar_df_precificacao_oferta(df_com_total)
-    
-# --- Debug na Barra Lateral ---
-st.sidebar.title("Debug Info")
-with st.sidebar.expander("Dados da Simulação (Session State)"):
-    st.json(st.session_state)
+        # --- Debug na Barra Lateral ---
+        st.sidebar.title("Debug Info")
+        with st.sidebar.expander("Dados da Simulação (Session State)"):
+            st.json(st.session_state)
+
+# Adiciona uma mensagem caso o botão seja pressionado mas nenhuma projeção tenha sido feita
+elif st.session_state.get('simulacao_ativa', False) and not houve_projecao:
+    st.warning("Nenhuma projeção de base de alunos foi encontrada. Por favor, clique em 'Simular TODAS as Bases de Alunos' na seção 2 antes de executar a análise de custos.")
+    st.session_state['simulacao_ativa'] = False # Reseta o gatilho

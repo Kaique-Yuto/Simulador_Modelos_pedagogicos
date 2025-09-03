@@ -307,7 +307,7 @@ def oferta_resumida_por_curso(df_matrizes: pd.DataFrame) -> pd.DataFrame:
     df = pd.DataFrame(rows)
     return df
 
-def agrupar_oferta(OFERTA_POR_CURSO: pd.DataFrame, df_matrizes: pd.DataFrame, df_parametros: pd.DataFrame) -> pd.DataFrame:
+def agrupar_oferta(OFERTA_POR_CURSO: pd.DataFrame, df_matrizes: pd.DataFrame, df_parametros: pd.DataFrame, session_state: dict) -> pd.DataFrame:
     # Dicionários para acumular a base de alunos.
     sinergia_acumulador = {}
     afp_acumulador = {}
@@ -326,7 +326,7 @@ def agrupar_oferta(OFERTA_POR_CURSO: pd.DataFrame, df_matrizes: pd.DataFrame, df
         flag_presencial = "Presencial" if modelo_nome in ["Presencial Atual", "Presencial 70.30"] else "EAD/Semi"
 
         curso_key = f"{marca_nome} - {polo_nome} - {curso_nome} ({modelo_nome})"
-        curso_selecionado = st.session_state.cursos_selecionados.get(curso_key)
+        curso_selecionado = session_state.get("cursos_selecionados").get(curso_key)
                     
         alunos_por_semestre = curso_selecionado.get("alunos_por_semestre", {})
         
@@ -390,7 +390,6 @@ def agrupar_oferta(OFERTA_POR_CURSO: pd.DataFrame, df_matrizes: pd.DataFrame, df
                     "Tipo de CH": "Todas"
                     })
 
-    # --- Montagem Final (sem alterações, já está preparada para a chave mais longa) ---
     for (uc, tipo_uc, marca, cluster, modelo, semestre, tipo_ch, polo), total_alunos in sinergia_acumulador.items():
         oferta_rows.append({
             "UC": uc,
@@ -570,14 +569,14 @@ def calcular_resumo_semestre(df_por_semestre: pd.DataFrame, base_alunos):
 
 def calcula_base_alunos_total(session_state:dict) -> int:
     soma_alunos = 0
-    for _, item in session_state.cursos_selecionados.items():
+    for _, item in session_state.get("cursos_selecionados").items():
         for semestre in range(0,10):    
             soma_alunos += item.get("alunos_por_semestre").get(f"Semestre {semestre+1}",0)
     return soma_alunos
 
 def calcula_base_alunos_por_semestre(session_state: dict, semestre:int) -> int:
     soma_alunos = 0
-    for _, item in session_state.cursos_selecionados.items():
+    for _, item in session_state.get("cursos_selecionados").items():
         soma_alunos += item.get("alunos_por_semestre").get(f"Semestre {semestre}", 0)
     return soma_alunos
 
