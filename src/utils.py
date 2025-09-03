@@ -4,9 +4,18 @@ import streamlit as st
 from streamlit import column_config
 import matplotlib.pyplot as plt
 from matplotlib.ticker import FuncFormatter
+import matplotlib.ticker as mticker
 from .formatting import formatador_k
 from .data import encontrar_ticket
 import time
+
+def format_currency(x, pos):
+    if x >= 1_000_000:
+        return f'R$ {x/1_000_000:.1f}M'
+    elif x >= 1_000:
+        return f'R$ {x/1_000:.0f}K'
+    return f'R$ {x:.0f}'
+
 def obter_modelos_para_curso(df: pd.DataFrame, nome_curso: str) -> list:
     """
     Garante a árvore de escolhas para a configuração de cursos
@@ -276,9 +285,9 @@ def format_detalhe_precificacao_uc(row: pd.Series) -> st.dataframe:
     )
     return df_format
 
-def oferta_resumida_por_curso(df_matrizes: pd.DataFrame) -> pd.DataFrame:
+def oferta_resumida_por_curso(df_matrizes: pd.DataFrame, session_state) -> pd.DataFrame:
     rows = []
-    for key,item in st.session_state.cursos_selecionados.items():
+    for key,item in session_state.items():
         new_row = {}
         new_row["marca"] = item.get("marca")
         new_row["polo"] = item.get("polo")
@@ -424,49 +433,11 @@ def agrupar_oferta(OFERTA_POR_CURSO: pd.DataFrame, df_matrizes: pd.DataFrame, df
     
     return OFERTA_POR_UC
 
-def formatar_df_precificacao_oferta(df: pd.DataFrame):
+def calcular_df_precificacao_oferta(df: pd.DataFrame) -> pd.DataFrame:
     """
     Formata e exibe um DataFrame de precificação no Streamlit,
     lidando de forma segura com colunas que podem não existir.
     """
-    # Função interna para destacar a linha "Total Geral"
-    # Adicionada verificação 'if "Chave" in row' para segurança
-    def highlight_total(row):
-        if "Chave" in row and row["Chave"] == "Total Geral":
-            return (len(row)-2)*['background-color: #282c34'] + ['font-weight: bold; background-color: #273333'] * 2
-        return [''] * len(row)
-
-    # --- Dicionários Mestre com TODAS as configurações possíveis ---
-
-    # 1. Dicionário para a formatação de valores (st.style.format)
-    formatador_mestre = {
-        "Custo Total": lambda val: f'R$ {val:_.2f}'.replace('.', ',').replace('_', '.'),
-        "Custo Docente por Semestre_Assíncrono": lambda val: f'R$ {val:_.2f}'.replace('.', ',').replace('_', '.'),
-        "Custo Docente por Semestre_Presencial": lambda val: f'R$ {val:_.2f}'.replace('.', ',').replace('_', '.'),
-        "Custo Docente por Semestre_Síncrono": lambda val: f'R$ {val:_.2f}'.replace('.', ',').replace('_', '.'),
-        "Custo Docente por Semestre_Síncrono Mediado": lambda val: f'R$ {val:_.2f}'.replace('.', ',').replace('_', '.'),
-    }
-
-    # 2. Dicionário para a configuração de colunas (st.dataframe)
-    column_config_mestre = {
-        "CH por Semestre_Assíncrono": column_config.NumberColumn("CH Assíncrona", format="%d"),
-        "CH por Semestre_Presencial": column_config.NumberColumn("CH Presencial", format="%d"),
-        "CH por Semestre_Síncrono": column_config.NumberColumn("CH Síncrona", format="%d"),
-        "CH por Semestre_Síncrono Mediado": column_config.NumberColumn("CH Síncrona Mediada", format="%d"),
-        "Custo Docente por Semestre_Assíncrono": column_config.NumberColumn("Custo CH Assíncrona"),
-        "Custo Docente por Semestre_Presencial": column_config.NumberColumn("Custo CH Presencial"),
-        "Custo Docente por Semestre_Síncrono": column_config.NumberColumn("Custo CH Síncrona"),
-        "Custo Docente por Semestre_Síncrono Mediado": column_config.NumberColumn("Custo CH Síncrona Mediada"),
-        "CH Total": column_config.NumberColumn("CH Total", format="%d"),
-        "Eficiência da UC": column_config.NumberColumn("Eficiência da UC", format="%2f"),
-    }
-
-    # --- Criação dos Dicionários Seguros ---
-
-    # Filtra os dicionários para conter apenas as colunas que REALMENTE existem no DataFrame
-    formatadores_seguros = {col: func for col, func in formatador_mestre.items() if col in df.columns}
-    configuracao_segura = {col: cfg for col, cfg in column_config_mestre.items() if col in df.columns}
-
     df = df.drop(columns=["Eficiência da UC"]) if "Eficiência da UC" in df.columns else df
 
     # Ordenar e deixar o "x" por ultimo
@@ -476,19 +447,8 @@ def formatar_df_precificacao_oferta(df: pd.DataFrame):
     df_numeric['Semestre'] = pd.to_numeric(df_numeric['Semestre'])
     df_numeric_sorted = df_numeric.sort_values(by='Semestre')
     df = pd.concat([df_numeric_sorted, df_text])
-
-    # Aplica o estilo usando o dicionário de formatação seguro
-    df_styled = df.style.apply(highlight_total, axis=1).format(formatadores_seguros)
-
-    # Exibe o DataFrame usando o dicionário de configuração seguro
-    df_formatado = st.dataframe(
-        df_styled,
-        use_container_width=True,
-        column_config=configuracao_segura,
-        hide_index=True
-    )
     
-    return df_formatado
+    return df
 
 def calcula_df_final(df_parametros_editado: pd.DataFrame, OFERTA_POR_UC: pd.DataFrame) -> pd.DataFrame:
     df_sinergicas = OFERTA_POR_UC[OFERTA_POR_UC['Tipo de CH']!="Todas"]
@@ -580,7 +540,7 @@ def calcula_base_alunos_por_semestre(session_state: dict, semestre:int) -> int:
         soma_alunos += item.get("alunos_por_semestre").get(f"Semestre {semestre}", 0)
     return soma_alunos
 
-def adiciona_linha_total(df: pd.DataFrame, base_alunos):
+def adiciona_linha_total(df: pd.DataFrame, base_alunos: int) -> pd.DataFrame:
     somas = df.sum(numeric_only=True)
 
     linha_total = somas.to_dict()
@@ -1294,7 +1254,7 @@ def plotar_composicao_alunos_por_serie(cursos_selecionados, periodo_selecionado)
     })
 
     # Gera o gráfico
-    fig, ax = plt.subplots(figsize=(10, 5))
+    fig, ax = plt.subplots(figsize=(12, 4))
     bars = ax.bar(df_composicao['Série'], df_composicao['Número de Alunos'])
     ax.set_title(f'Composição Agregada de Alunos por Série em {periodo_selecionado}')
     ax.set_ylabel('Número de Alunos')
@@ -1308,4 +1268,130 @@ def plotar_composicao_alunos_por_serie(cursos_selecionados, periodo_selecionado)
 
     plt.tight_layout()
 
+    return fig
+
+
+def preparar_dados_para_dashboard_macro(todos_os_resultados: dict) -> pd.DataFrame:
+    """
+    Consolida os resultados de todos os períodos em um único DataFrame
+    para a criação do dashboard macro de séries temporais.
+    """
+    lista_de_metricas = []
+    # Ordena os períodos cronologicamente para garantir que os cálculos acumulados fiquem corretos
+    periodos_ordenados = sorted(todos_os_resultados.keys())
+
+    for periodo in periodos_ordenados:
+        metricas = todos_os_resultados[periodo]['metricas_gerais']
+        metricas['periodo'] = periodo
+        lista_de_metricas.append(metricas)
+
+    if not lista_de_metricas:
+        return pd.DataFrame()
+
+    df_macro = pd.DataFrame(lista_de_metricas)
+    df_macro.set_index('periodo', inplace=True)
+
+    # Calcular novas colunas necessárias para os gráficos
+    df_macro['receita_total'] = df_macro['base_alunos'] * df_macro['ticket_medio']
+    
+    # Cálculos acumulados
+    df_macro['custo_acumulado'] = df_macro['custo_total'].cumsum()
+    df_macro['receita_acumulada'] = df_macro['receita_total'].cumsum()
+    df_macro['margem_acumulada'] = df_macro['receita_acumulada'] - df_macro['custo_acumulado']
+
+    return df_macro
+
+def plotar_custos_vs_receita(df_macro: pd.DataFrame):
+    """
+    Plota um gráfico de barras para Custo e Receita por semestre, 
+    com linhas para os valores acumulados.
+    """
+    fig, ax = plt.subplots(figsize=(12, 6))
+    
+    bar_width = 0.35
+    index = np.arange(len(df_macro.index))
+
+    # Barras para valores por semestre
+    bars1 = ax.bar(index - bar_width/2, df_macro['custo_total'], bar_width, label='Custo por Semestre', color='orangered', alpha=0.7)
+    bars2 = ax.bar(index + bar_width/2, df_macro['receita_total'], bar_width, label='Receita por Semestre', color='royalblue', alpha=0.7)
+
+    # Eixo Y secundário para valores acumulados
+    ax2 = ax.twinx()
+    line1, = ax2.plot(index, df_macro['custo_acumulado'], color='darkred', linestyle='--', marker='o', label='Custo Acumulado')
+    line2, = ax2.plot(index, df_macro['receita_acumulada'], color='darkblue', linestyle='--', marker='o', label='Receita Acumulada')
+
+    ax.set_xlabel('Período')
+    ax.set_ylabel('Valor por Semestre (R$)')
+    ax2.set_ylabel('Valor Acumulado (R$)')
+    ax.set_title('Custos vs. Receita: Visão Semestral e Acumulada', fontsize=16)
+    ax.set_xticks(index)
+    ax.set_xticklabels(df_macro.index, rotation=45, ha="right")
+    
+    # Formatação do eixo Y para moeda
+    ax.yaxis.set_major_formatter(mticker.FuncFormatter(format_currency))
+    ax2.yaxis.set_major_formatter(mticker.FuncFormatter(format_currency))
+    
+    # Legendas combinadas
+    lines = [bars1, bars2, line1, line2]
+    labels = [l.get_label() for l in lines]
+    ax.legend(lines, labels, loc='upper left')
+
+    fig.tight_layout()
+    return fig
+
+def plotar_margem_e_base_alunos(df_macro: pd.DataFrame):
+    """
+    Plota a Margem por Semestre e a Base de Alunos, com cores condicionais
+    nas barras e nos rótulos do eixo Y.
+    """
+    fig, ax1 = plt.subplots(figsize=(12, 6))
+
+    index = df_macro.index
+    
+    colors = ['lightcoral' if val < 0 else 'seagreen' for val in df_macro['margem']]
+    
+    ax1.bar(index, df_macro['margem'], color=colors, alpha=0.7, label='Margem por Aluno')
+    ax1.set_xlabel('Período')
+    ax1.set_ylabel('Margem (R$)', color='black')
+    ax1.yaxis.set_major_formatter(mticker.FuncFormatter(format_currency))
+    ax1.axhline(0, color='gray', linewidth=0.8, linestyle='--')
+
+    max_margem = df_macro['margem'].max()
+    ymax = max(50, max_margem) * 1.1
+    
+    min_margem = df_macro['margem'].min()
+    ymin = min_margem * 1.1
+    
+    ax1.set_ylim(bottom=ymin, top=ymax)
+
+    # Define a cor padrão para todos os rótulos
+    ax1.tick_params(axis='y', labelcolor='seagreen')
+
+    # Forçamos o desenho do gráfico para que os rótulos (ticks) sejam criados
+    fig.canvas.draw()
+
+    # Agora, iteramos pelos rótulos e mudamos a cor dos negativos
+    for label in ax1.get_yticklabels():
+        try:
+            # Pega o valor numérico a partir da posição do rótulo
+            if float(label.get_position()[1]) < 0:
+                label.set_color('red')
+        except (ValueError, IndexError):
+            # Ignora qualquer erro de conversão ou rótulos vazios
+            continue
+
+    ax2 = ax1.twinx()
+    color_alunos = 'goldenrod'
+    ax2.plot(index, df_macro['base_alunos'], color=color_alunos, marker='o', linestyle='-', label='Base de Alunos Total')
+    ax2.set_ylabel('Nº de Alunos', color=color_alunos)
+    ax2.tick_params(axis='y', labelcolor=color_alunos)
+    
+    ax1.set_title('Margem/Aluno por Semestre e Evolução da Base de Alunos', fontsize=16)
+    ax1.set_xticklabels([str(i) for i in index], rotation=45, ha="right")
+
+    lines, labels = ax1.get_legend_handles_labels()
+    lines2, labels2 = ax2.get_legend_handles_labels()
+    ax2.legend(lines + lines2, labels + labels2, loc='upper left')
+
+    fig.tight_layout()
     return fig
