@@ -1,6 +1,6 @@
 import streamlit as st
 from src.data import carregar_dados, carregar_lista_marca_polo, carregar_base_alunos, carregar_tickets, encontrar_ticket
-from src.utils import obter_modelos_para_curso, oferta_resumida_por_curso, agrupar_oferta,calcular_df_precificacao_oferta, calcular_resumo_semestre, calcula_base_alunos_por_semestre, calcula_base_alunos_total, adiciona_linha_total,calcula_df_final, plotar_custo_total_pag2, plotar_ch_total_pag2, plot_custo_docente_pag2, plot_ch_docente_por_categoria_pag2, formatar_df_por_semestre, projetar_base_alunos, calcula_custo_aluno_para_todos_semestre,plot_custo_aluno_por_semestre_pag2, calcula_ticket_medio,  busca_base_de_alunos, adicionar_todas_ofertas_do_polo, remover_ofertas_por_marca, remover_ofertas_por_polo, trazer_ofertas_para_novo_modelo, adicionar_todas_ofertas_da_marca, cria_select_box_modelo, plotar_composicao_alunos_por_serie, plotar_evolucao_total_alunos, preparar_dados_para_dashboard_macro, plotar_margem_e_base_alunos, plotar_custos_vs_receita, ratear_custo_por_polo, calcula_total_alunos_por_polo
+from src.utils import obter_modelos_para_curso, oferta_resumida_por_curso, agrupar_oferta,calcular_df_precificacao_oferta, calcular_resumo_semestre, calcula_base_alunos_por_semestre, calcula_base_alunos_total, adiciona_linha_total,calcula_df_final, plotar_custo_total_pag2, plotar_ch_total_pag2, plot_custo_docente_pag2, plot_ch_docente_por_categoria_pag2, formatar_df_por_semestre, projetar_base_alunos, calcula_custo_aluno_para_todos_semestre,plot_custo_aluno_por_semestre_pag2, calcula_ticket_medio,  busca_base_de_alunos, adicionar_todas_ofertas_do_polo, remover_ofertas_por_marca, remover_ofertas_por_polo, trazer_ofertas_para_novo_modelo, adicionar_todas_ofertas_da_marca, cria_select_box_modelo, plotar_composicao_alunos_por_serie, plotar_evolucao_total_alunos, preparar_dados_para_dashboard_macro, plotar_margem_e_base_alunos, plotar_custos_vs_receita, ratear_custo_por_polo, calcula_total_alunos_por_polo, processar_base_ingressantes_e_adicionar
 from src.formatting import formatar_valor_brl, formatar_df_precificacao_oferta, formatar_df_rateio, formatar_df_rateio_polo
 import pandas as pd
 import numpy as np
@@ -85,6 +85,30 @@ with col2:
         disabled=not marca_para_adicionar
     )
 
+with st.expander("Adicionar Polo Novo a partir de arquivo"):
+    if polo_para_adicionar == "Novo Polo":
+        with st.container(border=True):
+            st.markdown("##### Carregar Base de Ingressantes para o Novo Polo")
+            st.info("O arquivo Excel (.xlsx) deve conter as colunas 'Modalidade', 'Curso' e os semestres da projeção")
+            
+            uploaded_file = st.file_uploader(
+                "Selecione o arquivo Excel com a projeção de ingressantes",
+                type=['xlsx'],
+                label_visibility="collapsed"
+            )
+            
+            # Botão único com a lógica de processamento integrada
+            if st.button("Processar Arquivo e Adicionar Ofertas", type="primary", disabled=not uploaded_file, use_container_width=True):
+                with st.spinner("Processando arquivo e adicionando ofertas..."):
+                    processar_base_ingressantes_e_adicionar(
+                        uploaded_file=uploaded_file,
+                        marca_selecionada=marca_para_adicionar,
+                        df_dimensao_cursos=df_dimensao_cursos,
+                        df_curso_marca_modalidade=df_curso_marca_modalidade,
+                        df_curso_modalidade=df_curso_modalidade,
+                        df_modalidade=df_modalidade
+                    )
+                st.rerun() # Adicionado para recarregar a página e mostrar as novas ofertas
 
 st.write("")
 st.markdown("##### Preenchimento Automático")
@@ -427,11 +451,19 @@ else:
                 st.markdown("##### Modo de Captação")
 
                 # Salva a escolha do modo de captação no session_state da oferta
+                opcoes_captacao = ["Estatística (Média Anual)", "Manual (Por Semestre)"]
+
+                # Primeiro, lemos o valor que já está no session_state para definir qual item deve vir selecionado
+                valor_atual = config.get('modo_captacao', opcoes_captacao[0])
+                indice_padrao = opcoes_captacao.index(valor_atual)
+
+                # Agora, o radio button usará o índice correto como padrão e salvará a nova escolha do usuário
                 config['modo_captacao'] = st.radio(
                     label="Escolha como a captação de novos alunos será calculada:",
-                    options=["Estatística (Média Anual)", "Manual (Por Semestre)"],
+                    options=opcoes_captacao,
                     key=f"modo_captacao_{chave_oferta}",
                     horizontal=True,
+                    index=indice_padrao, # <-- A CORREÇÃO PRINCIPAL ESTÁ AQUI
                     help="""
                     - **Estatística:** Usa a média de ingressantes e a sazonalidade 60/40 para projetar a captação.
                     - **Manual:** Permite definir um número exato de ingressantes para cada semestre futuro.

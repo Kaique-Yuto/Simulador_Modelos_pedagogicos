@@ -1502,3 +1502,68 @@ def calcula_total_alunos_por_polo(cursos_selecionados, periodo_selecionado, nome
             total_alunos_polo += sum(dados_do_periodo.values())
             
     return total_alunos_polo
+
+def processar_base_ingressantes_e_adicionar(
+    uploaded_file, 
+    marca_selecionada, 
+    df_dimensao_cursos,
+    df_curso_marca_modalidade, 
+    df_curso_modalidade, 
+    df_modalidade
+):
+    """
+    Lê um arquivo Excel com projeção de ingressantes e adiciona as ofertas
+    correspondentes ao session_state para um "Novo Polo".
+    """
+    try:
+        df_ingressantes = pd.read_excel(uploaded_file)
+        cursos_adicionados = 0
+        
+        # Itera sobre cada linha do arquivo (cada curso)
+        for index, row in df_ingressantes.iterrows():
+            curso_nome = row['Curso']
+            modelo_nome = row['Modalidade']
+            
+            # 1. Busca os dados dimensionais do curso
+            filtro = (df_dimensao_cursos['Curso'] == curso_nome) & (df_dimensao_cursos['Modelo'] == modelo_nome)
+            dados_curso = df_dimensao_cursos[filtro]
+
+            if dados_curso.empty:
+                st.warning(f"O curso '{curso_nome}' com modelo '{modelo_nome}' não foi encontrado na base de dados e será ignorado.")
+                continue
+
+            dados_curso = dados_curso.iloc[0]
+            chave_oferta = f"{marca_selecionada} - Novo Polo - {curso_nome} ({modelo_nome})"
+
+            if chave_oferta in st.session_state.cursos_selecionados:
+                st.warning(f"A oferta '{chave_oferta}' já existe e foi ignorada do arquivo.")
+                continue
+                
+            # 2. Monta o dicionário de ingressantes personalizados
+            ingressantes_personalizados = {}
+            for col in df_ingressantes.columns:
+                if '/' in str(col) and str(col).split('/')[0].isdigit(): # Heurística para achar colunas de período
+                    chave_periodo = str(col).replace('/', '_')
+                    ingressantes_personalizados[chave_periodo] = int(row[col])
+
+            # 3. Monta o objeto completo da oferta
+            st.session_state.cursos_selecionados[chave_oferta] = {
+                "marca": marca_selecionada,
+                "polo": "Novo Polo",
+                "curso": curso_nome,
+                "modelo": modelo_nome,
+                "ticket": encontrar_ticket(curso_nome, marca_selecionada, modelo_nome, df_curso_marca_modalidade, df_curso_modalidade, df_modalidade),
+                "cluster": dados_curso['Cluster'],
+                "sinergia": dados_curso['Sinergia'],
+                "num_semestres": int(dados_curso['Qtde Semestres']),
+                "alunos_por_semestre": {}, # Base histórica vazia, pois é um polo novo
+                "modo_captacao": "Manual (Por Semestre)", # Define o modo de captação
+                "ingressantes_personalizados": ingressantes_personalizados # Adiciona os dados do arquivo
+            }
+            cursos_adicionados += 1
+        
+        st.success(f"{cursos_adicionados} ofertas de curso foram adicionadas com sucesso a partir do arquivo!")
+
+    except Exception as e:
+        st.error(f"Ocorreu um erro ao processar o arquivo: {e}")
+        st.error("Verifique se as colunas 'Curso' e 'Modalidade' existem e se o arquivo não está corrompido.")
