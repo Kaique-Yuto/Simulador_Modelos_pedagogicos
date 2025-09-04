@@ -878,57 +878,93 @@ def formatar_df_por_semestre(df: pd.DataFrame):
     
     return df_formatado
 
-def projetar_base_alunos(base_alunos_inicial: int, n_semestres_curso: int, dist_ingresso: tuple, taxa_evasao_inicial: float, decaimento_evasao: float):
-    
-    taxas_evasao = np.array([taxa_evasao_inicial * (decaimento_evasao ** i) for i in range(n_semestres_curso)])
+def projetar_base_alunos(
+    n_semestres_curso: int,
+    dist_ingresso: tuple,
+    taxa_evasao_inicial: float,
+    decaimento_evasao: float,
+    n_periodos_a_projetar: int = 10,
+    base_inicial: dict = None,
+    ingressantes_personalizados: dict = None
+) -> dict:
+    """
+    Projeta a evolução da base de alunos ao longo de vários semestres.
+    [VERSÃO FINAL] Corrige a lógica para que a captação manual do primeiro período
+    seja aplicada corretamente.
+    """
+    # 1. SETUP INICIAL
+    fator_decaimento = 1.0 - decaimento_evasao
+    taxas_evasao = np.array([taxa_evasao_inicial * (fator_decaimento ** i) for i in range(n_semestres_curso)])
     taxas_permanencia = 1 - taxas_evasao
 
-    turmas = np.zeros(n_semestres_curso, dtype=int)
-    turmas[0] = base_alunos_inicial
-
     projecao_temporal = {}
-    
-    # Armazena o estado inicial (T=0), que será o nosso 2026/1
-    chave_temporal_inicial = "alunos_por_semestre_2026_1"
-    alunos_por_semestre_dict_inicial = {f"Semestre {i + 1}": int(num_alunos) for i, num_alunos in enumerate(turmas)}
-    projecao_temporal[chave_temporal_inicial] = alunos_por_semestre_dict_inicial
+    ano_inicial, semestre_inicial = 2026, 1
 
-    for i in range(1, n_semestres_curso):
+    turmas_atuais = np.zeros(n_semestres_curso, dtype=int)
+    if base_inicial:
+        for semestre_str, num_alunos in base_inicial.items():
+            try:
+                semestre_idx = int(semestre_str.split(" ")[1]) - 1
+                if 0 <= semestre_idx < n_semestres_curso:
+                    turmas_atuais[semestre_idx] = int(num_alunos)
+            except (ValueError, IndexError):
+                pass
+    
+    # 2. AJUSTE DO PRIMEIRO PERÍODO COM CAPTAÇÃO MANUAL
+    # Se a captação manual estiver ativa, ela tem prioridade para definir
+    # o número de alunos no Semestre 1 do período inicial (T=0).
+    if ingressantes_personalizados:
+        chave_primeiro_periodo_lookup = f"{ano_inicial}_{semestre_inicial}" # "2026_1"
+        ingressantes_t0 = ingressantes_personalizados.get(chave_primeiro_periodo_lookup)
+
+        if ingressantes_t0 is not None:
+            # Sobrepõe o valor do Semestre 1 com o valor da captação manual
+            turmas_atuais[0] = int(ingressantes_t0)
+
+
+    # 3. TRATAMENTO DO PRIMEIRO PERÍODO (2026/1)
+    # Salva o estado (agora corrigido) como o resultado final para o primeiro período.
+    chave_primeiro_periodo = f"alunos_por_semestre_{ano_inicial}_{semestre_inicial}"
+    projecao_temporal[chave_primeiro_periodo] = {f"Semestre {k + 1}": int(num_alunos) for k, num_alunos in enumerate(turmas_atuais)}
+    
+    # 4. LOOP DE SIMULAÇÃO PARA OS PERÍODOS SEGUINTES
+    for i in range(1, n_periodos_a_projetar):
         turmas_seguinte = np.zeros(n_semestres_curso, dtype=int)
 
+        # A. LÓGICA DE PROMOÇÃO (sem alterações)
         for j in range(n_semestres_curso - 1, 0, -1):
-            alunos_para_avancar = turmas[j-1]
+            alunos_para_avancar = turmas_atuais[j-1]
             taxa_de_permanencia = taxas_permanencia[j-1]
-
             if alunos_para_avancar > 0:
                 sobreviventes = np.random.binomial(n=alunos_para_avancar, p=taxa_de_permanencia)
             else:
                 sobreviventes = 0
-
             turmas_seguinte[j] = int(max(0, sobreviventes))
 
-        media_ingressantes, desvio_padrao_ingressantes = dist_ingresso
+        # B. LÓGICA DE CAPTAÇÃO CONDICIONAL (sem alterações nesta parte)
+        ano_atual = ano_inicial + (i // 2)
+        semestre_atual = semestre_inicial + (i % 2)
+        chave_periodo_lookup = f"{ano_atual}_{semestre_atual}"
+
+        novos_ingressantes = 0
+        if ingressantes_personalizados:
+            novos_ingressantes = ingressantes_personalizados.get(chave_periodo_lookup, 0)
+        else:
+            media_anual, dp_anual = dist_ingresso
+            fator_sazonal = 0.6 if semestre_atual == 1 else 0.4
+            media_semestral = media_anual * fator_sazonal
+            dp_semestral = dp_anual * fator_sazonal
+            novos_ingressantes = np.round(np.random.normal(media_semestral, dp_semestral))
         
-        if i % 2 == 0: # Semestres pares na simulação correspondem ao primeiro semestre do ano (2027/1, 2028/1...)
-             media_ingressantes *= 0.6
-             desvio_padrao_ingressantes *= 0.6
-        else: # Semestres ímpares (correspondem ao segundo semestre do ano (2026/2, 2027/2...)
-             media_ingressantes *= 0.4
-             desvio_padrao_ingressantes *= 0.4
-        
-        novos_ingressantes = np.round(np.random.normal(media_ingressantes, desvio_padrao_ingressantes))
         turmas_seguinte[0] = int(max(0, novos_ingressantes))
 
-        turmas = turmas_seguinte.copy()
-
-
-        ano = 2026 + i // 2
-        semestre = i % 2 + 1
-        chave_temporal = f"alunos_por_semestre_{ano}_{semestre}"
-        
-        alunos_por_semestre_dict = {f"Semestre {k + 1}": int(num_alunos) for k, num_alunos in enumerate(turmas)}
+        # C. ARMAZENAMENTO E ATUALIZAÇÃO DE ESTADO
+        chave_temporal = f"alunos_por_semestre_{ano_atual}_{semestre_atual}"
+        alunos_por_semestre_dict = {f"Semestre {k + 1}": int(num_alunos) for k, num_alunos in enumerate(turmas_seguinte)}
         projecao_temporal[chave_temporal] = alunos_por_semestre_dict
-    
+
+        turmas_atuais = turmas_seguinte.copy()
+        
     return projecao_temporal
 
 

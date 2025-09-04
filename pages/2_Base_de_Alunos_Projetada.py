@@ -40,7 +40,6 @@ df_dimensao_cursos = carregar_dados("databases/dimensao_curso_modelo.xlsx")
 df_curso_marca_modalidade, df_curso_modalidade, df_modalidade = carregar_tickets()
 df_base_alunos = carregar_base_alunos("databases/base_alunos_curso_marca_v2.xlsx", version="v2")
 
-
 if 'cursos_selecionados' not in st.session_state:
     st.session_state.cursos_selecionados = {}
 
@@ -239,26 +238,86 @@ with st.container(border=True):
             key="global_decaimento"
         )
     
-    st.write("") # Espaçamento
+    st.markdown("---")
+    st.markdown("##### Controle Global do Modo de Projeção")
+
+    col_global1, col_global2 = st.columns([2, 1])
+
+    with col_global1:
+        modo_global = st.selectbox(
+            label="Definir o modo de projeção para TODAS as ofertas adicionadas:",
+            options=[
+                "Manter configurações individuais",
+                "Forçar 'Iniciar do Zero' para todas",
+                "Forçar 'Continuar da Base Histórica' para todas"
+            ],
+            key="modo_projecao_global",
+            help="Use esta opção para alterar rapidamente o modo de todas as ofertas. A alteração será refletida nos controles individuais de cada oferta."
+        )
+
+    with col_global2:
+        st.write("") # Espaçamento para alinhar o botão
+        if st.button("Aplicar Modo Global", use_container_width=True, disabled=(modo_global == "Manter configurações individuais")):
+            
+            # Define para qual modo converter com base na seleção
+            if modo_global == "Forçar 'Iniciar do Zero' para todas":
+                novo_modo = "Iniciar do Zero"
+            elif modo_global == "Forçar 'Continuar da Base Histórica' para todas":
+                novo_modo = "Continuar da Base Histórica"
+            else:
+                novo_modo = None
+
+            if novo_modo:
+                # Itera por todas as ofertas e atualiza o modo de projeção
+                for config in st.session_state.cursos_selecionados.values():
+                    config['modo_projecao'] = novo_modo
+                
+                st.toast(f"Modo '{novo_modo}' aplicado a todas as ofertas!", icon="✅")
+                # st.rerun() # Descomente esta linha se quiser que a página recarregue para ver as alterações imediatamente
     
     if st.button("Simular TODAS as Bases de Alunos", type="primary", use_container_width=True, help="Roda a simulação de projeção para todas as ofertas adicionadas usando os parâmetros definidos em cada uma."):
         with st.spinner("Projetando base de alunos para todas as ofertas..."):
             for chave, config in st.session_state.cursos_selecionados.items():
-                # Pega os parâmetros individuais de cada curso (que estarão com o default global)
                 params = st.session_state[f"params_sim_{chave}"]
                 
-                # Chama a nova função que retorna o dicionário temporal
+                
+                base_para_simulacao = None # Começa com None por padrão
+                
+                # Pega o modo escolhido na UI. Se não houver, assume "Iniciar do Zero".
+                modo_projecao = config.get('modo_projecao', 'Iniciar do Zero')
+
+                # Caso especial: se o usuário escolher 'Continuar' mas não houver base, reverte para 'Iniciar do Zero'
+                if modo_projecao == 'Continuar da Base Histórica' and ('alunos_por_semestre' not in config or not config['alunos_por_semestre']):
+                    st.warning(f"Para a oferta '{chave}', não foi encontrada base histórica. A simulação iniciará do zero.")
+                    modo_projecao = 'Iniciar do Zero'
+
+                if modo_projecao == 'Iniciar do Zero':
+                    base_para_simulacao = {'Semestre 1': params["alunos_iniciais"]}
+                
+                elif modo_projecao == 'Continuar da Base Histórica':
+                    base_para_simulacao = config.get('alunos_por_semestre')
+                    
+                elif modo_projecao == 'Definir Base Personalizada':
+                    base_para_simulacao = config.get('base_personalizada')
+                
+                ingressantes_para_simulacao = None
+                modo_captacao = config.get('modo_captacao', 'Estatística (Média Anual)')
+                if modo_captacao == 'Manual (Por Semestre)':
+                    ingressantes_para_simulacao = config.get('ingressantes_personalizados')
+
+                # Chama a função de projeção com a base correta
                 projecao_temporal = projetar_base_alunos(
-                    base_alunos_inicial=params["alunos_iniciais"],
-                    n_semestres_curso=params["n_semestres"],
+                    n_semestres_curso=config["num_semestres"],
                     dist_ingresso=(params["media_ingressantes"], params["desvio_padrao_ingressantes"]),
                     taxa_evasao_inicial=params["taxa_evasao_inicial"] / 100.0,
-                    decaimento_evasao=params["decaimento_evasao"] / 100.0
+                    decaimento_evasao=params["decaimento_evasao"] / 100.0,
+                    base_inicial=base_para_simulacao,
+                    ingressantes_personalizados=ingressantes_para_simulacao
                 )
                 
                 # Limpa chaves antigas de simulação antes de adicionar as novas
                 for k in list(config.keys()):
-                    if k.startswith("alunos_por_semestre"):
+                    if k.startswith("alunos_por_semestre_"):
                         del st.session_state.cursos_selecionados[chave][k]
 
                 # Adiciona as novas chaves temporais ao config da oferta
@@ -364,6 +423,120 @@ else:
 
 
             with st.expander("Gerenciar Simulação de Base de Alunos"):
+                st.markdown("---")
+                st.markdown("##### Modo de Captação")
+
+                # Salva a escolha do modo de captação no session_state da oferta
+                config['modo_captacao'] = st.radio(
+                    label="Escolha como a captação de novos alunos será calculada:",
+                    options=["Estatística (Média Anual)", "Manual (Por Semestre)"],
+                    key=f"modo_captacao_{chave_oferta}",
+                    horizontal=True,
+                    help="""
+                    - **Estatística:** Usa a média de ingressantes e a sazonalidade 60/40 para projetar a captação.
+                    - **Manual:** Permite definir um número exato de ingressantes para cada semestre futuro.
+                    """
+                )
+
+                # Lógica para o modo "Manual (Por Semestre)"
+                if config.get('modo_captacao') == "Manual (Por Semestre)":
+                    st.markdown("###### Preencha o número de ingressantes para cada semestre da projeção:")
+                    
+                    # Cria o dicionário para guardar os dados se não existir
+                    if 'ingressantes_personalizados' not in config:
+                        config['ingressantes_personalizados'] = {}
+
+                    # Usa o slider 'Número de semestres a simular' para definir quantos inputs mostrar
+                    # Buscamos o valor do slider que já existe nos parâmetros da simulação
+                    params_sim_oferta = st.session_state.get(f"params_sim_{chave_oferta}", {})
+                    n_periodos_a_projetar = 10 # Default de 10 se não achar
+
+                    cols = st.columns(5)
+                    ano_inicial, semestre_inicial = 2026, 1
+
+                    for i in range(n_periodos_a_projetar):
+                        ano = ano_inicial + (i // 2)
+                        semestre = semestre_inicial + (i % 2)
+                        chave_periodo = f"{ano}_{semestre}"
+                        label_periodo = f"{ano}/{semestre}"
+
+                        # Usa o valor anterior como default, ou 0
+                        default_value = config['ingressantes_personalizados'].get(chave_periodo, 0)
+                        
+                        # Distribui os inputs nas colunas
+                        ingressantes_input = cols[i % 5].number_input(
+                            label=f"Ingressantes {label_periodo}",
+                            min_value=0,
+                            step=10,
+                            value=default_value,
+                            key=f"ingressantes_pers_{chave_oferta}_{chave_periodo}"
+                        )
+                        # Atualiza o dicionário com o valor do input
+                        config['ingressantes_personalizados'][chave_periodo] = ingressantes_input
+                st.markdown("---")
+                
+                
+               
+                
+                
+                
+                
+                
+                
+                
+                st.markdown("##### Modo de Projeção")
+                # Opções do radio button
+                opcoes_projecao = ["Iniciar do Zero", "Continuar da Base Histórica", "Definir Base Personalizada"]
+                # Desabilita a opção 'Continuar' se não houver base histórica carregada
+                desabilitar_continuar = 'alunos_por_semestre' not in config or not config['alunos_por_semestre']
+
+                # Salva a escolha do usuário no session_state da oferta
+                config['modo_projecao'] = st.radio(
+                    label="Escolha como a projeção deve começar para esta oferta:",
+                    options=opcoes_projecao,
+                    key=f"modo_projecao_{chave_oferta}",
+                    horizontal=True,
+                    help="""
+                    - **Iniciar do Zero:** Começa a simulação apenas com uma turma de calouros.
+                    - **Continuar da Base Histórica:** Usa a base de 2025/1 como ponto de partida.
+                    - **Definir Base Personalizada:** Permite inserir manualmente o nº de alunos em cada série.
+                    """,
+                    disabled=desabilitar_continuar,
+                    # O argumento acima na verdade não funciona para desabilitar uma única opção no st.radio
+                    # A lógica para lidar com isso será feita no backend.
+                    # Se o usuário selecionar 'Continuar' sem base, vamos reverter para 'Iniciar do Zero'.
+                )
+
+                # Lógica para o modo "Definir Base Personalizada"
+                if config['modo_projecao'] == "Definir Base Personalizada":
+                    st.markdown("###### Preencha a base de alunos para iniciar a projeção (2026/1):")
+                    
+                    # Cria um dicionário para guardar a base personalizada se não existir
+                    if 'base_personalizada' not in config:
+                        config['base_personalizada'] = {}
+
+                    # Layout em colunas para os inputs
+                    num_semestres = config.get("num_semestres", 8)
+                    cols = st.columns(4)
+                    
+                    for i in range(1, num_semestres + 1):
+                        semestre_key = f"Semestre {i}"
+                        # Usa o valor anterior como default, ou 0
+                        default_value = config['base_personalizada'].get(semestre_key, 0)
+                        
+                        # Distribui os inputs nas colunas
+                        aluno_input = cols[(i-1) % 4].number_input(
+                            label=semestre_key,
+                            min_value=0,
+                            step=5,
+                            value=default_value,
+                            key=f"alunos_pers_{chave_oferta}_{i}"
+                        )
+                        # Atualiza o dicionário com o valor do input
+                        config['base_personalizada'][semestre_key] = aluno_input
+                
+                st.markdown("---")
+                
                 if f"params_sim_{chave_oferta}" not in st.session_state:
                     st.session_state[f"params_sim_{chave_oferta}"] = {}
                 
@@ -601,7 +774,6 @@ if st.session_state.cursos_selecionados and st.session_state.get('simulacao_ativ
     else:
         # ------------ INÍCIO: DASHBOARD MACRO -------------
         st.subheader("Dashboard de Visão Geral")
-        st.dataframe(todos_os_resultados)
         df_macro = preparar_dados_para_dashboard_macro(todos_os_resultados)
 
         if not df_macro.empty:
