@@ -72,3 +72,36 @@ def formatar_df_precificacao_oferta(df:pd.DataFrame):
         hide_index=True
     )
     return df
+
+def formatar_df_rateio(df: pd.DataFrame):
+    formatador_mestre = {
+        "Custo Total": lambda val: f'R$ {val:_.2f}'.replace('.', ',').replace('_', '.'),
+        "Custo Rateado": lambda val: f'R$ {val:_.2f}'.replace('.', ',').replace('_', '.')
+    }
+    df = df.style.format(formatador_mestre)
+    df = st.dataframe(
+        df,
+        use_container_width=True,
+        hide_index=True
+    )
+    return df
+
+def formatar_df_rateio_polo(df):
+    # Garante que a ordem das colunas está correta
+    colunas_ordenadas = ["Polo", "Base Alunos no Polo", "Base Alunos Total", "% de Alunos", "Custo Rateado", "Custo Total", "% de Custo"]
+    df = df[colunas_ordenadas]
+
+    formatador_mestre = {
+        "Custo Rateado": lambda val: f'R$ {val:_.2f}'.replace('.', ',').replace('_', '.'),
+        "Custo Total": lambda val: f'R$ {val:_.2f}'.replace('.', ',').replace('_', '.'),
+        "% de Custo": lambda val: f'{val:.2%}'.replace('.', ','),
+        "% de Alunos": lambda val: f'{val:.2%}'.replace('.', ',')
+    }
+    
+    df_estilizado = df.style.format(formatador_mestre)
+    
+    return st.dataframe(
+        df_estilizado,
+        use_container_width=True,
+        hide_index=True
+    )

@@ -1,7 +1,7 @@
 import streamlit as st
 from src.data import carregar_dados, carregar_lista_marca_polo, carregar_base_alunos, carregar_tickets, encontrar_ticket
-from src.utils import obter_modelos_para_curso, oferta_resumida_por_curso, agrupar_oferta,calcular_df_precificacao_oferta, calcular_resumo_semestre, calcula_base_alunos_por_semestre, calcula_base_alunos_total, adiciona_linha_total,calcula_df_final, plotar_custo_total_pag2, plotar_ch_total_pag2, plot_custo_docente_pag2, plot_ch_docente_por_categoria_pag2, formatar_df_por_semestre, projetar_base_alunos, calcula_custo_aluno_para_todos_semestre,plot_custo_aluno_por_semestre_pag2, calcula_ticket_medio,  busca_base_de_alunos, adicionar_todas_ofertas_do_polo, remover_ofertas_por_marca, remover_ofertas_por_polo, trazer_ofertas_para_novo_modelo, adicionar_todas_ofertas_da_marca, cria_select_box_modelo, plotar_composicao_alunos_por_serie, plotar_evolucao_total_alunos, preparar_dados_para_dashboard_macro, plotar_margem_e_base_alunos, plotar_custos_vs_receita
-from src.formatting import formatar_valor_brl, formatar_df_precificacao_oferta
+from src.utils import obter_modelos_para_curso, oferta_resumida_por_curso, agrupar_oferta,calcular_df_precificacao_oferta, calcular_resumo_semestre, calcula_base_alunos_por_semestre, calcula_base_alunos_total, adiciona_linha_total,calcula_df_final, plotar_custo_total_pag2, plotar_ch_total_pag2, plot_custo_docente_pag2, plot_ch_docente_por_categoria_pag2, formatar_df_por_semestre, projetar_base_alunos, calcula_custo_aluno_para_todos_semestre,plot_custo_aluno_por_semestre_pag2, calcula_ticket_medio,  busca_base_de_alunos, adicionar_todas_ofertas_do_polo, remover_ofertas_por_marca, remover_ofertas_por_polo, trazer_ofertas_para_novo_modelo, adicionar_todas_ofertas_da_marca, cria_select_box_modelo, plotar_composicao_alunos_por_serie, plotar_evolucao_total_alunos, preparar_dados_para_dashboard_macro, plotar_margem_e_base_alunos, plotar_custos_vs_receita, ratear_custo_por_polo, calcula_total_alunos_por_polo
+from src.formatting import formatar_valor_brl, formatar_df_precificacao_oferta, formatar_df_rateio, formatar_df_rateio_polo
 import pandas as pd
 import numpy as np
 import locale
@@ -38,7 +38,7 @@ df_matrizes = carregar_dados("databases/matrizes.xlsx")
 df_parametros = carregar_dados("databases/parametros_turma.xlsx")
 df_dimensao_cursos = carregar_dados("databases/dimensao_curso_modelo.xlsx")
 df_curso_marca_modalidade, df_curso_modalidade, df_modalidade = carregar_tickets()
-df_base_alunos = carregar_base_alunos("databases/base_alunos_curso_marca_v2.xlsx", version="v2")
+df_base_alunos = carregar_base_alunos("databases/base_alunos_curso_marca_v3.xlsx", version="v2")
 
 if 'cursos_selecionados' not in st.session_state:
     st.session_state.cursos_selecionados = {}
@@ -486,7 +486,7 @@ else:
                 
                 st.markdown("##### Modo de Projeção")
                 # Opções do radio button
-                opcoes_projecao = ["Iniciar do Zero", "Continuar da Base Histórica", "Definir Base Personalizada"]
+                opcoes_projecao = ["Continuar da Base Histórica", "Iniciar do Zero", "Definir Base Personalizada"]
                 # Desabilita a opção 'Continuar' se não houver base histórica carregada
                 desabilitar_continuar = 'alunos_por_semestre' not in config or not config['alunos_por_semestre']
 
@@ -700,7 +700,7 @@ def calcular_analise_completa(cursos_selecionados: dict, df_matrizes: pd.DataFra
         oferta_por_uc = oferta_por_uc[(oferta_por_uc['Tipo de UC'].isin(df_parametros['Tipo de UC'].unique().tolist())) | (oferta_por_uc['Tipo de UC'] == 'AFP')]
         df_final = calcula_df_final(df_parametros, oferta_por_uc)
         df_final = df_final[df_final['Custo Total'] > 0]
-        
+        df_rateio = ratear_custo_por_polo(df_final=df_final, oferta_por_uc=oferta_por_uc)
         # 5. Calcular e armazenar todas as métricas e dataframes
         custo_total_periodo = plotar_custo_total_pag2(df_final)
         ticket_medio_periodo = calcula_ticket_medio(dados_para_analise, None)
@@ -709,6 +709,24 @@ def calcular_analise_completa(cursos_selecionados: dict, df_matrizes: pd.DataFra
         dados_para_plot_custo_docente = df_final
         dados_para_plot_ch_categoria = df_final
         dados_para_plot_custo_aluno_semestre = calcula_custo_aluno_para_todos_semestre(df_final, dados_para_analise)
+
+ #-------------------------------
+        rateio_por_polo = df_rateio.groupby('Polo')['Custo Rateado'].sum().sort_values(ascending=False)
+        rateio_por_polo = rateio_por_polo.reset_index()
+        rateio_por_polo["Base Alunos Total"] = base_alunos_total
+        rateio_por_polo['Base Alunos no Polo'] = rateio_por_polo['Polo'].apply(
+                                                    lambda polo: calcula_total_alunos_por_polo(
+                                                        st.session_state.cursos_selecionados,
+                                                        periodo, # Variável com o período (ex: "2026/1")
+                                                        polo
+                                                    )
+                                                )
+        rateio_por_polo["Custo Total"] = custo_total_periodo
+        rateio_por_polo["% de Custo"] = rateio_por_polo["Custo Rateado"] / rateio_por_polo["Custo Total"]
+        rateio_por_polo["% de Alunos"] = rateio_por_polo["Base Alunos no Polo"] / rateio_por_polo["Base Alunos Total"]
+
+
+
 
         # Armazena tudo em um dicionário para este período
         resultados_finais[periodo] = {
@@ -724,7 +742,10 @@ def calcular_analise_completa(cursos_selecionados: dict, df_matrizes: pd.DataFra
             "dataframes": {
                 "df_final": df_final,
                 "df_sinergia": oferta_por_curso,
-                "df_oferta": calcular_df_precificacao_oferta(adiciona_linha_total(df_final, base_alunos_total))
+                "df_oferta": calcular_df_precificacao_oferta(adiciona_linha_total(df_final, base_alunos_total)),
+                "df_oferta_por_uc": oferta_por_uc,
+                "df_rateio": df_rateio,
+                "df_rateio_por_polo": rateio_por_polo
             },
             "dados_para_plots": {
                 "custo_docente": dados_para_plot_custo_docente,
@@ -775,7 +796,6 @@ if st.session_state.cursos_selecionados and st.session_state.get('simulacao_ativ
         # ------------ INÍCIO: DASHBOARD MACRO -------------
         st.subheader("Dashboard de Visão Geral")
         df_macro = preparar_dados_para_dashboard_macro(todos_os_resultados)
-
         if not df_macro.empty:
             # 1. Calcular os totais da projeção a partir da última linha do DataFrame
             receita_total_projetada = df_macro['receita_acumulada'].iloc[-1]
@@ -836,13 +856,66 @@ if st.session_state.cursos_selecionados and st.session_state.get('simulacao_ativ
             fig2 = plotar_margem_e_base_alunos(df_macro)
             st.pyplot(fig2)
 
+        lista_dfs_rateio = []
+        todos_os_periodos_analise = list(todos_os_resultados.keys())
+
+        for periodo in todos_os_periodos_analise:
+            df_por_periodo = todos_os_resultados.get(periodo, {}).get("dataframes", {}).get("df_rateio_por_polo")
+            if df_por_periodo is not None and not df_por_periodo.empty:
+                # Adiciona uma coluna para identificar o período de origem dos dados
+                df_por_periodo['Periodo'] = periodo
+                lista_dfs_rateio.append(df_por_periodo)
+
+        if not lista_dfs_rateio:
+            st.warning("Não há dados de rateio para exibir no resumo consolidado.")
+        else:
+            df_rateio_consolidado = pd.concat(lista_dfs_rateio, ignore_index=True)
+
+            # Tabela 1: Pivot com semestres nas colunas e custo rateado nos valores
+            st.markdown("##### Custos Rateados por Semestre")
+            df_pivot_custo = df_rateio_consolidado.pivot_table(
+                index='Polo',
+                columns='Periodo',
+                values='Custo Rateado',
+                fill_value=0
+            )
+            st.dataframe(
+                df_pivot_custo.style.format(lambda val: f'R$ {val:_.2f}'.replace('.', ',').replace('_', '.')),
+                use_container_width=True
+            )
+            st.divider()
+
+            # Tabela 2: Resumo consolidado com totais e percentuais
+            st.markdown("##### Resumo Consolidado por Polo")
+            df_resumo_polos = df_rateio_consolidado.groupby('Polo').agg(
+                Custo_Rateado_Total=('Custo Rateado', 'sum'),
+                Base_Alunos_Total_Polo=('Base Alunos no Polo', 'sum')
+            ).reset_index()
+
+            custo_geral_total = df_resumo_polos['Custo_Rateado_Total'].sum()
+            alunos_geral_total = df_resumo_polos['Base_Alunos_Total_Polo'].sum()
+
+            df_resumo_polos['Custo Total'] = custo_geral_total
+            df_resumo_polos['Base Alunos Total'] = alunos_geral_total
+            df_resumo_polos['% de Custo'] = df_resumo_polos['Custo_Rateado_Total'] / df_resumo_polos['Custo Total']
+            df_resumo_polos['% de Alunos'] = df_resumo_polos['Base_Alunos_Total_Polo'] / df_resumo_polos['Base Alunos Total']
+            
+            # Renomeia as colunas para corresponder à função de formatação
+            df_resumo_polos = df_resumo_polos.rename(columns={
+                'Custo_Rateado_Total': 'Custo Rateado',
+                'Base_Alunos_Total_Polo': 'Base Alunos no Polo'
+            })
+
+            # Utiliza a função que já criamos para formatar a tabela
+            formatar_df_rateio_polo(df_resumo_polos)
+
         st.divider()
         # ---DASHBOARD MACRO---
 
         # ---ANÁLISE DETALHADA POR PERÍODO---
         st.subheader("Análise Detalhada por Semestre")
 
-        todos_os_periodos_analise = list(todos_os_resultados.keys())
+        
         default_index_analise = len(todos_os_periodos_analise) - 1
 
         periodo_selecionado_analise = st.selectbox(
@@ -909,7 +982,12 @@ if st.session_state.cursos_selecionados and st.session_state.get('simulacao_ativ
                                 value=formatar_valor_brl(dados_serie['margem']),
                                 delta=f"{np.round(dados_serie['delta_margem'], 2)}%"
                             )
+                        df_oferta = dfs['df_oferta']
+                        df_por_semestre = df_oferta[df_oferta['Semestre'] == serie_num]
+                        df_por_semestre = adiciona_linha_total(df_por_semestre, dados_serie['base_alunos'])
+                        formatar_df_por_semestre(df_por_semestre)
                         st.divider()
+
 
             with st.expander("Detalhamento da Sinergia", expanded=False):
                 # ... (o seu código do dataframe de sinergia continua aqui)
@@ -921,11 +999,13 @@ if st.session_state.cursos_selecionados and st.session_state.get('simulacao_ativ
                  st.dataframe(df_sinergia)
 
             with st.expander("Detalhamento da Oferta", expanded=False):
-                # ... (o seu código do dataframe de oferta continua aqui)
+                st.markdown("Todas as ofertas")
                 df_oferta = dfs['df_oferta']
                 df_oferta_formatado = formatar_df_precificacao_oferta(df_oferta)
+            with st.expander("Rateio de Custos"):
+                formatar_df_rateio(dfs["df_rateio"])
+                formatar_df_rateio_polo(dfs['df_rateio_por_polo'])
                 
-
 
 # O debug pode ser movido para fora ou mantido aqui, se preferir.
 st.sidebar.title("Debug Info")

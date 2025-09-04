@@ -350,7 +350,15 @@ def agrupar_oferta(OFERTA_POR_CURSO: pd.DataFrame, df_matrizes: pd.DataFrame, df
             num_alunos = alunos_por_semestre.get(semestre_key, 0)
             tipo_uc = matriz_uc['Tipo de UC'].iloc[0]
             if uc == "AFP":
-                afp_acumulador[f"{marca_nome} ({flag_presencial})"] = afp_acumulador.get(f"{marca_nome} ({flag_presencial})",0) + num_alunos
+                key_afp = f"{marca_nome} ({flag_presencial})"
+                # Pega a entrada atual ou cria uma nova com a estrutura correta
+                entry = afp_acumulador.get(key_afp, {'total_alunos': 0, 'alunos_por_polo': {}})
+                # Atualiza o total de alunos
+                entry['total_alunos'] += num_alunos
+                # Atualiza a contagem para o polo específico
+                entry['alunos_por_polo'][polo_nome] = entry['alunos_por_polo'].get(polo_nome, 0) + num_alunos
+                # Devolve a entrada atualizada para o acumulador
+                afp_acumulador[key_afp] = entry
                 continue
 
             #Busca todos os Tipos de CH para esta UC/Modelo em df_parametros
@@ -371,7 +379,10 @@ def agrupar_oferta(OFERTA_POR_CURSO: pd.DataFrame, df_matrizes: pd.DataFrame, df
                     chave_acumulador = (uc, tipo_uc, marca_nome, cluster_nome, modelo_nome, semestre, tipo_ch_atual, polo_agrupado_placeholder)
                 
                 if chave_acumulador:
-                    sinergia_acumulador[chave_acumulador] = sinergia_acumulador.get(chave_acumulador, 0) + num_alunos
+                    entry = sinergia_acumulador.get(chave_acumulador, {'total_alunos': 0, 'alunos_por_polo': {}})
+                    entry['total_alunos'] += num_alunos
+                    entry['alunos_por_polo'][polo_nome] = entry['alunos_por_polo'].get(polo_nome, 0) + num_alunos
+                    sinergia_acumulador[chave_acumulador] = entry
                         
         # --- Processamento das UCs Específicas ---
         ucs_especificas = row['ucs_especificas']
@@ -399,28 +410,45 @@ def agrupar_oferta(OFERTA_POR_CURSO: pd.DataFrame, df_matrizes: pd.DataFrame, df
                     "Tipo de CH": "Todas"
                     })
 
-    for (uc, tipo_uc, marca, cluster, modelo, semestre, tipo_ch, polo), total_alunos in sinergia_acumulador.items():
-        oferta_rows.append({
-            "UC": uc,
-            "Tipo de UC": tipo_uc,
-            "Chave": f"{marca} - {uc} - {cluster} - {modelo} - {semestre} - {tipo_ch} - {polo}",
-            "Semestre": semestre,
-            "Modelo": modelo,
-            "Base de Alunos": total_alunos,
-            "Marca": marca,
-            "Polo": polo,
-            "Tipo de CH": tipo_ch
-        })
+    # UCs Sinérgicas
+    for chave_tuple, data_dict in sinergia_acumulador.items():
+        # Desempacota a tupla da chave
+        uc, tipo_uc, marca, cluster, modelo, semestre, tipo_ch, polo_placeholder = chave_tuple
+        
+        # Gera a chave de agrupamento que será a mesma para todos os polos da mesma oferta
+        chave_de_agrupamento = f"{marca} - {uc} - {cluster} - {modelo} - {semestre} - {tipo_ch} - {polo_placeholder}"
+
+        # Loop aninhado para "explodir" a linha para cada polo
+        for polo_real, alunos_do_polo in data_dict['alunos_por_polo'].items():
+            if alunos_do_polo > 0: # Adiciona a linha apenas se houver alunos
+                oferta_rows.append({
+                    "UC": uc,
+                    "Tipo de UC": tipo_uc,
+                    "Chave": chave_de_agrupamento, # Chave de Agrupamento
+                    "Semestre": semestre,
+                    "Modelo": modelo,
+                    "Base de Alunos": alunos_do_polo, # Base específica do polo
+                    "Marca": marca,
+                    "Polo": polo_real, # Nome real do polo
+                    "Tipo de CH": tipo_ch
+                })
 
     # Adicionar AFP
-    for key, alunos in afp_acumulador.items():
-        tipo_ch = "Assíncrono" if key.split(" (")[1].replace(")","") == "EAD/Semi" else "Síncrono"
-        modelo_nome = "Presencial 70.30" if key.split(" (")[1].replace(")","") == "Presencial" else "EAD 10.10"
-        oferta_rows.append({
-            "UC": "AFP", "Tipo de UC": "AFP", "Chave": f"AFP - {key} - Todos os polos - Todos os cursos",
-            "Semestre": 1, "Modelo": f"{modelo_nome}", "Base de Alunos": alunos,
-            "Marca": key.split(" (")[0], "Polo": "Todos (Agrupado)", "Tipo de CH":tipo_ch 
-        })
+    for key, data_dict in afp_acumulador.items():
+        marca = key.split(" (")[0]
+        flag_presencial = key.split(" (")[1].replace(")","")
+        tipo_ch = "Assíncrono" if flag_presencial == "EAD/Semi" else "Síncrono"
+        modelo_nome = "EAD 10.10" if flag_presencial == "EAD/Semi" else "Presencial 70.30"
+        chave_de_agrupamento = f"AFP - {key} - Todos os polos - Todos os cursos"
+
+        # Loop aninhado para "explodir" a linha para cada polo
+        for polo_real, alunos_do_polo in data_dict['alunos_por_polo'].items():
+            if alunos_do_polo > 0:
+                oferta_rows.append({
+                    "UC": "AFP", "Tipo de UC": "AFP", "Chave": chave_de_agrupamento,
+                    "Semestre": 1, "Modelo": modelo_nome, "Base de Alunos": alunos_do_polo,
+                    "Marca": marca, "Polo": polo_real, "Tipo de CH": tipo_ch 
+                })
             
     if not oferta_rows:
         return pd.DataFrame()
@@ -451,6 +479,12 @@ def calcular_df_precificacao_oferta(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 def calcula_df_final(df_parametros_editado: pd.DataFrame, OFERTA_POR_UC: pd.DataFrame) -> pd.DataFrame:
+    colunas_de_agrupamento = ['Chave', 'UC', 'Tipo de UC', 'Semestre', 'Modelo', 'Marca', 'Tipo de CH']
+    OFERTA_POR_UC = OFERTA_POR_UC.groupby(colunas_de_agrupamento, as_index=False).agg(
+        Base_Alunos_Grupo=('Base de Alunos', 'sum')
+    )
+    OFERTA_POR_UC = OFERTA_POR_UC.rename(columns={"Base_Alunos_Grupo": "Base de Alunos"})
+
     df_sinergicas = OFERTA_POR_UC[OFERTA_POR_UC['Tipo de CH']!="Todas"]
     df_especificas = OFERTA_POR_UC[OFERTA_POR_UC['Tipo de CH']=="Todas"].drop(columns=['Tipo de CH'])
 
@@ -1431,3 +1465,40 @@ def plotar_margem_e_base_alunos(df_macro: pd.DataFrame):
 
     fig.tight_layout()
     return fig
+
+def ratear_custo_por_polo(oferta_por_uc: pd.DataFrame, df_final: pd.DataFrame) -> pd.DataFrame:
+
+    # 1. Seleciona apenas as colunas necessárias do DataFrame de custos para a junção
+    df_custos_para_merge = df_final[['Chave', 'Custo Total']].copy()
+
+    # 2. Junta o Custo Total ao DataFrame detalhado, usando a 'Chave' como elo
+    df_merged = pd.merge(oferta_por_uc, df_custos_para_merge, on='Chave', how='left')
+    df_merged['Custo Total'].fillna(0, inplace=True)
+    
+    # 3. Calcula a base total de alunos para cada grupo (identificado pela 'Chave')
+    df_merged['Base_Total_Grupo'] = df_merged.groupby('Chave')['Base de Alunos'].transform('sum')
+
+    # 4. Calcula a porcentagem de participação de cada polo no seu grupo
+    df_merged['Percentual_Rateio'] = 0
+    df_merged.loc[df_merged['Base_Total_Grupo'] > 0, 'Percentual_Rateio'] = \
+        df_merged['Base de Alunos'] / df_merged['Base_Total_Grupo']
+
+    # 5. Calcula o Custo Rateado para cada polo
+    df_merged['Custo Rateado'] = df_merged['Custo Total'] * df_merged['Percentual_Rateio']
+    
+    # 6. Remove as colunas auxiliares
+    df_merged = df_merged.drop(columns=['Base_Total_Grupo', 'Percentual_Rateio'])
+
+    return df_merged
+
+def calcula_total_alunos_por_polo(cursos_selecionados, periodo_selecionado, nome_polo):
+    total_alunos_polo = 0
+    chave_projecao = f"alunos_por_semestre_{periodo_selecionado.replace('/', '_')}"
+
+    for config in cursos_selecionados.values():
+        # Filtra as configurações para o polo em questão e verifica se há dados para o período
+        if config.get('polo') == nome_polo and chave_projecao in config:
+            dados_do_periodo = config[chave_projecao]
+            total_alunos_polo += sum(dados_do_periodo.values())
+            
+    return total_alunos_polo
