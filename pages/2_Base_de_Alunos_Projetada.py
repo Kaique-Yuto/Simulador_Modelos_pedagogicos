@@ -903,21 +903,12 @@ if st.session_state.cursos_selecionados and st.session_state.get('simulacao_ativ
             st.warning("Não há dados de rateio para exibir no resumo consolidado.")
         else:
             df_rateio_consolidado = pd.concat(lista_dfs_rateio, ignore_index=True)
-
-            # Tabela 1: Pivot com semestres nas colunas e custo rateado nos valores
-            st.markdown("##### Custos Rateados por Semestre")
             df_pivot_custo = df_rateio_consolidado.pivot_table(
                 index='Polo',
                 columns='Periodo',
                 values='Custo Rateado',
                 fill_value=0
             )
-            st.dataframe(
-                df_pivot_custo.style.format(lambda val: f'R$ {val:_.2f}'.replace('.', ',').replace('_', '.')),
-                use_container_width=True
-            )
-            st.divider()
-
             # Tabela 2: Resumo consolidado com totais e percentuais
             st.markdown("##### Resumo Consolidado por Polo")
             df_resumo_polos = df_rateio_consolidado.groupby('Polo').agg(
@@ -947,8 +938,12 @@ if st.session_state.cursos_selecionados and st.session_state.get('simulacao_ativ
 
         # ---ANÁLISE DETALHADA POR PERÍODO---
         st.subheader("Análise Detalhada por Semestre")
-
-        
+        # Tabela 1: Pivot com semestres nas colunas e custo rateado nos valores
+        st.markdown("##### Custos Rateados por Semestre")
+        st.dataframe(
+            df_pivot_custo.style.format(lambda val: f'R$ {val:_.2f}'.replace('.', ',').replace('_', '.')),
+            use_container_width=True
+        )
         default_index_analise = len(todos_os_periodos_analise) - 1
 
         periodo_selecionado_analise = st.selectbox(
@@ -959,7 +954,6 @@ if st.session_state.cursos_selecionados and st.session_state.get('simulacao_ativ
         )
 
         resultados_do_periodo = todos_os_resultados.get(periodo_selecionado_analise)
-
         if resultados_do_periodo:
             # Extrai as métricas e dataframes para facilitar o acesso
             metricas = resultados_do_periodo['metricas_gerais']
