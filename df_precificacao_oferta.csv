@@ -1,0 +1,844 @@
+,Chave,UC,Tipo de UC,Semestre,Modelo,Marca,Base de Alunos,Máximo de Alunos,Tipo de CH,Ator Pedagógico
+0,USJT - PPI 1 - PEDAGOGIA - Semi Presencial 30.20 Licenciatura - AMERICANA : JARDIM GIRASSOL,PPI 1,PPI,6,Semi Presencial 30.20 Licenciatura,USJT,31,120.0,Presencial,Professor Regente
+1,USJT - PPI 1 - PEDAGOGIA - Semi Presencial 30.20 Licenciatura - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,PPI 1,PPI,6,Semi Presencial 30.20 Licenciatura,USJT,39,120.0,Presencial,Professor Regente
+2,USJT - PPI 2 - PEDAGOGIA - Semi Presencial 30.20 Licenciatura - AMERICANA : JARDIM GIRASSOL,PPI 2,PPI,7,Semi Presencial 30.20 Licenciatura,USJT,20,120.0,Presencial,Professor Regente
+3,USJT - PPI 2 - PEDAGOGIA - Semi Presencial 30.20 Licenciatura - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,PPI 2,PPI,7,Semi Presencial 30.20 Licenciatura,USJT,21,120.0,Presencial,Professor Regente
+4,USJT - UC10 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC10,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,23,120.0,Presencial,Mediador Presencial
+5,USJT - UC10 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC10,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,28,120.0,Presencial,Mediador Presencial
+6,USJT - UC10 - FARMÁCIA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC10,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,24,120.0,Presencial,Mediador Presencial
+7,USJT - UC10 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC10,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,22,120.0,Presencial,Mediador Presencial
+8,USJT - UC10 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC10,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,25,120.0,Presencial,Mediador Presencial
+9,USJT - UC11 - ADMINISTRAÇÃO - Semi Presencial 30.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC11,UC (4-8),6,Semi Presencial 30.20 Bacharelado,USJT,35,120.0,Presencial,Mediador Presencial
+10,USJT - UC11 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC11,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,44,120.0,Presencial,Mediador Presencial
+11,USJT - UC11 - CIÊNCIAS CONTÁBEIS - Semi Presencial 30.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC11,UC (4-8),6,Semi Presencial 30.20 Bacharelado,USJT,40,120.0,Presencial,Mediador Presencial
+12,USJT - UC11 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC11,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,40,120.0,Presencial,Mediador Presencial
+13,USJT - UC11 - FARMÁCIA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC11,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,35,120.0,Presencial,Mediador Presencial
+14,USJT - UC11 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC11,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,35,120.0,Presencial,Mediador Presencial
+15,USJT - UC11 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC11,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,31,120.0,Presencial,Mediador Presencial
+16,USJT - UC12 - ADMINISTRAÇÃO - Semi Presencial 30.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC12,UC (4-8),6,Semi Presencial 30.20 Bacharelado,USJT,35,120.0,Presencial,Mediador Presencial
+17,USJT - UC12 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC12,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,44,120.0,Presencial,Mediador Presencial
+18,USJT - UC12 - CIÊNCIAS CONTÁBEIS - Semi Presencial 30.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC12,UC (4-8),6,Semi Presencial 30.20 Bacharelado,USJT,40,120.0,Presencial,Mediador Presencial
+19,USJT - UC12 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC12,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,40,120.0,Presencial,Mediador Presencial
+20,USJT - UC12 - FARMÁCIA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC12,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,35,120.0,Presencial,Mediador Presencial
+21,USJT - UC12 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC12,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,35,120.0,Presencial,Mediador Presencial
+22,USJT - UC12 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC12,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,31,120.0,Presencial,Mediador Presencial
+23,USJT - UC13 - ADMINISTRAÇÃO - Semi Presencial 30.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC13,UC (4-8),7,Semi Presencial 30.20 Bacharelado,USJT,25,120.0,Presencial,Mediador Presencial
+24,USJT - UC13 - ANÁLISE E DESENVOLVIMENTO DE SISTEMAS - Semi Presencial 30.20 Bacharelado - AMERICANA : JARDIM GIRASSOL,UC13,UC (4-8),7,Semi Presencial 30.20 Bacharelado,USJT,20,120.0,Presencial,Mediador Presencial
+25,USJT - UC13 - ANÁLISE E DESENVOLVIMENTO DE SISTEMAS - Semi Presencial 30.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC13,UC (4-8),7,Semi Presencial 30.20 Bacharelado,USJT,25,120.0,Presencial,Mediador Presencial
+26,USJT - UC13 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC13,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,28,120.0,Presencial,Mediador Presencial
+27,USJT - UC13 - CIÊNCIAS CONTÁBEIS - Semi Presencial 30.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC13,UC (4-8),7,Semi Presencial 30.20 Bacharelado,USJT,21,120.0,Presencial,Mediador Presencial
+28,USJT - UC13 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC13,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,20,120.0,Presencial,Mediador Presencial
+29,USJT - UC13 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado - AMERICANA : JARDIM GIRASSOL,UC13,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,23,120.0,Presencial,Mediador Presencial
+30,USJT - UC13 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC13,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,21,120.0,Presencial,Mediador Presencial
+31,USJT - UC13 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC13,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,22,120.0,Presencial,Mediador Presencial
+32,USJT - UC13 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado - AMERICANA : JARDIM GIRASSOL,UC13,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,14,120.0,Presencial,Mediador Presencial
+33,USJT - UC13 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC13,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,26,120.0,Presencial,Mediador Presencial
+34,USJT - UC13 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado - AMERICANA : JARDIM GIRASSOL,UC13,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,26,120.0,Presencial,Mediador Presencial
+35,USJT - UC13 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC13,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,26,120.0,Presencial,Mediador Presencial
+36,USJT - UC13 - FARMÁCIA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC13,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,26,120.0,Presencial,Mediador Presencial
+37,USJT - UC13 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC13,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,16,120.0,Presencial,Mediador Presencial
+38,USJT - UC13 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC13,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,19,120.0,Presencial,Mediador Presencial
+39,USJT - UC14 - ADMINISTRAÇÃO - Semi Presencial 30.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC14,UC (4-8),7,Semi Presencial 30.20 Bacharelado,USJT,25,120.0,Presencial,Mediador Presencial
+40,USJT - UC14 - ANÁLISE E DESENVOLVIMENTO DE SISTEMAS - Semi Presencial 30.20 Bacharelado - AMERICANA : JARDIM GIRASSOL,UC14,UC (4-8),7,Semi Presencial 30.20 Bacharelado,USJT,20,120.0,Presencial,Mediador Presencial
+41,USJT - UC14 - ANÁLISE E DESENVOLVIMENTO DE SISTEMAS - Semi Presencial 30.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC14,UC (4-8),7,Semi Presencial 30.20 Bacharelado,USJT,25,120.0,Presencial,Mediador Presencial
+42,USJT - UC14 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC14,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,28,120.0,Presencial,Mediador Presencial
+43,USJT - UC14 - CIÊNCIAS CONTÁBEIS - Semi Presencial 30.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC14,UC (4-8),7,Semi Presencial 30.20 Bacharelado,USJT,21,120.0,Presencial,Mediador Presencial
+44,USJT - UC14 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC14,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,20,120.0,Presencial,Mediador Presencial
+45,USJT - UC14 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado - AMERICANA : JARDIM GIRASSOL,UC14,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,23,120.0,Presencial,Mediador Presencial
+46,USJT - UC14 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC14,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,21,120.0,Presencial,Mediador Presencial
+47,USJT - UC14 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC14,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,22,120.0,Presencial,Mediador Presencial
+48,USJT - UC14 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado - AMERICANA : JARDIM GIRASSOL,UC14,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,14,120.0,Presencial,Mediador Presencial
+49,USJT - UC14 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC14,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,26,120.0,Presencial,Mediador Presencial
+50,USJT - UC14 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado - AMERICANA : JARDIM GIRASSOL,UC14,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,26,120.0,Presencial,Mediador Presencial
+51,USJT - UC14 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC14,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,26,120.0,Presencial,Mediador Presencial
+52,USJT - UC14 - FARMÁCIA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC14,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,26,120.0,Presencial,Mediador Presencial
+53,USJT - UC14 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC14,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,16,120.0,Presencial,Mediador Presencial
+54,USJT - UC14 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC14,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,19,120.0,Presencial,Mediador Presencial
+55,USJT - UC15 - ADMINISTRAÇÃO - Semi Presencial 30.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC15,UC (4-8),8,Semi Presencial 30.20 Bacharelado,USJT,27,120.0,Presencial,Mediador Presencial
+56,USJT - UC15 - ANÁLISE E DESENVOLVIMENTO DE SISTEMAS - Semi Presencial 30.20 Bacharelado - AMERICANA : JARDIM GIRASSOL,UC15,UC (4-8),8,Semi Presencial 30.20 Bacharelado,USJT,26,120.0,Presencial,Mediador Presencial
+57,USJT - UC15 - ANÁLISE E DESENVOLVIMENTO DE SISTEMAS - Semi Presencial 30.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC15,UC (4-8),8,Semi Presencial 30.20 Bacharelado,USJT,28,120.0,Presencial,Mediador Presencial
+58,USJT - UC15 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC15,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,36,120.0,Presencial,Mediador Presencial
+59,USJT - UC15 - CIÊNCIAS CONTÁBEIS - Semi Presencial 30.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC15,UC (4-8),8,Semi Presencial 30.20 Bacharelado,USJT,28,120.0,Presencial,Mediador Presencial
+60,USJT - UC15 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC15,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,35,120.0,Presencial,Mediador Presencial
+61,USJT - UC15 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado - AMERICANA : JARDIM GIRASSOL,UC15,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,27,120.0,Presencial,Mediador Presencial
+62,USJT - UC15 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC15,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,30,120.0,Presencial,Mediador Presencial
+63,USJT - UC15 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC15,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,31,120.0,Presencial,Mediador Presencial
+64,USJT - UC15 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado - AMERICANA : JARDIM GIRASSOL,UC15,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,35,120.0,Presencial,Mediador Presencial
+65,USJT - UC15 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC15,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,25,120.0,Presencial,Mediador Presencial
+66,USJT - UC15 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado - AMERICANA : JARDIM GIRASSOL,UC15,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,31,120.0,Presencial,Mediador Presencial
+67,USJT - UC15 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC15,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,46,120.0,Presencial,Mediador Presencial
+68,USJT - UC15 - FARMÁCIA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC15,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,38,120.0,Presencial,Mediador Presencial
+69,USJT - UC15 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC15,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,31,120.0,Presencial,Mediador Presencial
+70,USJT - UC15 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC15,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,22,120.0,Presencial,Mediador Presencial
+71,USJT - UC16 - ADMINISTRAÇÃO - Semi Presencial 30.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC16,UC (4-8),8,Semi Presencial 30.20 Bacharelado,USJT,27,120.0,Presencial,Mediador Presencial
+72,USJT - UC16 - ANÁLISE E DESENVOLVIMENTO DE SISTEMAS - Semi Presencial 30.20 Bacharelado - AMERICANA : JARDIM GIRASSOL,UC16,UC (4-8),8,Semi Presencial 30.20 Bacharelado,USJT,26,120.0,Presencial,Mediador Presencial
+73,USJT - UC16 - ANÁLISE E DESENVOLVIMENTO DE SISTEMAS - Semi Presencial 30.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC16,UC (4-8),8,Semi Presencial 30.20 Bacharelado,USJT,28,120.0,Presencial,Mediador Presencial
+74,USJT - UC16 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC16,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,36,120.0,Presencial,Mediador Presencial
+75,USJT - UC16 - CIÊNCIAS CONTÁBEIS - Semi Presencial 30.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC16,UC (4-8),8,Semi Presencial 30.20 Bacharelado,USJT,28,120.0,Presencial,Mediador Presencial
+76,USJT - UC16 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC16,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,35,120.0,Presencial,Mediador Presencial
+77,USJT - UC16 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado - AMERICANA : JARDIM GIRASSOL,UC16,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,27,120.0,Presencial,Mediador Presencial
+78,USJT - UC16 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC16,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,30,120.0,Presencial,Mediador Presencial
+79,USJT - UC16 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC16,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,31,120.0,Presencial,Mediador Presencial
+80,USJT - UC16 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado - AMERICANA : JARDIM GIRASSOL,UC16,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,35,120.0,Presencial,Mediador Presencial
+81,USJT - UC16 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC16,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,25,120.0,Presencial,Mediador Presencial
+82,USJT - UC16 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado - AMERICANA : JARDIM GIRASSOL,UC16,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,31,120.0,Presencial,Mediador Presencial
+83,USJT - UC16 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC16,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,46,120.0,Presencial,Mediador Presencial
+84,USJT - UC16 - FARMÁCIA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC16,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,38,120.0,Presencial,Mediador Presencial
+85,USJT - UC16 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC16,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,31,120.0,Presencial,Mediador Presencial
+86,USJT - UC16 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC16,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,22,120.0,Presencial,Mediador Presencial
+87,USJT - UC17 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC17,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,36,120.0,Presencial,Mediador Presencial
+88,USJT - UC17 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC17,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,35,120.0,Presencial,Mediador Presencial
+89,USJT - UC17 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado - AMERICANA : JARDIM GIRASSOL,UC17,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,27,120.0,Presencial,Mediador Presencial
+90,USJT - UC17 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC17,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,30,120.0,Presencial,Mediador Presencial
+91,USJT - UC17 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC17,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,31,120.0,Presencial,Mediador Presencial
+92,USJT - UC17 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado - AMERICANA : JARDIM GIRASSOL,UC17,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,35,120.0,Presencial,Mediador Presencial
+93,USJT - UC17 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC17,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,25,120.0,Presencial,Mediador Presencial
+94,USJT - UC17 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado - AMERICANA : JARDIM GIRASSOL,UC17,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,31,120.0,Presencial,Mediador Presencial
+95,USJT - UC17 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC17,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,46,120.0,Presencial,Mediador Presencial
+96,USJT - UC17 - FARMÁCIA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC17,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,38,120.0,Presencial,Mediador Presencial
+97,USJT - UC17 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC17,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,31,120.0,Presencial,Mediador Presencial
+98,USJT - UC17 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC17,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,22,120.0,Presencial,Mediador Presencial
+99,USJT - UC18 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC18,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,21,120.0,Presencial,Mediador Presencial
+100,USJT - UC18 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC18,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,20,120.0,Presencial,Mediador Presencial
+101,USJT - UC18 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado - AMERICANA : JARDIM GIRASSOL,UC18,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,0,120.0,Presencial,Mediador Presencial
+102,USJT - UC18 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC18,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,21,120.0,Presencial,Mediador Presencial
+103,USJT - UC18 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC18,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,21,120.0,Presencial,Mediador Presencial
+104,USJT - UC18 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado - AMERICANA : JARDIM GIRASSOL,UC18,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,0,120.0,Presencial,Mediador Presencial
+105,USJT - UC18 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC18,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,19,120.0,Presencial,Mediador Presencial
+106,USJT - UC18 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado - AMERICANA : JARDIM GIRASSOL,UC18,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,0,120.0,Presencial,Mediador Presencial
+107,USJT - UC18 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC18,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,14,120.0,Presencial,Mediador Presencial
+108,USJT - UC18 - FARMÁCIA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC18,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,19,120.0,Presencial,Mediador Presencial
+109,USJT - UC18 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC18,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,21,120.0,Presencial,Mediador Presencial
+110,USJT - UC18 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC18,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,19,120.0,Presencial,Mediador Presencial
+111,USJT - UC19 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC19,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,21,120.0,Presencial,Mediador Presencial
+112,USJT - UC19 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC19,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,20,120.0,Presencial,Mediador Presencial
+113,USJT - UC19 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado - AMERICANA : JARDIM GIRASSOL,UC19,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,0,120.0,Presencial,Mediador Presencial
+114,USJT - UC19 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC19,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,21,120.0,Presencial,Mediador Presencial
+115,USJT - UC19 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC19,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,21,120.0,Presencial,Mediador Presencial
+116,USJT - UC19 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado - AMERICANA : JARDIM GIRASSOL,UC19,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,0,120.0,Presencial,Mediador Presencial
+117,USJT - UC19 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC19,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,19,120.0,Presencial,Mediador Presencial
+118,USJT - UC19 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado - AMERICANA : JARDIM GIRASSOL,UC19,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,0,120.0,Presencial,Mediador Presencial
+119,USJT - UC19 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC19,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,14,120.0,Presencial,Mediador Presencial
+120,USJT - UC19 - FARMÁCIA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC19,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,19,120.0,Presencial,Mediador Presencial
+121,USJT - UC19 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC19,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,21,120.0,Presencial,Mediador Presencial
+122,USJT - UC19 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC19,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,19,120.0,Presencial,Mediador Presencial
+123,USJT - UC20 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC20,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,31,120.0,Presencial,Mediador Presencial
+124,USJT - UC20 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC20,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,5,120.0,Presencial,Mediador Presencial
+125,USJT - UC20 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado - AMERICANA : JARDIM GIRASSOL,UC20,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,0,120.0,Presencial,Mediador Presencial
+126,USJT - UC20 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC20,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,7,120.0,Presencial,Mediador Presencial
+127,USJT - UC20 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC20,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,0,120.0,Presencial,Mediador Presencial
+128,USJT - UC20 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado - AMERICANA : JARDIM GIRASSOL,UC20,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,0,120.0,Presencial,Mediador Presencial
+129,USJT - UC20 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC20,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,4,120.0,Presencial,Mediador Presencial
+130,USJT - UC20 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado - AMERICANA : JARDIM GIRASSOL,UC20,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,0,120.0,Presencial,Mediador Presencial
+131,USJT - UC20 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC20,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,7,120.0,Presencial,Mediador Presencial
+132,USJT - UC20 - FARMÁCIA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC20,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,10,120.0,Presencial,Mediador Presencial
+133,USJT - UC20 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC20,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,14,120.0,Presencial,Mediador Presencial
+134,USJT - UC20 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC20,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,24,120.0,Presencial,Mediador Presencial
+135,USJT - UC21 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC21,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,31,120.0,Presencial,Mediador Presencial
+136,USJT - UC21 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC21,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,5,120.0,Presencial,Mediador Presencial
+137,USJT - UC21 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado - AMERICANA : JARDIM GIRASSOL,UC21,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,0,120.0,Presencial,Mediador Presencial
+138,USJT - UC21 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC21,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,7,120.0,Presencial,Mediador Presencial
+139,USJT - UC21 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC21,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,0,120.0,Presencial,Mediador Presencial
+140,USJT - UC21 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado - AMERICANA : JARDIM GIRASSOL,UC21,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,0,120.0,Presencial,Mediador Presencial
+141,USJT - UC21 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC21,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,4,120.0,Presencial,Mediador Presencial
+142,USJT - UC21 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado - AMERICANA : JARDIM GIRASSOL,UC21,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,0,120.0,Presencial,Mediador Presencial
+143,USJT - UC21 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC21,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,7,120.0,Presencial,Mediador Presencial
+144,USJT - UC21 - FARMÁCIA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC21,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,10,120.0,Presencial,Mediador Presencial
+145,USJT - UC21 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC21,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,14,120.0,Presencial,Mediador Presencial
+146,USJT - UC21 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC21,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,24,120.0,Presencial,Mediador Presencial
+147,USJT - UC8 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC8,UC (1-6),4,Semi Presencial 40.20 Bacharelado,USJT,33,120.0,Presencial,Mediador Presencial
+148,USJT - UC8 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC8,UC (1-6),4,Semi Presencial 40.20 Bacharelado,USJT,43,120.0,Presencial,Mediador Presencial
+149,USJT - UC8 - FARMÁCIA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC8,UC (1-6),4,Semi Presencial 40.20 Bacharelado,USJT,48,120.0,Presencial,Mediador Presencial
+150,USJT - UC8 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC8,UC (1-6),4,Semi Presencial 40.20 Bacharelado,USJT,45,120.0,Presencial,Mediador Presencial
+151,USJT - UC8 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC8,UC (1-6),4,Semi Presencial 40.20 Bacharelado,USJT,33,120.0,Presencial,Mediador Presencial
+152,USJT - UC9 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC9,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,23,120.0,Presencial,Mediador Presencial
+153,USJT - UC9 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC9,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,28,120.0,Presencial,Mediador Presencial
+154,USJT - UC9 - FARMÁCIA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC9,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,24,120.0,Presencial,Mediador Presencial
+155,USJT - UC9 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC9,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,22,120.0,Presencial,Mediador Presencial
+156,USJT - UC9 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC9,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,25,120.0,Presencial,Mediador Presencial
+157,USJT - UC10 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado,UC10,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,23,99999.0,Assíncrono,Professor Regente
+158,USJT - UC10 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado,UC10,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,23,70.0,Síncrono Mediado,Mediador Online
+159,USJT - UC10 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado,UC10,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,28,99999.0,Assíncrono,Professor Regente
+160,USJT - UC10 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado,UC10,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,28,70.0,Síncrono Mediado,Mediador Online
+161,USJT - UC10 - FARMÁCIA - Semi Presencial 40.20 Bacharelado,UC10,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,24,99999.0,Assíncrono,Professor Regente
+162,USJT - UC10 - FARMÁCIA - Semi Presencial 40.20 Bacharelado,UC10,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,24,70.0,Síncrono Mediado,Mediador Online
+163,USJT - UC10 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado,UC10,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,22,99999.0,Assíncrono,Professor Regente
+164,USJT - UC10 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado,UC10,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,22,70.0,Síncrono Mediado,Mediador Online
+165,USJT - UC10 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado,UC10,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,25,99999.0,Assíncrono,Professor Regente
+166,USJT - UC10 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado,UC10,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,25,70.0,Síncrono Mediado,Mediador Online
+167,USJT - UC11 - ADMINISTRAÇÃO - Semi Presencial 30.20 Bacharelado,UC11,UC (4-8),6,Semi Presencial 30.20 Bacharelado,USJT,35,99999.0,Assíncrono,Professor Regente
+168,USJT - UC11 - ADMINISTRAÇÃO - Semi Presencial 30.20 Bacharelado,UC11,UC (4-8),6,Semi Presencial 30.20 Bacharelado,USJT,35,70.0,Síncrono Mediado,Mediador Online
+169,USJT - UC11 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado,UC11,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,44,99999.0,Assíncrono,Professor Regente
+170,USJT - UC11 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado,UC11,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,44,70.0,Síncrono Mediado,Mediador Online
+171,USJT - UC11 - CIÊNCIAS CONTÁBEIS - Semi Presencial 30.20 Bacharelado,UC11,UC (4-8),6,Semi Presencial 30.20 Bacharelado,USJT,40,99999.0,Assíncrono,Professor Regente
+172,USJT - UC11 - CIÊNCIAS CONTÁBEIS - Semi Presencial 30.20 Bacharelado,UC11,UC (4-8),6,Semi Presencial 30.20 Bacharelado,USJT,40,70.0,Síncrono Mediado,Mediador Online
+173,USJT - UC11 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado,UC11,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,40,99999.0,Assíncrono,Professor Regente
+174,USJT - UC11 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado,UC11,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,40,70.0,Síncrono Mediado,Mediador Online
+175,USJT - UC11 - FARMÁCIA - Semi Presencial 40.20 Bacharelado,UC11,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,35,99999.0,Assíncrono,Professor Regente
+176,USJT - UC11 - FARMÁCIA - Semi Presencial 40.20 Bacharelado,UC11,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,35,70.0,Síncrono Mediado,Mediador Online
+177,USJT - UC11 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado,UC11,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,35,99999.0,Assíncrono,Professor Regente
+178,USJT - UC11 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado,UC11,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,35,70.0,Síncrono Mediado,Mediador Online
+179,USJT - UC11 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado,UC11,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,31,99999.0,Assíncrono,Professor Regente
+180,USJT - UC11 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado,UC11,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,31,70.0,Síncrono Mediado,Mediador Online
+181,USJT - UC11 - PEDAGOGIA - Semi Presencial 30.20 Licenciatura,UC11,UC (6-8),6,Semi Presencial 30.20 Licenciatura,USJT,70,550.0,Assíncrono,Mediador Assíncrono
+182,USJT - UC11 - PEDAGOGIA - Semi Presencial 30.20 Licenciatura,UC11,UC (6-8),6,Semi Presencial 30.20 Licenciatura,USJT,70,99999.0,Assíncrono,Professor Regente
+183,USJT - UC12 - ADMINISTRAÇÃO - Semi Presencial 30.20 Bacharelado,UC12,UC (4-8),6,Semi Presencial 30.20 Bacharelado,USJT,35,99999.0,Assíncrono,Professor Regente
+184,USJT - UC12 - ADMINISTRAÇÃO - Semi Presencial 30.20 Bacharelado,UC12,UC (4-8),6,Semi Presencial 30.20 Bacharelado,USJT,35,70.0,Síncrono Mediado,Mediador Online
+185,USJT - UC12 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado,UC12,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,44,99999.0,Assíncrono,Professor Regente
+186,USJT - UC12 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado,UC12,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,44,70.0,Síncrono Mediado,Mediador Online
+187,USJT - UC12 - CIÊNCIAS CONTÁBEIS - Semi Presencial 30.20 Bacharelado,UC12,UC (4-8),6,Semi Presencial 30.20 Bacharelado,USJT,40,99999.0,Assíncrono,Professor Regente
+188,USJT - UC12 - CIÊNCIAS CONTÁBEIS - Semi Presencial 30.20 Bacharelado,UC12,UC (4-8),6,Semi Presencial 30.20 Bacharelado,USJT,40,70.0,Síncrono Mediado,Mediador Online
+189,USJT - UC12 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado,UC12,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,40,99999.0,Assíncrono,Professor Regente
+190,USJT - UC12 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado,UC12,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,40,70.0,Síncrono Mediado,Mediador Online
+191,USJT - UC12 - FARMÁCIA - Semi Presencial 40.20 Bacharelado,UC12,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,35,99999.0,Assíncrono,Professor Regente
+192,USJT - UC12 - FARMÁCIA - Semi Presencial 40.20 Bacharelado,UC12,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,35,70.0,Síncrono Mediado,Mediador Online
+193,USJT - UC12 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado,UC12,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,35,99999.0,Assíncrono,Professor Regente
+194,USJT - UC12 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado,UC12,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,35,70.0,Síncrono Mediado,Mediador Online
+195,USJT - UC12 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado,UC12,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,31,99999.0,Assíncrono,Professor Regente
+196,USJT - UC12 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado,UC12,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,31,70.0,Síncrono Mediado,Mediador Online
+197,USJT - UC12 - PEDAGOGIA - Semi Presencial 30.20 Licenciatura,UC12,UC (6-8),6,Semi Presencial 30.20 Licenciatura,USJT,70,550.0,Assíncrono,Mediador Assíncrono
+198,USJT - UC12 - PEDAGOGIA - Semi Presencial 30.20 Licenciatura,UC12,UC (6-8),6,Semi Presencial 30.20 Licenciatura,USJT,70,99999.0,Assíncrono,Professor Regente
+199,USJT - UC13 - ADMINISTRAÇÃO - Semi Presencial 30.20 Bacharelado,UC13,UC (4-8),7,Semi Presencial 30.20 Bacharelado,USJT,25,99999.0,Assíncrono,Professor Regente
+200,USJT - UC13 - ADMINISTRAÇÃO - Semi Presencial 30.20 Bacharelado,UC13,UC (4-8),7,Semi Presencial 30.20 Bacharelado,USJT,25,70.0,Síncrono Mediado,Mediador Online
+201,USJT - UC13 - ANÁLISE E DESENVOLVIMENTO DE SISTEMAS - Semi Presencial 30.20 Bacharelado,UC13,UC (4-8),7,Semi Presencial 30.20 Bacharelado,USJT,45,99999.0,Assíncrono,Professor Regente
+202,USJT - UC13 - ANÁLISE E DESENVOLVIMENTO DE SISTEMAS - Semi Presencial 30.20 Bacharelado,UC13,UC (4-8),7,Semi Presencial 30.20 Bacharelado,USJT,45,70.0,Síncrono Mediado,Mediador Online
+203,USJT - UC13 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado,UC13,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,28,99999.0,Assíncrono,Professor Regente
+204,USJT - UC13 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado,UC13,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,28,70.0,Síncrono Mediado,Mediador Online
+205,USJT - UC13 - CIÊNCIAS CONTÁBEIS - Semi Presencial 30.20 Bacharelado,UC13,UC (4-8),7,Semi Presencial 30.20 Bacharelado,USJT,21,99999.0,Assíncrono,Professor Regente
+206,USJT - UC13 - CIÊNCIAS CONTÁBEIS - Semi Presencial 30.20 Bacharelado,UC13,UC (4-8),7,Semi Presencial 30.20 Bacharelado,USJT,21,70.0,Síncrono Mediado,Mediador Online
+207,USJT - UC13 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado,UC13,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,20,99999.0,Assíncrono,Professor Regente
+208,USJT - UC13 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado,UC13,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,20,70.0,Síncrono Mediado,Mediador Online
+209,USJT - UC13 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado,UC13,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,44,99999.0,Assíncrono,Professor Regente
+210,USJT - UC13 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado,UC13,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,44,70.0,Síncrono Mediado,Mediador Online
+211,USJT - UC13 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado,UC13,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,22,99999.0,Assíncrono,Professor Regente
+212,USJT - UC13 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado,UC13,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,22,70.0,Síncrono Mediado,Mediador Online
+213,USJT - UC13 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado,UC13,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,40,99999.0,Assíncrono,Professor Regente
+214,USJT - UC13 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado,UC13,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,40,70.0,Síncrono Mediado,Mediador Online
+215,USJT - UC13 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado,UC13,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,52,99999.0,Assíncrono,Professor Regente
+216,USJT - UC13 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado,UC13,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,52,70.0,Síncrono Mediado,Mediador Online
+217,USJT - UC13 - FARMÁCIA - Semi Presencial 40.20 Bacharelado,UC13,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,26,99999.0,Assíncrono,Professor Regente
+218,USJT - UC13 - FARMÁCIA - Semi Presencial 40.20 Bacharelado,UC13,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,26,70.0,Síncrono Mediado,Mediador Online
+219,USJT - UC13 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado,UC13,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,16,99999.0,Assíncrono,Professor Regente
+220,USJT - UC13 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado,UC13,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,16,70.0,Síncrono Mediado,Mediador Online
+221,USJT - UC13 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado,UC13,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,19,99999.0,Assíncrono,Professor Regente
+222,USJT - UC13 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado,UC13,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,19,70.0,Síncrono Mediado,Mediador Online
+223,USJT - UC13 - PEDAGOGIA - Semi Presencial 30.20 Licenciatura,UC13,UC (6-8),7,Semi Presencial 30.20 Licenciatura,USJT,41,550.0,Assíncrono,Mediador Assíncrono
+224,USJT - UC13 - PEDAGOGIA - Semi Presencial 30.20 Licenciatura,UC13,UC (6-8),7,Semi Presencial 30.20 Licenciatura,USJT,41,99999.0,Assíncrono,Professor Regente
+225,USJT - UC14 - ADMINISTRAÇÃO - Semi Presencial 30.20 Bacharelado,UC14,UC (4-8),7,Semi Presencial 30.20 Bacharelado,USJT,25,99999.0,Assíncrono,Professor Regente
+226,USJT - UC14 - ADMINISTRAÇÃO - Semi Presencial 30.20 Bacharelado,UC14,UC (4-8),7,Semi Presencial 30.20 Bacharelado,USJT,25,70.0,Síncrono Mediado,Mediador Online
+227,USJT - UC14 - ANÁLISE E DESENVOLVIMENTO DE SISTEMAS - Semi Presencial 30.20 Bacharelado,UC14,UC (4-8),7,Semi Presencial 30.20 Bacharelado,USJT,45,99999.0,Assíncrono,Professor Regente
+228,USJT - UC14 - ANÁLISE E DESENVOLVIMENTO DE SISTEMAS - Semi Presencial 30.20 Bacharelado,UC14,UC (4-8),7,Semi Presencial 30.20 Bacharelado,USJT,45,70.0,Síncrono Mediado,Mediador Online
+229,USJT - UC14 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado,UC14,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,28,99999.0,Assíncrono,Professor Regente
+230,USJT - UC14 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado,UC14,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,28,70.0,Síncrono Mediado,Mediador Online
+231,USJT - UC14 - CIÊNCIAS CONTÁBEIS - Semi Presencial 30.20 Bacharelado,UC14,UC (4-8),7,Semi Presencial 30.20 Bacharelado,USJT,21,99999.0,Assíncrono,Professor Regente
+232,USJT - UC14 - CIÊNCIAS CONTÁBEIS - Semi Presencial 30.20 Bacharelado,UC14,UC (4-8),7,Semi Presencial 30.20 Bacharelado,USJT,21,70.0,Síncrono Mediado,Mediador Online
+233,USJT - UC14 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado,UC14,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,20,99999.0,Assíncrono,Professor Regente
+234,USJT - UC14 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado,UC14,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,20,70.0,Síncrono Mediado,Mediador Online
+235,USJT - UC14 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado,UC14,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,44,99999.0,Assíncrono,Professor Regente
+236,USJT - UC14 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado,UC14,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,44,70.0,Síncrono Mediado,Mediador Online
+237,USJT - UC14 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado,UC14,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,22,99999.0,Assíncrono,Professor Regente
+238,USJT - UC14 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado,UC14,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,22,70.0,Síncrono Mediado,Mediador Online
+239,USJT - UC14 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado,UC14,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,40,99999.0,Assíncrono,Professor Regente
+240,USJT - UC14 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado,UC14,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,40,70.0,Síncrono Mediado,Mediador Online
+241,USJT - UC14 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado,UC14,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,52,99999.0,Assíncrono,Professor Regente
+242,USJT - UC14 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado,UC14,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,52,70.0,Síncrono Mediado,Mediador Online
+243,USJT - UC14 - FARMÁCIA - Semi Presencial 40.20 Bacharelado,UC14,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,26,99999.0,Assíncrono,Professor Regente
+244,USJT - UC14 - FARMÁCIA - Semi Presencial 40.20 Bacharelado,UC14,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,26,70.0,Síncrono Mediado,Mediador Online
+245,USJT - UC14 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado,UC14,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,16,99999.0,Assíncrono,Professor Regente
+246,USJT - UC14 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado,UC14,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,16,70.0,Síncrono Mediado,Mediador Online
+247,USJT - UC14 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado,UC14,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,19,99999.0,Assíncrono,Professor Regente
+248,USJT - UC14 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado,UC14,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,19,70.0,Síncrono Mediado,Mediador Online
+249,USJT - UC14 - PEDAGOGIA - Semi Presencial 30.20 Licenciatura,UC14,UC (6-8),8,Semi Presencial 30.20 Licenciatura,USJT,64,550.0,Assíncrono,Mediador Assíncrono
+250,USJT - UC14 - PEDAGOGIA - Semi Presencial 30.20 Licenciatura,UC14,UC (6-8),8,Semi Presencial 30.20 Licenciatura,USJT,64,99999.0,Assíncrono,Professor Regente
+251,USJT - UC15 - ADMINISTRAÇÃO - Semi Presencial 30.20 Bacharelado,UC15,UC (4-8),8,Semi Presencial 30.20 Bacharelado,USJT,27,99999.0,Assíncrono,Professor Regente
+252,USJT - UC15 - ADMINISTRAÇÃO - Semi Presencial 30.20 Bacharelado,UC15,UC (4-8),8,Semi Presencial 30.20 Bacharelado,USJT,27,70.0,Síncrono Mediado,Mediador Online
+253,USJT - UC15 - ANÁLISE E DESENVOLVIMENTO DE SISTEMAS - Semi Presencial 30.20 Bacharelado,UC15,UC (4-8),8,Semi Presencial 30.20 Bacharelado,USJT,54,99999.0,Assíncrono,Professor Regente
+254,USJT - UC15 - ANÁLISE E DESENVOLVIMENTO DE SISTEMAS - Semi Presencial 30.20 Bacharelado,UC15,UC (4-8),8,Semi Presencial 30.20 Bacharelado,USJT,54,70.0,Síncrono Mediado,Mediador Online
+255,USJT - UC15 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado,UC15,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,36,99999.0,Assíncrono,Professor Regente
+256,USJT - UC15 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado,UC15,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,36,70.0,Síncrono Mediado,Mediador Online
+257,USJT - UC15 - CIÊNCIAS CONTÁBEIS - Semi Presencial 30.20 Bacharelado,UC15,UC (4-8),8,Semi Presencial 30.20 Bacharelado,USJT,28,99999.0,Assíncrono,Professor Regente
+258,USJT - UC15 - CIÊNCIAS CONTÁBEIS - Semi Presencial 30.20 Bacharelado,UC15,UC (4-8),8,Semi Presencial 30.20 Bacharelado,USJT,28,70.0,Síncrono Mediado,Mediador Online
+259,USJT - UC15 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado,UC15,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,35,99999.0,Assíncrono,Professor Regente
+260,USJT - UC15 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado,UC15,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,35,70.0,Síncrono Mediado,Mediador Online
+261,USJT - UC15 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado,UC15,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,57,99999.0,Assíncrono,Professor Regente
+262,USJT - UC15 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado,UC15,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,57,70.0,Síncrono Mediado,Mediador Online
+263,USJT - UC15 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado,UC15,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,31,99999.0,Assíncrono,Professor Regente
+264,USJT - UC15 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado,UC15,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,31,70.0,Síncrono Mediado,Mediador Online
+265,USJT - UC15 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado,UC15,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,60,99999.0,Assíncrono,Professor Regente
+266,USJT - UC15 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado,UC15,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,60,70.0,Síncrono Mediado,Mediador Online
+267,USJT - UC15 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado,UC15,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,77,99999.0,Assíncrono,Professor Regente
+268,USJT - UC15 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado,UC15,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,77,70.0,Síncrono Mediado,Mediador Online
+269,USJT - UC15 - FARMÁCIA - Semi Presencial 40.20 Bacharelado,UC15,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,38,99999.0,Assíncrono,Professor Regente
+270,USJT - UC15 - FARMÁCIA - Semi Presencial 40.20 Bacharelado,UC15,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,38,70.0,Síncrono Mediado,Mediador Online
+271,USJT - UC15 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado,UC15,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,31,99999.0,Assíncrono,Professor Regente
+272,USJT - UC15 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado,UC15,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,31,70.0,Síncrono Mediado,Mediador Online
+273,USJT - UC15 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado,UC15,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,22,99999.0,Assíncrono,Professor Regente
+274,USJT - UC15 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado,UC15,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,22,70.0,Síncrono Mediado,Mediador Online
+275,USJT - UC16 - ADMINISTRAÇÃO - Semi Presencial 30.20 Bacharelado,UC16,UC (4-8),8,Semi Presencial 30.20 Bacharelado,USJT,27,99999.0,Assíncrono,Professor Regente
+276,USJT - UC16 - ADMINISTRAÇÃO - Semi Presencial 30.20 Bacharelado,UC16,UC (4-8),8,Semi Presencial 30.20 Bacharelado,USJT,27,70.0,Síncrono Mediado,Mediador Online
+277,USJT - UC16 - ANÁLISE E DESENVOLVIMENTO DE SISTEMAS - Semi Presencial 30.20 Bacharelado,UC16,UC (4-8),8,Semi Presencial 30.20 Bacharelado,USJT,54,99999.0,Assíncrono,Professor Regente
+278,USJT - UC16 - ANÁLISE E DESENVOLVIMENTO DE SISTEMAS - Semi Presencial 30.20 Bacharelado,UC16,UC (4-8),8,Semi Presencial 30.20 Bacharelado,USJT,54,70.0,Síncrono Mediado,Mediador Online
+279,USJT - UC16 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado,UC16,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,36,99999.0,Assíncrono,Professor Regente
+280,USJT - UC16 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado,UC16,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,36,70.0,Síncrono Mediado,Mediador Online
+281,USJT - UC16 - CIÊNCIAS CONTÁBEIS - Semi Presencial 30.20 Bacharelado,UC16,UC (4-8),8,Semi Presencial 30.20 Bacharelado,USJT,28,99999.0,Assíncrono,Professor Regente
+282,USJT - UC16 - CIÊNCIAS CONTÁBEIS - Semi Presencial 30.20 Bacharelado,UC16,UC (4-8),8,Semi Presencial 30.20 Bacharelado,USJT,28,70.0,Síncrono Mediado,Mediador Online
+283,USJT - UC16 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado,UC16,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,35,99999.0,Assíncrono,Professor Regente
+284,USJT - UC16 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado,UC16,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,35,70.0,Síncrono Mediado,Mediador Online
+285,USJT - UC16 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado,UC16,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,57,99999.0,Assíncrono,Professor Regente
+286,USJT - UC16 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado,UC16,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,57,70.0,Síncrono Mediado,Mediador Online
+287,USJT - UC16 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado,UC16,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,31,99999.0,Assíncrono,Professor Regente
+288,USJT - UC16 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado,UC16,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,31,70.0,Síncrono Mediado,Mediador Online
+289,USJT - UC16 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado,UC16,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,60,99999.0,Assíncrono,Professor Regente
+290,USJT - UC16 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado,UC16,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,60,70.0,Síncrono Mediado,Mediador Online
+291,USJT - UC16 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado,UC16,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,77,99999.0,Assíncrono,Professor Regente
+292,USJT - UC16 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado,UC16,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,77,70.0,Síncrono Mediado,Mediador Online
+293,USJT - UC16 - FARMÁCIA - Semi Presencial 40.20 Bacharelado,UC16,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,38,99999.0,Assíncrono,Professor Regente
+294,USJT - UC16 - FARMÁCIA - Semi Presencial 40.20 Bacharelado,UC16,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,38,70.0,Síncrono Mediado,Mediador Online
+295,USJT - UC16 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado,UC16,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,31,99999.0,Assíncrono,Professor Regente
+296,USJT - UC16 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado,UC16,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,31,70.0,Síncrono Mediado,Mediador Online
+297,USJT - UC16 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado,UC16,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,22,99999.0,Assíncrono,Professor Regente
+298,USJT - UC16 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado,UC16,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,22,70.0,Síncrono Mediado,Mediador Online
+299,USJT - UC17 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado,UC17,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,36,99999.0,Assíncrono,Professor Regente
+300,USJT - UC17 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado,UC17,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,36,70.0,Síncrono Mediado,Mediador Online
+301,USJT - UC17 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado,UC17,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,35,99999.0,Assíncrono,Professor Regente
+302,USJT - UC17 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado,UC17,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,35,70.0,Síncrono Mediado,Mediador Online
+303,USJT - UC17 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado,UC17,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,57,99999.0,Assíncrono,Professor Regente
+304,USJT - UC17 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado,UC17,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,57,70.0,Síncrono Mediado,Mediador Online
+305,USJT - UC17 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado,UC17,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,31,99999.0,Assíncrono,Professor Regente
+306,USJT - UC17 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado,UC17,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,31,70.0,Síncrono Mediado,Mediador Online
+307,USJT - UC17 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado,UC17,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,60,99999.0,Assíncrono,Professor Regente
+308,USJT - UC17 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado,UC17,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,60,70.0,Síncrono Mediado,Mediador Online
+309,USJT - UC17 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado,UC17,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,77,99999.0,Assíncrono,Professor Regente
+310,USJT - UC17 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado,UC17,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,77,70.0,Síncrono Mediado,Mediador Online
+311,USJT - UC17 - FARMÁCIA - Semi Presencial 40.20 Bacharelado,UC17,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,38,99999.0,Assíncrono,Professor Regente
+312,USJT - UC17 - FARMÁCIA - Semi Presencial 40.20 Bacharelado,UC17,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,38,70.0,Síncrono Mediado,Mediador Online
+313,USJT - UC17 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado,UC17,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,31,99999.0,Assíncrono,Professor Regente
+314,USJT - UC17 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado,UC17,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,31,70.0,Síncrono Mediado,Mediador Online
+315,USJT - UC17 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado,UC17,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,22,99999.0,Assíncrono,Professor Regente
+316,USJT - UC17 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado,UC17,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,22,70.0,Síncrono Mediado,Mediador Online
+317,USJT - UC18 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado,UC18,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,21,99999.0,Assíncrono,Professor Regente
+318,USJT - UC18 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado,UC18,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,21,70.0,Síncrono Mediado,Mediador Online
+319,USJT - UC18 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado,UC18,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,20,99999.0,Assíncrono,Professor Regente
+320,USJT - UC18 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado,UC18,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,20,70.0,Síncrono Mediado,Mediador Online
+321,USJT - UC18 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado,UC18,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,21,99999.0,Assíncrono,Professor Regente
+322,USJT - UC18 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado,UC18,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,21,70.0,Síncrono Mediado,Mediador Online
+323,USJT - UC18 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado,UC18,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,21,99999.0,Assíncrono,Professor Regente
+324,USJT - UC18 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado,UC18,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,21,70.0,Síncrono Mediado,Mediador Online
+325,USJT - UC18 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado,UC18,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,19,99999.0,Assíncrono,Professor Regente
+326,USJT - UC18 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado,UC18,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,19,70.0,Síncrono Mediado,Mediador Online
+327,USJT - UC18 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado,UC18,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,14,99999.0,Assíncrono,Professor Regente
+328,USJT - UC18 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado,UC18,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,14,70.0,Síncrono Mediado,Mediador Online
+329,USJT - UC18 - FARMÁCIA - Semi Presencial 40.20 Bacharelado,UC18,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,19,99999.0,Assíncrono,Professor Regente
+330,USJT - UC18 - FARMÁCIA - Semi Presencial 40.20 Bacharelado,UC18,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,19,70.0,Síncrono Mediado,Mediador Online
+331,USJT - UC18 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado,UC18,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,21,99999.0,Assíncrono,Professor Regente
+332,USJT - UC18 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado,UC18,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,21,70.0,Síncrono Mediado,Mediador Online
+333,USJT - UC18 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado,UC18,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,19,99999.0,Assíncrono,Professor Regente
+334,USJT - UC18 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado,UC18,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,19,70.0,Síncrono Mediado,Mediador Online
+335,USJT - UC19 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado,UC19,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,21,99999.0,Assíncrono,Professor Regente
+336,USJT - UC19 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado,UC19,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,21,70.0,Síncrono Mediado,Mediador Online
+337,USJT - UC19 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado,UC19,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,20,99999.0,Assíncrono,Professor Regente
+338,USJT - UC19 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado,UC19,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,20,70.0,Síncrono Mediado,Mediador Online
+339,USJT - UC19 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado,UC19,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,21,99999.0,Assíncrono,Professor Regente
+340,USJT - UC19 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado,UC19,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,21,70.0,Síncrono Mediado,Mediador Online
+341,USJT - UC19 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado,UC19,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,21,99999.0,Assíncrono,Professor Regente
+342,USJT - UC19 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado,UC19,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,21,70.0,Síncrono Mediado,Mediador Online
+343,USJT - UC19 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado,UC19,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,19,99999.0,Assíncrono,Professor Regente
+344,USJT - UC19 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado,UC19,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,19,70.0,Síncrono Mediado,Mediador Online
+345,USJT - UC19 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado,UC19,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,14,99999.0,Assíncrono,Professor Regente
+346,USJT - UC19 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado,UC19,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,14,70.0,Síncrono Mediado,Mediador Online
+347,USJT - UC19 - FARMÁCIA - Semi Presencial 40.20 Bacharelado,UC19,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,19,99999.0,Assíncrono,Professor Regente
+348,USJT - UC19 - FARMÁCIA - Semi Presencial 40.20 Bacharelado,UC19,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,19,70.0,Síncrono Mediado,Mediador Online
+349,USJT - UC19 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado,UC19,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,21,99999.0,Assíncrono,Professor Regente
+350,USJT - UC19 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado,UC19,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,21,70.0,Síncrono Mediado,Mediador Online
+351,USJT - UC19 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado,UC19,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,19,99999.0,Assíncrono,Professor Regente
+352,USJT - UC19 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado,UC19,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,19,70.0,Síncrono Mediado,Mediador Online
+353,USJT - UC20 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado,UC20,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,31,99999.0,Assíncrono,Professor Regente
+354,USJT - UC20 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado,UC20,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,31,70.0,Síncrono Mediado,Mediador Online
+355,USJT - UC20 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado,UC20,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,5,99999.0,Assíncrono,Professor Regente
+356,USJT - UC20 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado,UC20,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,5,70.0,Síncrono Mediado,Mediador Online
+357,USJT - UC20 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado,UC20,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,7,99999.0,Assíncrono,Professor Regente
+358,USJT - UC20 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado,UC20,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,7,70.0,Síncrono Mediado,Mediador Online
+359,USJT - UC20 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado,UC20,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,0,99999.0,Assíncrono,Professor Regente
+360,USJT - UC20 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado,UC20,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,0,70.0,Síncrono Mediado,Mediador Online
+361,USJT - UC20 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado,UC20,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,4,99999.0,Assíncrono,Professor Regente
+362,USJT - UC20 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado,UC20,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,4,70.0,Síncrono Mediado,Mediador Online
+363,USJT - UC20 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado,UC20,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,7,99999.0,Assíncrono,Professor Regente
+364,USJT - UC20 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado,UC20,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,7,70.0,Síncrono Mediado,Mediador Online
+365,USJT - UC20 - FARMÁCIA - Semi Presencial 40.20 Bacharelado,UC20,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,10,99999.0,Assíncrono,Professor Regente
+366,USJT - UC20 - FARMÁCIA - Semi Presencial 40.20 Bacharelado,UC20,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,10,70.0,Síncrono Mediado,Mediador Online
+367,USJT - UC20 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado,UC20,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,14,99999.0,Assíncrono,Professor Regente
+368,USJT - UC20 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado,UC20,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,14,70.0,Síncrono Mediado,Mediador Online
+369,USJT - UC20 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado,UC20,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,24,99999.0,Assíncrono,Professor Regente
+370,USJT - UC20 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado,UC20,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,24,70.0,Síncrono Mediado,Mediador Online
+371,USJT - UC21 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado,UC21,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,31,99999.0,Assíncrono,Professor Regente
+372,USJT - UC21 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado,UC21,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,31,70.0,Síncrono Mediado,Mediador Online
+373,USJT - UC21 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado,UC21,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,5,99999.0,Assíncrono,Professor Regente
+374,USJT - UC21 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado,UC21,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,5,70.0,Síncrono Mediado,Mediador Online
+375,USJT - UC21 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado,UC21,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,7,99999.0,Assíncrono,Professor Regente
+376,USJT - UC21 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado,UC21,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,7,70.0,Síncrono Mediado,Mediador Online
+377,USJT - UC21 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado,UC21,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,0,99999.0,Assíncrono,Professor Regente
+378,USJT - UC21 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado,UC21,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,0,70.0,Síncrono Mediado,Mediador Online
+379,USJT - UC21 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado,UC21,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,4,99999.0,Assíncrono,Professor Regente
+380,USJT - UC21 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado,UC21,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,4,70.0,Síncrono Mediado,Mediador Online
+381,USJT - UC21 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado,UC21,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,7,99999.0,Assíncrono,Professor Regente
+382,USJT - UC21 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado,UC21,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,7,70.0,Síncrono Mediado,Mediador Online
+383,USJT - UC21 - FARMÁCIA - Semi Presencial 40.20 Bacharelado,UC21,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,10,99999.0,Assíncrono,Professor Regente
+384,USJT - UC21 - FARMÁCIA - Semi Presencial 40.20 Bacharelado,UC21,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,10,70.0,Síncrono Mediado,Mediador Online
+385,USJT - UC21 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado,UC21,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,14,99999.0,Assíncrono,Professor Regente
+386,USJT - UC21 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado,UC21,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,14,70.0,Síncrono Mediado,Mediador Online
+387,USJT - UC21 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado,UC21,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,24,99999.0,Assíncrono,Professor Regente
+388,USJT - UC21 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado,UC21,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,24,70.0,Síncrono Mediado,Mediador Online
+389,USJT - UC8 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado,UC8,UC (1-6),4,Semi Presencial 40.20 Bacharelado,USJT,33,99999.0,Assíncrono,Professor Regente
+390,USJT - UC8 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado,UC8,UC (1-6),4,Semi Presencial 40.20 Bacharelado,USJT,33,70.0,Síncrono Mediado,Mediador Online
+391,USJT - UC8 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado,UC8,UC (1-6),4,Semi Presencial 40.20 Bacharelado,USJT,43,99999.0,Assíncrono,Professor Regente
+392,USJT - UC8 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado,UC8,UC (1-6),4,Semi Presencial 40.20 Bacharelado,USJT,43,70.0,Síncrono Mediado,Mediador Online
+393,USJT - UC8 - FARMÁCIA - Semi Presencial 40.20 Bacharelado,UC8,UC (1-6),4,Semi Presencial 40.20 Bacharelado,USJT,48,99999.0,Assíncrono,Professor Regente
+394,USJT - UC8 - FARMÁCIA - Semi Presencial 40.20 Bacharelado,UC8,UC (1-6),4,Semi Presencial 40.20 Bacharelado,USJT,48,70.0,Síncrono Mediado,Mediador Online
+395,USJT - UC8 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado,UC8,UC (1-6),4,Semi Presencial 40.20 Bacharelado,USJT,45,99999.0,Assíncrono,Professor Regente
+396,USJT - UC8 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado,UC8,UC (1-6),4,Semi Presencial 40.20 Bacharelado,USJT,45,70.0,Síncrono Mediado,Mediador Online
+397,USJT - UC8 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado,UC8,UC (1-6),4,Semi Presencial 40.20 Bacharelado,USJT,33,99999.0,Assíncrono,Professor Regente
+398,USJT - UC8 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado,UC8,UC (1-6),4,Semi Presencial 40.20 Bacharelado,USJT,33,70.0,Síncrono Mediado,Mediador Online
+399,USJT - UC9 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado,UC9,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,23,99999.0,Assíncrono,Professor Regente
+400,USJT - UC9 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado,UC9,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,23,70.0,Síncrono Mediado,Mediador Online
+401,USJT - UC9 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado,UC9,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,28,99999.0,Assíncrono,Professor Regente
+402,USJT - UC9 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado,UC9,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,28,70.0,Síncrono Mediado,Mediador Online
+403,USJT - UC9 - FARMÁCIA - Semi Presencial 40.20 Bacharelado,UC9,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,24,99999.0,Assíncrono,Professor Regente
+404,USJT - UC9 - FARMÁCIA - Semi Presencial 40.20 Bacharelado,UC9,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,24,70.0,Síncrono Mediado,Mediador Online
+405,USJT - UC9 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado,UC9,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,22,99999.0,Assíncrono,Professor Regente
+406,USJT - UC9 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado,UC9,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,22,70.0,Síncrono Mediado,Mediador Online
+407,USJT - UC9 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado,UC9,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,25,99999.0,Assíncrono,Professor Regente
+408,USJT - UC9 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado,UC9,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,25,70.0,Síncrono Mediado,Mediador Online
+409,USJT - PPI 1 - PEDAGOGIA - Semi Presencial 30.20 Licenciatura - Professor Regente,PPI 1,PPI,6,Semi Presencial 30.20 Licenciatura,USJT,70,,Assíncrono,
+410,USJT - PPI 2 - PEDAGOGIA - Semi Presencial 30.20 Licenciatura - Professor Regente,PPI 2,PPI,7,Semi Presencial 30.20 Licenciatura,USJT,41,,Assíncrono,
+411,USJT - UC1 - ADMINISTRAÇÃO - Semi Presencial 30.20 Bacharelado - Professor Regente,UC1,UC (1-3),1,Semi Presencial 30.20 Bacharelado,USJT,44,99999.0,Assíncrono,Professor Regente
+412,USJT - UC1 - ANÁLISE E DESENVOLVIMENTO DE SISTEMAS - Semi Presencial 30.20 Bacharelado - Professor Regente,UC1,UC (1-3),1,Semi Presencial 30.20 Bacharelado,USJT,70,99999.0,Assíncrono,Professor Regente
+413,USJT - UC1 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC1,UC (1-6),1,Semi Presencial 40.20 Bacharelado,USJT,39,99999.0,Assíncrono,Professor Regente
+414,USJT - UC1 - CIÊNCIAS CONTÁBEIS - Semi Presencial 30.20 Bacharelado - Professor Regente,UC1,UC (1-3),1,Semi Presencial 30.20 Bacharelado,USJT,41,99999.0,Assíncrono,Professor Regente
+415,USJT - UC1 - Computação e Tecnologias da Informação e Comunicação (TIC) - Semi Presencial 30.20 Bacharelado - 1 - Assíncrono - Polos Agrupados,UC1,UC (1-3),1,Semi Presencial 30.20 Bacharelado,USJT,70,99999.0,Assíncrono,Professor Regente
+416,USJT - UC1 - Computação e Tecnologias da Informação e Comunicação (TIC) - Semi Presencial 30.20 Bacharelado - 1 - Presencial - AMERICANA : JARDIM GIRASSOL,UC1,UC (1-3),1,Semi Presencial 30.20 Bacharelado,USJT,33,120.0,Presencial,Mediador Presencial
+417,USJT - UC1 - Computação e Tecnologias da Informação e Comunicação (TIC) - Semi Presencial 30.20 Bacharelado - 1 - Presencial - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC1,UC (1-3),1,Semi Presencial 30.20 Bacharelado,USJT,37,120.0,Presencial,Mediador Presencial
+418,USJT - UC1 - Computação e Tecnologias da Informação e Comunicação (TIC) - Semi Presencial 30.20 Bacharelado - 1 - Síncrono Mediado - Polos Agrupados,UC1,UC (1-3),1,Semi Presencial 30.20 Bacharelado,USJT,70,70.0,Síncrono Mediado,Mediador Online
+419,USJT - UC1 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC1,UC (1-6),1,Semi Presencial 40.20 Bacharelado,USJT,43,99999.0,Assíncrono,Professor Regente
+420,USJT - UC1 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado - Professor Regente,UC1,UC (1-6),1,Semi Presencial 40.20 Bacharelado,USJT,86,99999.0,Assíncrono,Professor Regente
+421,USJT - UC1 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado - Professor Regente,UC1,UC (1-6),1,Semi Presencial 40.20 Bacharelado,USJT,43,99999.0,Assíncrono,Professor Regente
+422,USJT - UC1 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC1,UC (1-6),1,Semi Presencial 40.20 Bacharelado,USJT,82,99999.0,Assíncrono,Professor Regente
+423,USJT - UC1 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC1,UC (1-6),1,Semi Presencial 40.20 Bacharelado,USJT,87,99999.0,Assíncrono,Professor Regente
+424,USJT - UC1 - Educação - Semi Presencial 30.20 Licenciatura - 1 - Assíncrono - Polos Agrupados,UC1,UC (1-5),1,Semi Presencial 30.20 Licenciatura,USJT,80,99999.0,Assíncrono,Professor Regente
+425,USJT - UC1 - Educação - Semi Presencial 30.20 Licenciatura - 1 - Presencial - AMERICANA : JARDIM GIRASSOL,UC1,UC (1-5),1,Semi Presencial 30.20 Licenciatura,USJT,33,120.0,Presencial,Mediador Presencial
+426,USJT - UC1 - Educação - Semi Presencial 30.20 Licenciatura - 1 - Presencial - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC1,UC (1-5),1,Semi Presencial 30.20 Licenciatura,USJT,47,120.0,Presencial,Mediador Presencial
+427,"USJT - UC1 - Engenharia, produção e construção - Semi Presencial 40.20 Bacharelado - 1 - Assíncrono - Polos Agrupados",UC1,UC (1-6),1,Semi Presencial 40.20 Bacharelado,USJT,298,99999.0,Assíncrono,Professor Regente
+428,"USJT - UC1 - Engenharia, produção e construção - Semi Presencial 40.20 Bacharelado - 1 - Presencial - AMERICANA : JARDIM GIRASSOL",UC1,UC (1-6),1,Semi Presencial 40.20 Bacharelado,USJT,130,120.0,Presencial,Mediador Presencial
+429,"USJT - UC1 - Engenharia, produção e construção - Semi Presencial 40.20 Bacharelado - 1 - Presencial - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO",UC1,UC (1-6),1,Semi Presencial 40.20 Bacharelado,USJT,168,120.0,Presencial,Mediador Presencial
+430,"USJT - UC1 - Engenharia, produção e construção - Semi Presencial 40.20 Bacharelado - 1 - Síncrono Mediado - Polos Agrupados",UC1,UC (1-6),1,Semi Presencial 40.20 Bacharelado,USJT,298,70.0,Síncrono Mediado,Mediador Online
+431,USJT - UC1 - FARMÁCIA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC1,UC (1-6),1,Semi Presencial 40.20 Bacharelado,USJT,37,99999.0,Assíncrono,Professor Regente
+432,USJT - UC1 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC1,UC (1-6),1,Semi Presencial 40.20 Bacharelado,USJT,36,99999.0,Assíncrono,Professor Regente
+433,USJT - UC1 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado - Professor Regente,UC1,UC (1-6),1,Semi Presencial 40.20 Bacharelado,USJT,33,99999.0,Assíncrono,Professor Regente
+434,"USJT - UC1 - Negócios, administração e direito - Semi Presencial 30.20 Bacharelado - 1 - Assíncrono - Polos Agrupados",UC1,UC (1-3),1,Semi Presencial 30.20 Bacharelado,USJT,85,99999.0,Assíncrono,Professor Regente
+435,"USJT - UC1 - Negócios, administração e direito - Semi Presencial 30.20 Bacharelado - 1 - Presencial - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO",UC1,UC (1-3),1,Semi Presencial 30.20 Bacharelado,USJT,85,120.0,Presencial,Mediador Presencial
+436,"USJT - UC1 - Negócios, administração e direito - Semi Presencial 30.20 Bacharelado - 1 - Síncrono Mediado - Polos Agrupados",UC1,UC (1-3),1,Semi Presencial 30.20 Bacharelado,USJT,85,70.0,Síncrono Mediado,Mediador Online
+437,USJT - UC1 - PEDAGOGIA - Semi Presencial 30.20 Licenciatura - Professor Regente,UC1,UC (1-5),1,Semi Presencial 30.20 Licenciatura,USJT,80,99999.0,Assíncrono,Professor Regente
+438,USJT - UC1 - Saúde e bem-estar - Semi Presencial 40.20 Bacharelado - 1 - Assíncrono - Polos Agrupados,UC1,UC (1-6),1,Semi Presencial 40.20 Bacharelado,USJT,188,99999.0,Assíncrono,Professor Regente
+439,USJT - UC1 - Saúde e bem-estar - Semi Presencial 40.20 Bacharelado - 1 - Presencial - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC1,UC (1-6),1,Semi Presencial 40.20 Bacharelado,USJT,188,120.0,Presencial,Mediador Presencial
+440,USJT - UC1 - Saúde e bem-estar - Semi Presencial 40.20 Bacharelado - 1 - Síncrono Mediado - Polos Agrupados,UC1,UC (1-6),1,Semi Presencial 40.20 Bacharelado,USJT,188,70.0,Síncrono Mediado,Mediador Online
+441,USJT - UC10 - ADMINISTRAÇÃO - Semi Presencial 30.20 Bacharelado - Professor Regente,UC10,UC (4-8),5,Semi Presencial 30.20 Bacharelado,USJT,26,99999.0,Assíncrono,Professor Regente
+442,USJT - UC10 - ANÁLISE E DESENVOLVIMENTO DE SISTEMAS - Semi Presencial 30.20 Bacharelado - Professor Regente,UC10,UC (4-8),5,Semi Presencial 30.20 Bacharelado,USJT,53,99999.0,Assíncrono,Professor Regente
+443,USJT - UC10 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC10,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,23,99999.0,Assíncrono,Professor Regente
+444,USJT - UC10 - CIÊNCIAS CONTÁBEIS - Semi Presencial 30.20 Bacharelado - Professor Regente,UC10,UC (4-8),5,Semi Presencial 30.20 Bacharelado,USJT,28,99999.0,Assíncrono,Professor Regente
+445,USJT - UC10 - Computação e Tecnologias da Informação e Comunicação (TIC) - Semi Presencial 30.20 Bacharelado - 5 - Assíncrono - Polos Agrupados,UC10,UC (4-8),5,Semi Presencial 30.20 Bacharelado,USJT,53,99999.0,Assíncrono,Professor Regente
+446,USJT - UC10 - Computação e Tecnologias da Informação e Comunicação (TIC) - Semi Presencial 30.20 Bacharelado - 5 - Presencial - AMERICANA : JARDIM GIRASSOL,UC10,UC (4-8),5,Semi Presencial 30.20 Bacharelado,USJT,30,120.0,Presencial,Mediador Presencial
+447,USJT - UC10 - Computação e Tecnologias da Informação e Comunicação (TIC) - Semi Presencial 30.20 Bacharelado - 5 - Presencial - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC10,UC (4-8),5,Semi Presencial 30.20 Bacharelado,USJT,23,120.0,Presencial,Mediador Presencial
+448,USJT - UC10 - Computação e Tecnologias da Informação e Comunicação (TIC) - Semi Presencial 30.20 Bacharelado - 5 - Síncrono Mediado - Polos Agrupados,UC10,UC (4-8),5,Semi Presencial 30.20 Bacharelado,USJT,53,70.0,Síncrono Mediado,Mediador Online
+449,USJT - UC10 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC10,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,28,99999.0,Assíncrono,Professor Regente
+450,USJT - UC10 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado - Professor Regente,UC10,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,38,99999.0,Assíncrono,Professor Regente
+451,USJT - UC10 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado - Professor Regente,UC10,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,24,99999.0,Assíncrono,Professor Regente
+452,USJT - UC10 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC10,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,44,99999.0,Assíncrono,Professor Regente
+453,USJT - UC10 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC10,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,51,99999.0,Assíncrono,Professor Regente
+454,"USJT - UC10 - Engenharia, produção e construção - Semi Presencial 40.20 Bacharelado - 5 - Assíncrono - Polos Agrupados",UC10,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,157,99999.0,Assíncrono,Professor Regente
+455,"USJT - UC10 - Engenharia, produção e construção - Semi Presencial 40.20 Bacharelado - 5 - Presencial - AMERICANA : JARDIM GIRASSOL",UC10,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,73,120.0,Presencial,Mediador Presencial
+456,"USJT - UC10 - Engenharia, produção e construção - Semi Presencial 40.20 Bacharelado - 5 - Presencial - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO",UC10,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,84,120.0,Presencial,Mediador Presencial
+457,"USJT - UC10 - Engenharia, produção e construção - Semi Presencial 40.20 Bacharelado - 5 - Síncrono Mediado - Polos Agrupados",UC10,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,157,70.0,Síncrono Mediado,Mediador Online
+458,USJT - UC10 - FARMÁCIA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC10,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,24,99999.0,Assíncrono,Professor Regente
+459,USJT - UC10 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC10,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,22,99999.0,Assíncrono,Professor Regente
+460,USJT - UC10 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado - Professor Regente,UC10,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,25,99999.0,Assíncrono,Professor Regente
+461,"USJT - UC10 - Negócios, administração e direito - Semi Presencial 30.20 Bacharelado - 5 - Assíncrono - Polos Agrupados",UC10,UC (4-8),5,Semi Presencial 30.20 Bacharelado,USJT,54,99999.0,Assíncrono,Professor Regente
+462,"USJT - UC10 - Negócios, administração e direito - Semi Presencial 30.20 Bacharelado - 5 - Presencial - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO",UC10,UC (4-8),5,Semi Presencial 30.20 Bacharelado,USJT,54,120.0,Presencial,Mediador Presencial
+463,"USJT - UC10 - Negócios, administração e direito - Semi Presencial 30.20 Bacharelado - 5 - Síncrono Mediado - Polos Agrupados",UC10,UC (4-8),5,Semi Presencial 30.20 Bacharelado,USJT,54,70.0,Síncrono Mediado,Mediador Online
+464,USJT - UC10-E - Educação - Semi Presencial 30.20 Licenciatura - 5 - Assíncrono - Polos Agrupados,UC10-E,UC (1-5),5,Semi Presencial 30.20 Licenciatura,USJT,54,99999.0,Assíncrono,Professor Regente
+465,USJT - UC10-E - Educação - Semi Presencial 30.20 Licenciatura - 5 - Presencial - AMERICANA : JARDIM GIRASSOL,UC10-E,UC (1-5),5,Semi Presencial 30.20 Licenciatura,USJT,27,120.0,Presencial,Mediador Presencial
+466,USJT - UC10-E - Educação - Semi Presencial 30.20 Licenciatura - 5 - Presencial - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC10-E,UC (1-5),5,Semi Presencial 30.20 Licenciatura,USJT,27,120.0,Presencial,Mediador Presencial
+467,USJT - UC10-E - PEDAGOGIA - Semi Presencial 30.20 Licenciatura - Professor Regente,UC10-E,UC (1-5),5,Semi Presencial 30.20 Licenciatura,USJT,54,99999.0,Assíncrono,Professor Regente
+468,USJT - UC11 - ADMINISTRAÇÃO - Semi Presencial 30.20 Bacharelado - Professor Regente,UC11,UC (4-8),6,Semi Presencial 30.20 Bacharelado,USJT,35,99999.0,Assíncrono,Professor Regente
+469,USJT - UC11 - ANÁLISE E DESENVOLVIMENTO DE SISTEMAS - Semi Presencial 30.20 Bacharelado - Professor Regente,UC11,UC (4-8),6,Semi Presencial 30.20 Bacharelado,USJT,62,99999.0,Assíncrono,Professor Regente
+470,USJT - UC11 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC11,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,44,99999.0,Assíncrono,Professor Regente
+471,USJT - UC11 - CIÊNCIAS CONTÁBEIS - Semi Presencial 30.20 Bacharelado - Professor Regente,UC11,UC (4-8),6,Semi Presencial 30.20 Bacharelado,USJT,40,99999.0,Assíncrono,Professor Regente
+472,USJT - UC11 - Computação e Tecnologias da Informação e Comunicação (TIC) - Semi Presencial 30.20 Bacharelado - 6 - Assíncrono - Polos Agrupados,UC11,UC (4-8),6,Semi Presencial 30.20 Bacharelado,USJT,62,99999.0,Assíncrono,Professor Regente
+473,USJT - UC11 - Computação e Tecnologias da Informação e Comunicação (TIC) - Semi Presencial 30.20 Bacharelado - 6 - Presencial - AMERICANA : JARDIM GIRASSOL,UC11,UC (4-8),6,Semi Presencial 30.20 Bacharelado,USJT,35,120.0,Presencial,Mediador Presencial
+474,USJT - UC11 - Computação e Tecnologias da Informação e Comunicação (TIC) - Semi Presencial 30.20 Bacharelado - 6 - Presencial - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC11,UC (4-8),6,Semi Presencial 30.20 Bacharelado,USJT,27,120.0,Presencial,Mediador Presencial
+475,USJT - UC11 - Computação e Tecnologias da Informação e Comunicação (TIC) - Semi Presencial 30.20 Bacharelado - 6 - Síncrono Mediado - Polos Agrupados,UC11,UC (4-8),6,Semi Presencial 30.20 Bacharelado,USJT,62,70.0,Síncrono Mediado,Mediador Online
+476,USJT - UC11 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC11,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,40,99999.0,Assíncrono,Professor Regente
+477,USJT - UC11 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado - Professor Regente,UC11,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,76,99999.0,Assíncrono,Professor Regente
+478,USJT - UC11 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado - Professor Regente,UC11,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,34,99999.0,Assíncrono,Professor Regente
+479,USJT - UC11 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC11,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,68,99999.0,Assíncrono,Professor Regente
+480,USJT - UC11 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC11,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,75,99999.0,Assíncrono,Professor Regente
+481,"USJT - UC11 - Engenharia, produção e construção - Semi Presencial 40.20 Bacharelado - 6 - Assíncrono - Polos Agrupados",UC11,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,253,99999.0,Assíncrono,Professor Regente
+482,"USJT - UC11 - Engenharia, produção e construção - Semi Presencial 40.20 Bacharelado - 6 - Presencial - AMERICANA : JARDIM GIRASSOL",UC11,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,103,120.0,Presencial,Mediador Presencial
+483,"USJT - UC11 - Engenharia, produção e construção - Semi Presencial 40.20 Bacharelado - 6 - Presencial - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO",UC11,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,150,120.0,Presencial,Mediador Presencial
+484,"USJT - UC11 - Engenharia, produção e construção - Semi Presencial 40.20 Bacharelado - 6 - Síncrono Mediado - Polos Agrupados",UC11,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,253,70.0,Síncrono Mediado,Mediador Online
+485,USJT - UC11 - FARMÁCIA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC11,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,35,99999.0,Assíncrono,Professor Regente
+486,USJT - UC11 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC11,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,35,99999.0,Assíncrono,Professor Regente
+487,USJT - UC11 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado - Professor Regente,UC11,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,31,99999.0,Assíncrono,Professor Regente
+488,USJT - UC11 - PEDAGOGIA - Semi Presencial 30.20 Licenciatura - Professor Regente,UC11,UC (6-8),6,Semi Presencial 30.20 Licenciatura,USJT,70,99999.0,Assíncrono,Professor Regente
+489,USJT - UC11 - PEDAGOGIA - Semi Presencial 30.20 Licenciatura - Professor Regente,UC11,UC (6-8),6,Semi Presencial 30.20 Licenciatura,USJT,70,550.0,Assíncrono,Mediador Assíncrono
+490,USJT - UC12 - ADMINISTRAÇÃO - Semi Presencial 30.20 Bacharelado - Professor Regente,UC12,UC (4-8),6,Semi Presencial 30.20 Bacharelado,USJT,35,99999.0,Assíncrono,Professor Regente
+491,USJT - UC12 - ANÁLISE E DESENVOLVIMENTO DE SISTEMAS - Semi Presencial 30.20 Bacharelado - Professor Regente,UC12,UC (4-8),6,Semi Presencial 30.20 Bacharelado,USJT,62,99999.0,Assíncrono,Professor Regente
+492,USJT - UC12 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC12,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,44,99999.0,Assíncrono,Professor Regente
+493,USJT - UC12 - CIÊNCIAS CONTÁBEIS - Semi Presencial 30.20 Bacharelado - Professor Regente,UC12,UC (4-8),6,Semi Presencial 30.20 Bacharelado,USJT,40,99999.0,Assíncrono,Professor Regente
+494,USJT - UC12 - Computação e Tecnologias da Informação e Comunicação (TIC) - Semi Presencial 30.20 Bacharelado - 6 - Assíncrono - Polos Agrupados,UC12,UC (4-8),6,Semi Presencial 30.20 Bacharelado,USJT,62,99999.0,Assíncrono,Professor Regente
+495,USJT - UC12 - Computação e Tecnologias da Informação e Comunicação (TIC) - Semi Presencial 30.20 Bacharelado - 6 - Presencial - AMERICANA : JARDIM GIRASSOL,UC12,UC (4-8),6,Semi Presencial 30.20 Bacharelado,USJT,35,120.0,Presencial,Mediador Presencial
+496,USJT - UC12 - Computação e Tecnologias da Informação e Comunicação (TIC) - Semi Presencial 30.20 Bacharelado - 6 - Presencial - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC12,UC (4-8),6,Semi Presencial 30.20 Bacharelado,USJT,27,120.0,Presencial,Mediador Presencial
+497,USJT - UC12 - Computação e Tecnologias da Informação e Comunicação (TIC) - Semi Presencial 30.20 Bacharelado - 6 - Síncrono Mediado - Polos Agrupados,UC12,UC (4-8),6,Semi Presencial 30.20 Bacharelado,USJT,62,70.0,Síncrono Mediado,Mediador Online
+498,USJT - UC12 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC12,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,40,99999.0,Assíncrono,Professor Regente
+499,USJT - UC12 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado - Professor Regente,UC12,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,76,99999.0,Assíncrono,Professor Regente
+500,USJT - UC12 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado - Professor Regente,UC12,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,34,99999.0,Assíncrono,Professor Regente
+501,USJT - UC12 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC12,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,68,99999.0,Assíncrono,Professor Regente
+502,USJT - UC12 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC12,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,75,99999.0,Assíncrono,Professor Regente
+503,"USJT - UC12 - Engenharia, produção e construção - Semi Presencial 40.20 Bacharelado - 6 - Assíncrono - Polos Agrupados",UC12,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,253,99999.0,Assíncrono,Professor Regente
+504,"USJT - UC12 - Engenharia, produção e construção - Semi Presencial 40.20 Bacharelado - 6 - Presencial - AMERICANA : JARDIM GIRASSOL",UC12,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,103,120.0,Presencial,Mediador Presencial
+505,"USJT - UC12 - Engenharia, produção e construção - Semi Presencial 40.20 Bacharelado - 6 - Presencial - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO",UC12,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,150,120.0,Presencial,Mediador Presencial
+506,"USJT - UC12 - Engenharia, produção e construção - Semi Presencial 40.20 Bacharelado - 6 - Síncrono Mediado - Polos Agrupados",UC12,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,253,70.0,Síncrono Mediado,Mediador Online
+507,USJT - UC12 - FARMÁCIA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC12,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,35,99999.0,Assíncrono,Professor Regente
+508,USJT - UC12 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC12,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,35,99999.0,Assíncrono,Professor Regente
+509,USJT - UC12 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado - Professor Regente,UC12,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,31,99999.0,Assíncrono,Professor Regente
+510,USJT - UC12 - PEDAGOGIA - Semi Presencial 30.20 Licenciatura - Professor Regente,UC12,UC (6-8),6,Semi Presencial 30.20 Licenciatura,USJT,70,99999.0,Assíncrono,Professor Regente
+511,USJT - UC12 - PEDAGOGIA - Semi Presencial 30.20 Licenciatura - Professor Regente,UC12,UC (6-8),6,Semi Presencial 30.20 Licenciatura,USJT,70,550.0,Assíncrono,Mediador Assíncrono
+512,USJT - UC13 - ADMINISTRAÇÃO - Semi Presencial 30.20 Bacharelado - Professor Regente,UC13,UC (4-8),7,Semi Presencial 30.20 Bacharelado,USJT,25,99999.0,Assíncrono,Professor Regente
+513,USJT - UC13 - ANÁLISE E DESENVOLVIMENTO DE SISTEMAS - Semi Presencial 30.20 Bacharelado - Professor Regente,UC13,UC (4-8),7,Semi Presencial 30.20 Bacharelado,USJT,45,99999.0,Assíncrono,Professor Regente
+514,USJT - UC13 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC13,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,28,99999.0,Assíncrono,Professor Regente
+515,USJT - UC13 - CIÊNCIAS CONTÁBEIS - Semi Presencial 30.20 Bacharelado - Professor Regente,UC13,UC (4-8),7,Semi Presencial 30.20 Bacharelado,USJT,21,99999.0,Assíncrono,Professor Regente
+516,USJT - UC13 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC13,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,20,99999.0,Assíncrono,Professor Regente
+517,USJT - UC13 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado - Professor Regente,UC13,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,44,99999.0,Assíncrono,Professor Regente
+518,USJT - UC13 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado - Professor Regente,UC13,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,22,99999.0,Assíncrono,Professor Regente
+519,USJT - UC13 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC13,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,40,99999.0,Assíncrono,Professor Regente
+520,USJT - UC13 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC13,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,52,99999.0,Assíncrono,Professor Regente
+521,USJT - UC13 - FARMÁCIA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC13,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,26,99999.0,Assíncrono,Professor Regente
+522,USJT - UC13 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC13,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,16,99999.0,Assíncrono,Professor Regente
+523,USJT - UC13 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado - Professor Regente,UC13,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,19,99999.0,Assíncrono,Professor Regente
+524,USJT - UC13 - PEDAGOGIA - Semi Presencial 30.20 Licenciatura - Professor Regente,UC13,UC (6-8),7,Semi Presencial 30.20 Licenciatura,USJT,41,99999.0,Assíncrono,Professor Regente
+525,USJT - UC13 - PEDAGOGIA - Semi Presencial 30.20 Licenciatura - Professor Regente,UC13,UC (6-8),7,Semi Presencial 30.20 Licenciatura,USJT,41,550.0,Assíncrono,Mediador Assíncrono
+526,USJT - UC14 - ADMINISTRAÇÃO - Semi Presencial 30.20 Bacharelado - Professor Regente,UC14,UC (4-8),7,Semi Presencial 30.20 Bacharelado,USJT,25,99999.0,Assíncrono,Professor Regente
+527,USJT - UC14 - ANÁLISE E DESENVOLVIMENTO DE SISTEMAS - Semi Presencial 30.20 Bacharelado - Professor Regente,UC14,UC (4-8),7,Semi Presencial 30.20 Bacharelado,USJT,45,99999.0,Assíncrono,Professor Regente
+528,USJT - UC14 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC14,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,28,99999.0,Assíncrono,Professor Regente
+529,USJT - UC14 - CIÊNCIAS CONTÁBEIS - Semi Presencial 30.20 Bacharelado - Professor Regente,UC14,UC (4-8),7,Semi Presencial 30.20 Bacharelado,USJT,21,99999.0,Assíncrono,Professor Regente
+530,USJT - UC14 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC14,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,20,99999.0,Assíncrono,Professor Regente
+531,USJT - UC14 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado - Professor Regente,UC14,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,44,99999.0,Assíncrono,Professor Regente
+532,USJT - UC14 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado - Professor Regente,UC14,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,22,99999.0,Assíncrono,Professor Regente
+533,USJT - UC14 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC14,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,40,99999.0,Assíncrono,Professor Regente
+534,USJT - UC14 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC14,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,52,99999.0,Assíncrono,Professor Regente
+535,USJT - UC14 - FARMÁCIA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC14,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,26,99999.0,Assíncrono,Professor Regente
+536,USJT - UC14 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC14,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,16,99999.0,Assíncrono,Professor Regente
+537,USJT - UC14 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado - Professor Regente,UC14,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,19,99999.0,Assíncrono,Professor Regente
+538,USJT - UC14 - PEDAGOGIA - Semi Presencial 30.20 Licenciatura - Professor Regente,UC14,UC (6-8),8,Semi Presencial 30.20 Licenciatura,USJT,64,99999.0,Assíncrono,Professor Regente
+539,USJT - UC14 - PEDAGOGIA - Semi Presencial 30.20 Licenciatura - Professor Regente,UC14,UC (6-8),8,Semi Presencial 30.20 Licenciatura,USJT,64,550.0,Assíncrono,Mediador Assíncrono
+540,USJT - UC15 - ADMINISTRAÇÃO - Semi Presencial 30.20 Bacharelado - Professor Regente,UC15,UC (4-8),8,Semi Presencial 30.20 Bacharelado,USJT,27,99999.0,Assíncrono,Professor Regente
+541,USJT - UC15 - ANÁLISE E DESENVOLVIMENTO DE SISTEMAS - Semi Presencial 30.20 Bacharelado - Professor Regente,UC15,UC (4-8),8,Semi Presencial 30.20 Bacharelado,USJT,54,99999.0,Assíncrono,Professor Regente
+542,USJT - UC15 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC15,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,36,99999.0,Assíncrono,Professor Regente
+543,USJT - UC15 - CIÊNCIAS CONTÁBEIS - Semi Presencial 30.20 Bacharelado - Professor Regente,UC15,UC (4-8),8,Semi Presencial 30.20 Bacharelado,USJT,28,99999.0,Assíncrono,Professor Regente
+544,USJT - UC15 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC15,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,35,99999.0,Assíncrono,Professor Regente
+545,USJT - UC15 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado - Professor Regente,UC15,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,57,99999.0,Assíncrono,Professor Regente
+546,USJT - UC15 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado - Professor Regente,UC15,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,31,99999.0,Assíncrono,Professor Regente
+547,USJT - UC15 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC15,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,60,99999.0,Assíncrono,Professor Regente
+548,USJT - UC15 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC15,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,77,99999.0,Assíncrono,Professor Regente
+549,USJT - UC15 - FARMÁCIA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC15,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,38,99999.0,Assíncrono,Professor Regente
+550,USJT - UC15 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC15,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,31,99999.0,Assíncrono,Professor Regente
+551,USJT - UC15 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado - Professor Regente,UC15,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,22,99999.0,Assíncrono,Professor Regente
+552,USJT - UC16 - ADMINISTRAÇÃO - Semi Presencial 30.20 Bacharelado - Professor Regente,UC16,UC (4-8),8,Semi Presencial 30.20 Bacharelado,USJT,27,99999.0,Assíncrono,Professor Regente
+553,USJT - UC16 - ANÁLISE E DESENVOLVIMENTO DE SISTEMAS - Semi Presencial 30.20 Bacharelado - Professor Regente,UC16,UC (4-8),8,Semi Presencial 30.20 Bacharelado,USJT,54,99999.0,Assíncrono,Professor Regente
+554,USJT - UC16 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC16,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,36,99999.0,Assíncrono,Professor Regente
+555,USJT - UC16 - CIÊNCIAS CONTÁBEIS - Semi Presencial 30.20 Bacharelado - Professor Regente,UC16,UC (4-8),8,Semi Presencial 30.20 Bacharelado,USJT,28,99999.0,Assíncrono,Professor Regente
+556,USJT - UC16 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC16,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,35,99999.0,Assíncrono,Professor Regente
+557,USJT - UC16 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado - Professor Regente,UC16,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,57,99999.0,Assíncrono,Professor Regente
+558,USJT - UC16 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado - Professor Regente,UC16,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,31,99999.0,Assíncrono,Professor Regente
+559,USJT - UC16 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC16,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,60,99999.0,Assíncrono,Professor Regente
+560,USJT - UC16 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC16,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,77,99999.0,Assíncrono,Professor Regente
+561,USJT - UC16 - FARMÁCIA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC16,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,38,99999.0,Assíncrono,Professor Regente
+562,USJT - UC16 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC16,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,31,99999.0,Assíncrono,Professor Regente
+563,USJT - UC16 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado - Professor Regente,UC16,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,22,99999.0,Assíncrono,Professor Regente
+564,USJT - UC17 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC17,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,36,99999.0,Assíncrono,Professor Regente
+565,USJT - UC17 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC17,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,35,99999.0,Assíncrono,Professor Regente
+566,USJT - UC17 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado - Professor Regente,UC17,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,57,99999.0,Assíncrono,Professor Regente
+567,USJT - UC17 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado - Professor Regente,UC17,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,31,99999.0,Assíncrono,Professor Regente
+568,USJT - UC17 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC17,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,60,99999.0,Assíncrono,Professor Regente
+569,USJT - UC17 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC17,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,77,99999.0,Assíncrono,Professor Regente
+570,USJT - UC17 - FARMÁCIA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC17,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,38,99999.0,Assíncrono,Professor Regente
+571,USJT - UC17 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC17,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,31,99999.0,Assíncrono,Professor Regente
+572,USJT - UC17 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado - Professor Regente,UC17,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,22,99999.0,Assíncrono,Professor Regente
+573,USJT - UC18 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC18,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,21,99999.0,Assíncrono,Professor Regente
+574,USJT - UC18 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC18,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,20,99999.0,Assíncrono,Professor Regente
+575,USJT - UC18 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado - Professor Regente,UC18,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,21,99999.0,Assíncrono,Professor Regente
+576,USJT - UC18 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado - Professor Regente,UC18,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,21,99999.0,Assíncrono,Professor Regente
+577,USJT - UC18 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC18,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,19,99999.0,Assíncrono,Professor Regente
+578,USJT - UC18 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC18,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,14,99999.0,Assíncrono,Professor Regente
+579,USJT - UC18 - FARMÁCIA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC18,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,19,99999.0,Assíncrono,Professor Regente
+580,USJT - UC18 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC18,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,21,99999.0,Assíncrono,Professor Regente
+581,USJT - UC18 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado - Professor Regente,UC18,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,19,99999.0,Assíncrono,Professor Regente
+582,USJT - UC19 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC19,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,21,99999.0,Assíncrono,Professor Regente
+583,USJT - UC19 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC19,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,20,99999.0,Assíncrono,Professor Regente
+584,USJT - UC19 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado - Professor Regente,UC19,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,21,99999.0,Assíncrono,Professor Regente
+585,USJT - UC19 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado - Professor Regente,UC19,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,21,99999.0,Assíncrono,Professor Regente
+586,USJT - UC19 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC19,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,19,99999.0,Assíncrono,Professor Regente
+587,USJT - UC19 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC19,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,14,99999.0,Assíncrono,Professor Regente
+588,USJT - UC19 - FARMÁCIA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC19,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,19,99999.0,Assíncrono,Professor Regente
+589,USJT - UC19 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC19,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,21,99999.0,Assíncrono,Professor Regente
+590,USJT - UC19 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado - Professor Regente,UC19,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,19,99999.0,Assíncrono,Professor Regente
+591,USJT - UC2 - ADMINISTRAÇÃO - Semi Presencial 30.20 Bacharelado - Professor Regente,UC2,UC (1-3),1,Semi Presencial 30.20 Bacharelado,USJT,44,99999.0,Assíncrono,Professor Regente
+592,USJT - UC2 - ANÁLISE E DESENVOLVIMENTO DE SISTEMAS - Semi Presencial 30.20 Bacharelado - Professor Regente,UC2,UC (1-3),1,Semi Presencial 30.20 Bacharelado,USJT,70,99999.0,Assíncrono,Professor Regente
+593,USJT - UC2 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC2,UC (1-6),1,Semi Presencial 40.20 Bacharelado,USJT,39,99999.0,Assíncrono,Professor Regente
+594,USJT - UC2 - CIÊNCIAS CONTÁBEIS - Semi Presencial 30.20 Bacharelado - Professor Regente,UC2,UC (1-3),1,Semi Presencial 30.20 Bacharelado,USJT,41,99999.0,Assíncrono,Professor Regente
+595,USJT - UC2 - Computação e Tecnologias da Informação e Comunicação (TIC) - Semi Presencial 30.20 Bacharelado - 1 - Assíncrono - Polos Agrupados,UC2,UC (1-3),1,Semi Presencial 30.20 Bacharelado,USJT,70,99999.0,Assíncrono,Professor Regente
+596,USJT - UC2 - Computação e Tecnologias da Informação e Comunicação (TIC) - Semi Presencial 30.20 Bacharelado - 1 - Presencial - AMERICANA : JARDIM GIRASSOL,UC2,UC (1-3),1,Semi Presencial 30.20 Bacharelado,USJT,33,120.0,Presencial,Mediador Presencial
+597,USJT - UC2 - Computação e Tecnologias da Informação e Comunicação (TIC) - Semi Presencial 30.20 Bacharelado - 1 - Presencial - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC2,UC (1-3),1,Semi Presencial 30.20 Bacharelado,USJT,37,120.0,Presencial,Mediador Presencial
+598,USJT - UC2 - Computação e Tecnologias da Informação e Comunicação (TIC) - Semi Presencial 30.20 Bacharelado - 1 - Síncrono Mediado - Polos Agrupados,UC2,UC (1-3),1,Semi Presencial 30.20 Bacharelado,USJT,70,70.0,Síncrono Mediado,Mediador Online
+599,USJT - UC2 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC2,UC (1-6),1,Semi Presencial 40.20 Bacharelado,USJT,43,99999.0,Assíncrono,Professor Regente
+600,USJT - UC2 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado - Professor Regente,UC2,UC (1-6),1,Semi Presencial 40.20 Bacharelado,USJT,86,99999.0,Assíncrono,Professor Regente
+601,USJT - UC2 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado - Professor Regente,UC2,UC (1-6),1,Semi Presencial 40.20 Bacharelado,USJT,43,99999.0,Assíncrono,Professor Regente
+602,USJT - UC2 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC2,UC (1-6),1,Semi Presencial 40.20 Bacharelado,USJT,82,99999.0,Assíncrono,Professor Regente
+603,USJT - UC2 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC2,UC (1-6),1,Semi Presencial 40.20 Bacharelado,USJT,87,99999.0,Assíncrono,Professor Regente
+604,"USJT - UC2 - Engenharia, produção e construção - Semi Presencial 40.20 Bacharelado - 1 - Assíncrono - Polos Agrupados",UC2,UC (1-6),1,Semi Presencial 40.20 Bacharelado,USJT,298,99999.0,Assíncrono,Professor Regente
+605,"USJT - UC2 - Engenharia, produção e construção - Semi Presencial 40.20 Bacharelado - 1 - Presencial - AMERICANA : JARDIM GIRASSOL",UC2,UC (1-6),1,Semi Presencial 40.20 Bacharelado,USJT,130,120.0,Presencial,Mediador Presencial
+606,"USJT - UC2 - Engenharia, produção e construção - Semi Presencial 40.20 Bacharelado - 1 - Presencial - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO",UC2,UC (1-6),1,Semi Presencial 40.20 Bacharelado,USJT,168,120.0,Presencial,Mediador Presencial
+607,"USJT - UC2 - Engenharia, produção e construção - Semi Presencial 40.20 Bacharelado - 1 - Síncrono Mediado - Polos Agrupados",UC2,UC (1-6),1,Semi Presencial 40.20 Bacharelado,USJT,298,70.0,Síncrono Mediado,Mediador Online
+608,USJT - UC2 - FARMÁCIA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC2,UC (1-6),1,Semi Presencial 40.20 Bacharelado,USJT,37,99999.0,Assíncrono,Professor Regente
+609,USJT - UC2 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC2,UC (1-6),1,Semi Presencial 40.20 Bacharelado,USJT,36,99999.0,Assíncrono,Professor Regente
+610,USJT - UC2 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado - Professor Regente,UC2,UC (1-6),1,Semi Presencial 40.20 Bacharelado,USJT,33,99999.0,Assíncrono,Professor Regente
+611,"USJT - UC2 - Negócios, administração e direito - Semi Presencial 30.20 Bacharelado - 1 - Assíncrono - Polos Agrupados",UC2,UC (1-3),1,Semi Presencial 30.20 Bacharelado,USJT,85,99999.0,Assíncrono,Professor Regente
+612,"USJT - UC2 - Negócios, administração e direito - Semi Presencial 30.20 Bacharelado - 1 - Presencial - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO",UC2,UC (1-3),1,Semi Presencial 30.20 Bacharelado,USJT,85,120.0,Presencial,Mediador Presencial
+613,"USJT - UC2 - Negócios, administração e direito - Semi Presencial 30.20 Bacharelado - 1 - Síncrono Mediado - Polos Agrupados",UC2,UC (1-3),1,Semi Presencial 30.20 Bacharelado,USJT,85,70.0,Síncrono Mediado,Mediador Online
+614,USJT - UC2 - Saúde e bem-estar - Semi Presencial 40.20 Bacharelado - 1 - Assíncrono - Polos Agrupados,UC2,UC (1-6),1,Semi Presencial 40.20 Bacharelado,USJT,188,99999.0,Assíncrono,Professor Regente
+615,USJT - UC2 - Saúde e bem-estar - Semi Presencial 40.20 Bacharelado - 1 - Presencial - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC2,UC (1-6),1,Semi Presencial 40.20 Bacharelado,USJT,188,120.0,Presencial,Mediador Presencial
+616,USJT - UC2 - Saúde e bem-estar - Semi Presencial 40.20 Bacharelado - 1 - Síncrono Mediado - Polos Agrupados,UC2,UC (1-6),1,Semi Presencial 40.20 Bacharelado,USJT,188,70.0,Síncrono Mediado,Mediador Online
+617,USJT - UC2- E - Educação - Semi Presencial 30.20 Licenciatura - 1 - Assíncrono - Polos Agrupados,UC2- E,UC (1-5),1,Semi Presencial 30.20 Licenciatura,USJT,80,99999.0,Assíncrono,Professor Regente
+618,USJT - UC2- E - Educação - Semi Presencial 30.20 Licenciatura - 1 - Presencial - AMERICANA : JARDIM GIRASSOL,UC2- E,UC (1-5),1,Semi Presencial 30.20 Licenciatura,USJT,33,120.0,Presencial,Mediador Presencial
+619,USJT - UC2- E - Educação - Semi Presencial 30.20 Licenciatura - 1 - Presencial - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC2- E,UC (1-5),1,Semi Presencial 30.20 Licenciatura,USJT,47,120.0,Presencial,Mediador Presencial
+620,USJT - UC2- E - PEDAGOGIA - Semi Presencial 30.20 Licenciatura - Professor Regente,UC2- E,UC (1-5),1,Semi Presencial 30.20 Licenciatura,USJT,80,99999.0,Assíncrono,Professor Regente
+621,USJT - UC20 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC20,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,31,99999.0,Assíncrono,Professor Regente
+622,USJT - UC20 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC20,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,5,99999.0,Assíncrono,Professor Regente
+623,USJT - UC20 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado - Professor Regente,UC20,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,7,99999.0,Assíncrono,Professor Regente
+624,USJT - UC20 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado - Professor Regente,UC20,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,0,99999.0,Assíncrono,Professor Regente
+625,USJT - UC20 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC20,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,4,99999.0,Assíncrono,Professor Regente
+626,USJT - UC20 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC20,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,7,99999.0,Assíncrono,Professor Regente
+627,USJT - UC20 - FARMÁCIA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC20,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,10,99999.0,Assíncrono,Professor Regente
+628,USJT - UC20 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC20,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,14,99999.0,Assíncrono,Professor Regente
+629,USJT - UC20 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado - Professor Regente,UC20,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,24,99999.0,Assíncrono,Professor Regente
+630,USJT - UC21 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC21,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,31,99999.0,Assíncrono,Professor Regente
+631,USJT - UC21 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC21,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,5,99999.0,Assíncrono,Professor Regente
+632,USJT - UC21 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado - Professor Regente,UC21,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,7,99999.0,Assíncrono,Professor Regente
+633,USJT - UC21 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado - Professor Regente,UC21,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,0,99999.0,Assíncrono,Professor Regente
+634,USJT - UC21 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC21,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,4,99999.0,Assíncrono,Professor Regente
+635,USJT - UC21 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC21,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,7,99999.0,Assíncrono,Professor Regente
+636,USJT - UC21 - FARMÁCIA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC21,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,10,99999.0,Assíncrono,Professor Regente
+637,USJT - UC21 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC21,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,14,99999.0,Assíncrono,Professor Regente
+638,USJT - UC21 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado - Professor Regente,UC21,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,24,99999.0,Assíncrono,Professor Regente
+639,USJT - UC3 - ADMINISTRAÇÃO - Semi Presencial 30.20 Bacharelado - Professor Regente,UC3,UC (1-3),2,Semi Presencial 30.20 Bacharelado,USJT,58,99999.0,Assíncrono,Professor Regente
+640,USJT - UC3 - ANÁLISE E DESENVOLVIMENTO DE SISTEMAS - Semi Presencial 30.20 Bacharelado - Professor Regente,UC3,UC (1-3),2,Semi Presencial 30.20 Bacharelado,USJT,97,99999.0,Assíncrono,Professor Regente
+641,USJT - UC3 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC3,UC (1-6),2,Semi Presencial 40.20 Bacharelado,USJT,51,99999.0,Assíncrono,Professor Regente
+642,USJT - UC3 - CIÊNCIAS CONTÁBEIS - Semi Presencial 30.20 Bacharelado - Professor Regente,UC3,UC (1-3),2,Semi Presencial 30.20 Bacharelado,USJT,41,99999.0,Assíncrono,Professor Regente
+643,USJT - UC3 - Computação e Tecnologias da Informação e Comunicação (TIC) - Semi Presencial 30.20 Bacharelado - 2 - Assíncrono - Polos Agrupados,UC3,UC (1-3),2,Semi Presencial 30.20 Bacharelado,USJT,97,99999.0,Assíncrono,Professor Regente
+644,USJT - UC3 - Computação e Tecnologias da Informação e Comunicação (TIC) - Semi Presencial 30.20 Bacharelado - 2 - Presencial - AMERICANA : JARDIM GIRASSOL,UC3,UC (1-3),2,Semi Presencial 30.20 Bacharelado,USJT,45,120.0,Presencial,Mediador Presencial
+645,USJT - UC3 - Computação e Tecnologias da Informação e Comunicação (TIC) - Semi Presencial 30.20 Bacharelado - 2 - Presencial - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC3,UC (1-3),2,Semi Presencial 30.20 Bacharelado,USJT,52,120.0,Presencial,Mediador Presencial
+646,USJT - UC3 - Computação e Tecnologias da Informação e Comunicação (TIC) - Semi Presencial 30.20 Bacharelado - 2 - Síncrono Mediado - Polos Agrupados,UC3,UC (1-3),2,Semi Presencial 30.20 Bacharelado,USJT,97,70.0,Síncrono Mediado,Mediador Online
+647,USJT - UC3 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC3,UC (1-6),2,Semi Presencial 40.20 Bacharelado,USJT,51,99999.0,Assíncrono,Professor Regente
+648,USJT - UC3 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado - Professor Regente,UC3,UC (1-6),2,Semi Presencial 40.20 Bacharelado,USJT,95,99999.0,Assíncrono,Professor Regente
+649,USJT - UC3 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado - Professor Regente,UC3,UC (1-6),2,Semi Presencial 40.20 Bacharelado,USJT,50,99999.0,Assíncrono,Professor Regente
+650,USJT - UC3 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC3,UC (1-6),2,Semi Presencial 40.20 Bacharelado,USJT,104,99999.0,Assíncrono,Professor Regente
+651,USJT - UC3 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC3,UC (1-6),2,Semi Presencial 40.20 Bacharelado,USJT,99,99999.0,Assíncrono,Professor Regente
+652,"USJT - UC3 - Engenharia, produção e construção - Semi Presencial 40.20 Bacharelado - 2 - Assíncrono - Polos Agrupados",UC3,UC (1-6),2,Semi Presencial 40.20 Bacharelado,USJT,348,99999.0,Assíncrono,Professor Regente
+653,"USJT - UC3 - Engenharia, produção e construção - Semi Presencial 40.20 Bacharelado - 2 - Presencial - AMERICANA : JARDIM GIRASSOL",UC3,UC (1-6),2,Semi Presencial 40.20 Bacharelado,USJT,144,120.0,Presencial,Mediador Presencial
+654,"USJT - UC3 - Engenharia, produção e construção - Semi Presencial 40.20 Bacharelado - 2 - Presencial - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO",UC3,UC (1-6),2,Semi Presencial 40.20 Bacharelado,USJT,204,120.0,Presencial,Mediador Presencial
+655,"USJT - UC3 - Engenharia, produção e construção - Semi Presencial 40.20 Bacharelado - 2 - Síncrono Mediado - Polos Agrupados",UC3,UC (1-6),2,Semi Presencial 40.20 Bacharelado,USJT,348,70.0,Síncrono Mediado,Mediador Online
+656,USJT - UC3 - FARMÁCIA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC3,UC (1-6),2,Semi Presencial 40.20 Bacharelado,USJT,54,99999.0,Assíncrono,Professor Regente
+657,USJT - UC3 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC3,UC (1-6),2,Semi Presencial 40.20 Bacharelado,USJT,53,99999.0,Assíncrono,Professor Regente
+658,USJT - UC3 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado - Professor Regente,UC3,UC (1-6),2,Semi Presencial 40.20 Bacharelado,USJT,50,99999.0,Assíncrono,Professor Regente
+659,"USJT - UC3 - Negócios, administração e direito - Semi Presencial 30.20 Bacharelado - 2 - Assíncrono - Polos Agrupados",UC3,UC (1-3),2,Semi Presencial 30.20 Bacharelado,USJT,99,99999.0,Assíncrono,Professor Regente
+660,"USJT - UC3 - Negócios, administração e direito - Semi Presencial 30.20 Bacharelado - 2 - Presencial - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO",UC3,UC (1-3),2,Semi Presencial 30.20 Bacharelado,USJT,99,120.0,Presencial,Mediador Presencial
+661,"USJT - UC3 - Negócios, administração e direito - Semi Presencial 30.20 Bacharelado - 2 - Síncrono Mediado - Polos Agrupados",UC3,UC (1-3),2,Semi Presencial 30.20 Bacharelado,USJT,99,70.0,Síncrono Mediado,Mediador Online
+662,USJT - UC3 - Saúde e bem-estar - Semi Presencial 40.20 Bacharelado - 2 - Assíncrono - Polos Agrupados,UC3,UC (1-6),2,Semi Presencial 40.20 Bacharelado,USJT,259,99999.0,Assíncrono,Professor Regente
+663,USJT - UC3 - Saúde e bem-estar - Semi Presencial 40.20 Bacharelado - 2 - Presencial - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC3,UC (1-6),2,Semi Presencial 40.20 Bacharelado,USJT,259,120.0,Presencial,Mediador Presencial
+664,USJT - UC3 - Saúde e bem-estar - Semi Presencial 40.20 Bacharelado - 2 - Síncrono Mediado - Polos Agrupados,UC3,UC (1-6),2,Semi Presencial 40.20 Bacharelado,USJT,259,70.0,Síncrono Mediado,Mediador Online
+665,USJT - UC3- E - Educação - Semi Presencial 30.20 Licenciatura - 2 - Assíncrono - Polos Agrupados,UC3- E,UC (1-5),2,Semi Presencial 30.20 Licenciatura,USJT,115,99999.0,Assíncrono,Professor Regente
+666,USJT - UC3- E - Educação - Semi Presencial 30.20 Licenciatura - 2 - Presencial - AMERICANA : JARDIM GIRASSOL,UC3- E,UC (1-5),2,Semi Presencial 30.20 Licenciatura,USJT,61,120.0,Presencial,Mediador Presencial
+667,USJT - UC3- E - Educação - Semi Presencial 30.20 Licenciatura - 2 - Presencial - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC3- E,UC (1-5),2,Semi Presencial 30.20 Licenciatura,USJT,54,120.0,Presencial,Mediador Presencial
+668,USJT - UC3- E - PEDAGOGIA - Semi Presencial 30.20 Licenciatura - Professor Regente,UC3- E,UC (1-5),2,Semi Presencial 30.20 Licenciatura,USJT,115,99999.0,Assíncrono,Professor Regente
+669,USJT - UC4 - ADMINISTRAÇÃO - Semi Presencial 30.20 Bacharelado - Professor Regente,UC4,UC (1-3),2,Semi Presencial 30.20 Bacharelado,USJT,58,99999.0,Assíncrono,Professor Regente
+670,USJT - UC4 - ANÁLISE E DESENVOLVIMENTO DE SISTEMAS - Semi Presencial 30.20 Bacharelado - Professor Regente,UC4,UC (1-3),2,Semi Presencial 30.20 Bacharelado,USJT,97,99999.0,Assíncrono,Professor Regente
+671,USJT - UC4 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC4,UC (1-6),2,Semi Presencial 40.20 Bacharelado,USJT,51,99999.0,Assíncrono,Professor Regente
+672,USJT - UC4 - CIÊNCIAS CONTÁBEIS - Semi Presencial 30.20 Bacharelado - Professor Regente,UC4,UC (1-3),2,Semi Presencial 30.20 Bacharelado,USJT,41,99999.0,Assíncrono,Professor Regente
+673,USJT - UC4 - Computação e Tecnologias da Informação e Comunicação (TIC) - Semi Presencial 30.20 Bacharelado - 2 - Assíncrono - Polos Agrupados,UC4,UC (1-3),2,Semi Presencial 30.20 Bacharelado,USJT,97,99999.0,Assíncrono,Professor Regente
+674,USJT - UC4 - Computação e Tecnologias da Informação e Comunicação (TIC) - Semi Presencial 30.20 Bacharelado - 2 - Presencial - AMERICANA : JARDIM GIRASSOL,UC4,UC (1-3),2,Semi Presencial 30.20 Bacharelado,USJT,45,120.0,Presencial,Mediador Presencial
+675,USJT - UC4 - Computação e Tecnologias da Informação e Comunicação (TIC) - Semi Presencial 30.20 Bacharelado - 2 - Presencial - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC4,UC (1-3),2,Semi Presencial 30.20 Bacharelado,USJT,52,120.0,Presencial,Mediador Presencial
+676,USJT - UC4 - Computação e Tecnologias da Informação e Comunicação (TIC) - Semi Presencial 30.20 Bacharelado - 2 - Síncrono Mediado - Polos Agrupados,UC4,UC (1-3),2,Semi Presencial 30.20 Bacharelado,USJT,97,70.0,Síncrono Mediado,Mediador Online
+677,USJT - UC4 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC4,UC (1-6),2,Semi Presencial 40.20 Bacharelado,USJT,51,99999.0,Assíncrono,Professor Regente
+678,USJT - UC4 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado - Professor Regente,UC4,UC (1-6),2,Semi Presencial 40.20 Bacharelado,USJT,95,99999.0,Assíncrono,Professor Regente
+679,USJT - UC4 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado - Professor Regente,UC4,UC (1-6),2,Semi Presencial 40.20 Bacharelado,USJT,50,99999.0,Assíncrono,Professor Regente
+680,USJT - UC4 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC4,UC (1-6),2,Semi Presencial 40.20 Bacharelado,USJT,104,99999.0,Assíncrono,Professor Regente
+681,USJT - UC4 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC4,UC (1-6),2,Semi Presencial 40.20 Bacharelado,USJT,99,99999.0,Assíncrono,Professor Regente
+682,"USJT - UC4 - Engenharia, produção e construção - Semi Presencial 40.20 Bacharelado - 2 - Assíncrono - Polos Agrupados",UC4,UC (1-6),2,Semi Presencial 40.20 Bacharelado,USJT,348,99999.0,Assíncrono,Professor Regente
+683,"USJT - UC4 - Engenharia, produção e construção - Semi Presencial 40.20 Bacharelado - 2 - Presencial - AMERICANA : JARDIM GIRASSOL",UC4,UC (1-6),2,Semi Presencial 40.20 Bacharelado,USJT,144,120.0,Presencial,Mediador Presencial
+684,"USJT - UC4 - Engenharia, produção e construção - Semi Presencial 40.20 Bacharelado - 2 - Presencial - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO",UC4,UC (1-6),2,Semi Presencial 40.20 Bacharelado,USJT,204,120.0,Presencial,Mediador Presencial
+685,"USJT - UC4 - Engenharia, produção e construção - Semi Presencial 40.20 Bacharelado - 2 - Síncrono Mediado - Polos Agrupados",UC4,UC (1-6),2,Semi Presencial 40.20 Bacharelado,USJT,348,70.0,Síncrono Mediado,Mediador Online
+686,USJT - UC4 - FARMÁCIA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC4,UC (1-6),2,Semi Presencial 40.20 Bacharelado,USJT,54,99999.0,Assíncrono,Professor Regente
+687,USJT - UC4 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC4,UC (1-6),2,Semi Presencial 40.20 Bacharelado,USJT,53,99999.0,Assíncrono,Professor Regente
+688,USJT - UC4 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado - Professor Regente,UC4,UC (1-6),2,Semi Presencial 40.20 Bacharelado,USJT,50,99999.0,Assíncrono,Professor Regente
+689,"USJT - UC4 - Negócios, administração e direito - Semi Presencial 30.20 Bacharelado - 2 - Assíncrono - Polos Agrupados",UC4,UC (1-3),2,Semi Presencial 30.20 Bacharelado,USJT,99,99999.0,Assíncrono,Professor Regente
+690,"USJT - UC4 - Negócios, administração e direito - Semi Presencial 30.20 Bacharelado - 2 - Presencial - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO",UC4,UC (1-3),2,Semi Presencial 30.20 Bacharelado,USJT,99,120.0,Presencial,Mediador Presencial
+691,"USJT - UC4 - Negócios, administração e direito - Semi Presencial 30.20 Bacharelado - 2 - Síncrono Mediado - Polos Agrupados",UC4,UC (1-3),2,Semi Presencial 30.20 Bacharelado,USJT,99,70.0,Síncrono Mediado,Mediador Online
+692,USJT - UC4 - Saúde e bem-estar - Semi Presencial 40.20 Bacharelado - 2 - Assíncrono - Polos Agrupados,UC4,UC (1-6),2,Semi Presencial 40.20 Bacharelado,USJT,259,99999.0,Assíncrono,Professor Regente
+693,USJT - UC4 - Saúde e bem-estar - Semi Presencial 40.20 Bacharelado - 2 - Presencial - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC4,UC (1-6),2,Semi Presencial 40.20 Bacharelado,USJT,259,120.0,Presencial,Mediador Presencial
+694,USJT - UC4 - Saúde e bem-estar - Semi Presencial 40.20 Bacharelado - 2 - Síncrono Mediado - Polos Agrupados,UC4,UC (1-6),2,Semi Presencial 40.20 Bacharelado,USJT,259,70.0,Síncrono Mediado,Mediador Online
+695,USJT - UC4-E - Educação - Semi Presencial 30.20 Licenciatura - 2 - Assíncrono - Polos Agrupados,UC4-E,UC (1-5),2,Semi Presencial 30.20 Licenciatura,USJT,115,99999.0,Assíncrono,Professor Regente
+696,USJT - UC4-E - Educação - Semi Presencial 30.20 Licenciatura - 2 - Presencial - AMERICANA : JARDIM GIRASSOL,UC4-E,UC (1-5),2,Semi Presencial 30.20 Licenciatura,USJT,61,120.0,Presencial,Mediador Presencial
+697,USJT - UC4-E - Educação - Semi Presencial 30.20 Licenciatura - 2 - Presencial - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC4-E,UC (1-5),2,Semi Presencial 30.20 Licenciatura,USJT,54,120.0,Presencial,Mediador Presencial
+698,USJT - UC4-E - PEDAGOGIA - Semi Presencial 30.20 Licenciatura - Professor Regente,UC4-E,UC (1-5),2,Semi Presencial 30.20 Licenciatura,USJT,115,99999.0,Assíncrono,Professor Regente
+699,USJT - UC5 - ADMINISTRAÇÃO - Semi Presencial 30.20 Bacharelado - Professor Regente,UC5,UC (1-3),3,Semi Presencial 30.20 Bacharelado,USJT,32,99999.0,Assíncrono,Professor Regente
+700,USJT - UC5 - ANÁLISE E DESENVOLVIMENTO DE SISTEMAS - Semi Presencial 30.20 Bacharelado - Professor Regente,UC5,UC (1-3),3,Semi Presencial 30.20 Bacharelado,USJT,57,99999.0,Assíncrono,Professor Regente
+701,USJT - UC5 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC5,UC (1-6),3,Semi Presencial 40.20 Bacharelado,USJT,25,99999.0,Assíncrono,Professor Regente
+702,USJT - UC5 - CIÊNCIAS CONTÁBEIS - Semi Presencial 30.20 Bacharelado - Professor Regente,UC5,UC (1-3),3,Semi Presencial 30.20 Bacharelado,USJT,20,99999.0,Assíncrono,Professor Regente
+703,USJT - UC5 - Computação e Tecnologias da Informação e Comunicação (TIC) - Semi Presencial 30.20 Bacharelado - 3 - Assíncrono - Polos Agrupados,UC5,UC (1-3),3,Semi Presencial 30.20 Bacharelado,USJT,57,99999.0,Assíncrono,Professor Regente
+704,USJT - UC5 - Computação e Tecnologias da Informação e Comunicação (TIC) - Semi Presencial 30.20 Bacharelado - 3 - Presencial - AMERICANA : JARDIM GIRASSOL,UC5,UC (1-3),3,Semi Presencial 30.20 Bacharelado,USJT,26,120.0,Presencial,Mediador Presencial
+705,USJT - UC5 - Computação e Tecnologias da Informação e Comunicação (TIC) - Semi Presencial 30.20 Bacharelado - 3 - Presencial - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC5,UC (1-3),3,Semi Presencial 30.20 Bacharelado,USJT,31,120.0,Presencial,Mediador Presencial
+706,USJT - UC5 - Computação e Tecnologias da Informação e Comunicação (TIC) - Semi Presencial 30.20 Bacharelado - 3 - Síncrono Mediado - Polos Agrupados,UC5,UC (1-3),3,Semi Presencial 30.20 Bacharelado,USJT,57,70.0,Síncrono Mediado,Mediador Online
+707,USJT - UC5 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC5,UC (1-6),3,Semi Presencial 40.20 Bacharelado,USJT,26,99999.0,Assíncrono,Professor Regente
+708,USJT - UC5 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado - Professor Regente,UC5,UC (1-6),3,Semi Presencial 40.20 Bacharelado,USJT,68,99999.0,Assíncrono,Professor Regente
+709,USJT - UC5 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado - Professor Regente,UC5,UC (1-6),3,Semi Presencial 40.20 Bacharelado,USJT,28,99999.0,Assíncrono,Professor Regente
+710,USJT - UC5 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC5,UC (1-6),3,Semi Presencial 40.20 Bacharelado,USJT,60,99999.0,Assíncrono,Professor Regente
+711,USJT - UC5 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC5,UC (1-6),3,Semi Presencial 40.20 Bacharelado,USJT,62,99999.0,Assíncrono,Professor Regente
+712,"USJT - UC5 - Engenharia, produção e construção - Semi Presencial 40.20 Bacharelado - 3 - Assíncrono - Polos Agrupados",UC5,UC (1-6),3,Semi Presencial 40.20 Bacharelado,USJT,218,99999.0,Assíncrono,Professor Regente
+713,"USJT - UC5 - Engenharia, produção e construção - Semi Presencial 40.20 Bacharelado - 3 - Presencial - AMERICANA : JARDIM GIRASSOL",UC5,UC (1-6),3,Semi Presencial 40.20 Bacharelado,USJT,92,120.0,Presencial,Mediador Presencial
+714,"USJT - UC5 - Engenharia, produção e construção - Semi Presencial 40.20 Bacharelado - 3 - Presencial - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO",UC5,UC (1-6),3,Semi Presencial 40.20 Bacharelado,USJT,126,120.0,Presencial,Mediador Presencial
+715,"USJT - UC5 - Engenharia, produção e construção - Semi Presencial 40.20 Bacharelado - 3 - Síncrono Mediado - Polos Agrupados",UC5,UC (1-6),3,Semi Presencial 40.20 Bacharelado,USJT,218,70.0,Síncrono Mediado,Mediador Online
+716,USJT - UC5 - FARMÁCIA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC5,UC (1-6),3,Semi Presencial 40.20 Bacharelado,USJT,27,99999.0,Assíncrono,Professor Regente
+717,USJT - UC5 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC5,UC (1-6),3,Semi Presencial 40.20 Bacharelado,USJT,22,99999.0,Assíncrono,Professor Regente
+718,USJT - UC5 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado - Professor Regente,UC5,UC (1-6),3,Semi Presencial 40.20 Bacharelado,USJT,27,99999.0,Assíncrono,Professor Regente
+719,"USJT - UC5 - Negócios, administração e direito - Semi Presencial 30.20 Bacharelado - 3 - Assíncrono - Polos Agrupados",UC5,UC (1-3),3,Semi Presencial 30.20 Bacharelado,USJT,52,99999.0,Assíncrono,Professor Regente
+720,"USJT - UC5 - Negócios, administração e direito - Semi Presencial 30.20 Bacharelado - 3 - Presencial - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO",UC5,UC (1-3),3,Semi Presencial 30.20 Bacharelado,USJT,52,120.0,Presencial,Mediador Presencial
+721,"USJT - UC5 - Negócios, administração e direito - Semi Presencial 30.20 Bacharelado - 3 - Síncrono Mediado - Polos Agrupados",UC5,UC (1-3),3,Semi Presencial 30.20 Bacharelado,USJT,52,70.0,Síncrono Mediado,Mediador Online
+722,USJT - UC5 - Saúde e bem-estar - Semi Presencial 40.20 Bacharelado - 3 - Assíncrono - Polos Agrupados,UC5,UC (1-6),3,Semi Presencial 40.20 Bacharelado,USJT,127,99999.0,Assíncrono,Professor Regente
+723,USJT - UC5 - Saúde e bem-estar - Semi Presencial 40.20 Bacharelado - 3 - Presencial - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC5,UC (1-6),3,Semi Presencial 40.20 Bacharelado,USJT,127,120.0,Presencial,Mediador Presencial
+724,USJT - UC5 - Saúde e bem-estar - Semi Presencial 40.20 Bacharelado - 3 - Síncrono Mediado - Polos Agrupados,UC5,UC (1-6),3,Semi Presencial 40.20 Bacharelado,USJT,127,70.0,Síncrono Mediado,Mediador Online
+725,USJT - UC5-E - Educação - Semi Presencial 30.20 Licenciatura - 3 - Assíncrono - Polos Agrupados,UC5-E,UC (1-5),3,Semi Presencial 30.20 Licenciatura,USJT,62,99999.0,Assíncrono,Professor Regente
+726,USJT - UC5-E - Educação - Semi Presencial 30.20 Licenciatura - 3 - Presencial - AMERICANA : JARDIM GIRASSOL,UC5-E,UC (1-5),3,Semi Presencial 30.20 Licenciatura,USJT,29,120.0,Presencial,Mediador Presencial
+727,USJT - UC5-E - Educação - Semi Presencial 30.20 Licenciatura - 3 - Presencial - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC5-E,UC (1-5),3,Semi Presencial 30.20 Licenciatura,USJT,33,120.0,Presencial,Mediador Presencial
+728,USJT - UC5-E - PEDAGOGIA - Semi Presencial 30.20 Licenciatura - Professor Regente,UC5-E,UC (1-5),3,Semi Presencial 30.20 Licenciatura,USJT,62,99999.0,Assíncrono,Professor Regente
+729,USJT - UC6 - ADMINISTRAÇÃO - Semi Presencial 30.20 Bacharelado - Professor Regente,UC6,UC (1-3),3,Semi Presencial 30.20 Bacharelado,USJT,32,99999.0,Assíncrono,Professor Regente
+730,USJT - UC6 - ANÁLISE E DESENVOLVIMENTO DE SISTEMAS - Semi Presencial 30.20 Bacharelado - Professor Regente,UC6,UC (1-3),3,Semi Presencial 30.20 Bacharelado,USJT,57,99999.0,Assíncrono,Professor Regente
+731,USJT - UC6 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC6,UC (1-6),3,Semi Presencial 40.20 Bacharelado,USJT,25,99999.0,Assíncrono,Professor Regente
+732,USJT - UC6 - CIÊNCIAS CONTÁBEIS - Semi Presencial 30.20 Bacharelado - Professor Regente,UC6,UC (1-3),3,Semi Presencial 30.20 Bacharelado,USJT,20,99999.0,Assíncrono,Professor Regente
+733,USJT - UC6 - Computação e Tecnologias da Informação e Comunicação (TIC) - Semi Presencial 30.20 Bacharelado - 3 - Assíncrono - Polos Agrupados,UC6,UC (1-3),3,Semi Presencial 30.20 Bacharelado,USJT,57,99999.0,Assíncrono,Professor Regente
+734,USJT - UC6 - Computação e Tecnologias da Informação e Comunicação (TIC) - Semi Presencial 30.20 Bacharelado - 3 - Presencial - AMERICANA : JARDIM GIRASSOL,UC6,UC (1-3),3,Semi Presencial 30.20 Bacharelado,USJT,26,120.0,Presencial,Mediador Presencial
+735,USJT - UC6 - Computação e Tecnologias da Informação e Comunicação (TIC) - Semi Presencial 30.20 Bacharelado - 3 - Presencial - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC6,UC (1-3),3,Semi Presencial 30.20 Bacharelado,USJT,31,120.0,Presencial,Mediador Presencial
+736,USJT - UC6 - Computação e Tecnologias da Informação e Comunicação (TIC) - Semi Presencial 30.20 Bacharelado - 3 - Síncrono Mediado - Polos Agrupados,UC6,UC (1-3),3,Semi Presencial 30.20 Bacharelado,USJT,57,70.0,Síncrono Mediado,Mediador Online
+737,USJT - UC6 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC6,UC (1-6),3,Semi Presencial 40.20 Bacharelado,USJT,26,99999.0,Assíncrono,Professor Regente
+738,USJT - UC6 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado - Professor Regente,UC6,UC (1-6),3,Semi Presencial 40.20 Bacharelado,USJT,68,99999.0,Assíncrono,Professor Regente
+739,USJT - UC6 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado - Professor Regente,UC6,UC (1-6),3,Semi Presencial 40.20 Bacharelado,USJT,28,99999.0,Assíncrono,Professor Regente
+740,USJT - UC6 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC6,UC (1-6),3,Semi Presencial 40.20 Bacharelado,USJT,60,99999.0,Assíncrono,Professor Regente
+741,USJT - UC6 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC6,UC (1-6),3,Semi Presencial 40.20 Bacharelado,USJT,62,99999.0,Assíncrono,Professor Regente
+742,"USJT - UC6 - Engenharia, produção e construção - Semi Presencial 40.20 Bacharelado - 3 - Assíncrono - Polos Agrupados",UC6,UC (1-6),3,Semi Presencial 40.20 Bacharelado,USJT,218,99999.0,Assíncrono,Professor Regente
+743,"USJT - UC6 - Engenharia, produção e construção - Semi Presencial 40.20 Bacharelado - 3 - Presencial - AMERICANA : JARDIM GIRASSOL",UC6,UC (1-6),3,Semi Presencial 40.20 Bacharelado,USJT,92,120.0,Presencial,Mediador Presencial
+744,"USJT - UC6 - Engenharia, produção e construção - Semi Presencial 40.20 Bacharelado - 3 - Presencial - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO",UC6,UC (1-6),3,Semi Presencial 40.20 Bacharelado,USJT,126,120.0,Presencial,Mediador Presencial
+745,"USJT - UC6 - Engenharia, produção e construção - Semi Presencial 40.20 Bacharelado - 3 - Síncrono Mediado - Polos Agrupados",UC6,UC (1-6),3,Semi Presencial 40.20 Bacharelado,USJT,218,70.0,Síncrono Mediado,Mediador Online
+746,USJT - UC6 - FARMÁCIA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC6,UC (1-6),3,Semi Presencial 40.20 Bacharelado,USJT,27,99999.0,Assíncrono,Professor Regente
+747,USJT - UC6 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC6,UC (1-6),3,Semi Presencial 40.20 Bacharelado,USJT,22,99999.0,Assíncrono,Professor Regente
+748,USJT - UC6 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado - Professor Regente,UC6,UC (1-6),3,Semi Presencial 40.20 Bacharelado,USJT,27,99999.0,Assíncrono,Professor Regente
+749,"USJT - UC6 - Negócios, administração e direito - Semi Presencial 30.20 Bacharelado - 3 - Assíncrono - Polos Agrupados",UC6,UC (1-3),3,Semi Presencial 30.20 Bacharelado,USJT,52,99999.0,Assíncrono,Professor Regente
+750,"USJT - UC6 - Negócios, administração e direito - Semi Presencial 30.20 Bacharelado - 3 - Presencial - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO",UC6,UC (1-3),3,Semi Presencial 30.20 Bacharelado,USJT,52,120.0,Presencial,Mediador Presencial
+751,"USJT - UC6 - Negócios, administração e direito - Semi Presencial 30.20 Bacharelado - 3 - Síncrono Mediado - Polos Agrupados",UC6,UC (1-3),3,Semi Presencial 30.20 Bacharelado,USJT,52,70.0,Síncrono Mediado,Mediador Online
+752,USJT - UC6 - Saúde e bem-estar - Semi Presencial 40.20 Bacharelado - 3 - Assíncrono - Polos Agrupados,UC6,UC (1-6),3,Semi Presencial 40.20 Bacharelado,USJT,127,99999.0,Assíncrono,Professor Regente
+753,USJT - UC6 - Saúde e bem-estar - Semi Presencial 40.20 Bacharelado - 3 - Presencial - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC6,UC (1-6),3,Semi Presencial 40.20 Bacharelado,USJT,127,120.0,Presencial,Mediador Presencial
+754,USJT - UC6 - Saúde e bem-estar - Semi Presencial 40.20 Bacharelado - 3 - Síncrono Mediado - Polos Agrupados,UC6,UC (1-6),3,Semi Presencial 40.20 Bacharelado,USJT,127,70.0,Síncrono Mediado,Mediador Online
+755,USJT - UC6-E - Educação - Semi Presencial 30.20 Licenciatura - 3 - Assíncrono - Polos Agrupados,UC6-E,UC (1-5),3,Semi Presencial 30.20 Licenciatura,USJT,62,99999.0,Assíncrono,Professor Regente
+756,USJT - UC6-E - Educação - Semi Presencial 30.20 Licenciatura - 3 - Presencial - AMERICANA : JARDIM GIRASSOL,UC6-E,UC (1-5),3,Semi Presencial 30.20 Licenciatura,USJT,29,120.0,Presencial,Mediador Presencial
+757,USJT - UC6-E - Educação - Semi Presencial 30.20 Licenciatura - 3 - Presencial - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC6-E,UC (1-5),3,Semi Presencial 30.20 Licenciatura,USJT,33,120.0,Presencial,Mediador Presencial
+758,USJT - UC6-E - PEDAGOGIA - Semi Presencial 30.20 Licenciatura - Professor Regente,UC6-E,UC (1-5),3,Semi Presencial 30.20 Licenciatura,USJT,62,99999.0,Assíncrono,Professor Regente
+759,USJT - UC7 - ADMINISTRAÇÃO - Semi Presencial 30.20 Bacharelado - Professor Regente,UC7,UC (4-8),4,Semi Presencial 30.20 Bacharelado,USJT,45,99999.0,Assíncrono,Professor Regente
+760,USJT - UC7 - ANÁLISE E DESENVOLVIMENTO DE SISTEMAS - Semi Presencial 30.20 Bacharelado - Professor Regente,UC7,UC (4-8),4,Semi Presencial 30.20 Bacharelado,USJT,81,99999.0,Assíncrono,Professor Regente
+761,USJT - UC7 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC7,UC (1-6),4,Semi Presencial 40.20 Bacharelado,USJT,33,99999.0,Assíncrono,Professor Regente
+762,USJT - UC7 - CIÊNCIAS CONTÁBEIS - Semi Presencial 30.20 Bacharelado - Professor Regente,UC7,UC (4-8),4,Semi Presencial 30.20 Bacharelado,USJT,36,99999.0,Assíncrono,Professor Regente
+763,USJT - UC7 - Computação e Tecnologias da Informação e Comunicação (TIC) - Semi Presencial 30.20 Bacharelado - 4 - Assíncrono - Polos Agrupados,UC7,UC (4-8),4,Semi Presencial 30.20 Bacharelado,USJT,81,99999.0,Assíncrono,Professor Regente
+764,USJT - UC7 - Computação e Tecnologias da Informação e Comunicação (TIC) - Semi Presencial 30.20 Bacharelado - 4 - Presencial - AMERICANA : JARDIM GIRASSOL,UC7,UC (4-8),4,Semi Presencial 30.20 Bacharelado,USJT,41,120.0,Presencial,Mediador Presencial
+765,USJT - UC7 - Computação e Tecnologias da Informação e Comunicação (TIC) - Semi Presencial 30.20 Bacharelado - 4 - Presencial - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC7,UC (4-8),4,Semi Presencial 30.20 Bacharelado,USJT,40,120.0,Presencial,Mediador Presencial
+766,USJT - UC7 - Computação e Tecnologias da Informação e Comunicação (TIC) - Semi Presencial 30.20 Bacharelado - 4 - Síncrono Mediado - Polos Agrupados,UC7,UC (4-8),4,Semi Presencial 30.20 Bacharelado,USJT,81,70.0,Síncrono Mediado,Mediador Online
+767,USJT - UC7 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC7,UC (1-6),4,Semi Presencial 40.20 Bacharelado,USJT,43,99999.0,Assíncrono,Professor Regente
+768,USJT - UC7 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado - Professor Regente,UC7,UC (1-6),4,Semi Presencial 40.20 Bacharelado,USJT,84,99999.0,Assíncrono,Professor Regente
+769,USJT - UC7 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado - Professor Regente,UC7,UC (1-6),4,Semi Presencial 40.20 Bacharelado,USJT,39,99999.0,Assíncrono,Professor Regente
+770,USJT - UC7 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC7,UC (1-6),4,Semi Presencial 40.20 Bacharelado,USJT,78,99999.0,Assíncrono,Professor Regente
+771,USJT - UC7 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC7,UC (1-6),4,Semi Presencial 40.20 Bacharelado,USJT,77,99999.0,Assíncrono,Professor Regente
+772,"USJT - UC7 - Engenharia, produção e construção - Semi Presencial 40.20 Bacharelado - 4 - Assíncrono - Polos Agrupados",UC7,UC (1-6),4,Semi Presencial 40.20 Bacharelado,USJT,278,99999.0,Assíncrono,Professor Regente
+773,"USJT - UC7 - Engenharia, produção e construção - Semi Presencial 40.20 Bacharelado - 4 - Presencial - AMERICANA : JARDIM GIRASSOL",UC7,UC (1-6),4,Semi Presencial 40.20 Bacharelado,USJT,137,120.0,Presencial,Mediador Presencial
+774,"USJT - UC7 - Engenharia, produção e construção - Semi Presencial 40.20 Bacharelado - 4 - Presencial - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO",UC7,UC (1-6),4,Semi Presencial 40.20 Bacharelado,USJT,141,120.0,Presencial,Mediador Presencial
+775,"USJT - UC7 - Engenharia, produção e construção - Semi Presencial 40.20 Bacharelado - 4 - Síncrono Mediado - Polos Agrupados",UC7,UC (1-6),4,Semi Presencial 40.20 Bacharelado,USJT,278,70.0,Síncrono Mediado,Mediador Online
+776,USJT - UC7 - FARMÁCIA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC7,UC (1-6),4,Semi Presencial 40.20 Bacharelado,USJT,48,99999.0,Assíncrono,Professor Regente
+777,USJT - UC7 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC7,UC (1-6),4,Semi Presencial 40.20 Bacharelado,USJT,45,99999.0,Assíncrono,Professor Regente
+778,USJT - UC7 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado - Professor Regente,UC7,UC (1-6),4,Semi Presencial 40.20 Bacharelado,USJT,33,99999.0,Assíncrono,Professor Regente
+779,"USJT - UC7 - Negócios, administração e direito - Semi Presencial 30.20 Bacharelado - 4 - Assíncrono - Polos Agrupados",UC7,UC (4-8),4,Semi Presencial 30.20 Bacharelado,USJT,81,99999.0,Assíncrono,Professor Regente
+780,"USJT - UC7 - Negócios, administração e direito - Semi Presencial 30.20 Bacharelado - 4 - Presencial - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO",UC7,UC (4-8),4,Semi Presencial 30.20 Bacharelado,USJT,81,120.0,Presencial,Mediador Presencial
+781,"USJT - UC7 - Negócios, administração e direito - Semi Presencial 30.20 Bacharelado - 4 - Síncrono Mediado - Polos Agrupados",UC7,UC (4-8),4,Semi Presencial 30.20 Bacharelado,USJT,81,70.0,Síncrono Mediado,Mediador Online
+782,USJT - UC7 - Saúde e bem-estar - Semi Presencial 40.20 Bacharelado - 4 - Assíncrono - Polos Agrupados,UC7,UC (1-6),4,Semi Presencial 40.20 Bacharelado,USJT,202,99999.0,Assíncrono,Professor Regente
+783,USJT - UC7 - Saúde e bem-estar - Semi Presencial 40.20 Bacharelado - 4 - Presencial - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC7,UC (1-6),4,Semi Presencial 40.20 Bacharelado,USJT,202,120.0,Presencial,Mediador Presencial
+784,USJT - UC7 - Saúde e bem-estar - Semi Presencial 40.20 Bacharelado - 4 - Síncrono Mediado - Polos Agrupados,UC7,UC (1-6),4,Semi Presencial 40.20 Bacharelado,USJT,202,70.0,Síncrono Mediado,Mediador Online
+785,USJT - UC7-E - Educação - Semi Presencial 30.20 Licenciatura - 4 - Assíncrono - Polos Agrupados,UC7-E,UC (1-5),4,Semi Presencial 30.20 Licenciatura,USJT,95,99999.0,Assíncrono,Professor Regente
+786,USJT - UC7-E - Educação - Semi Presencial 30.20 Licenciatura - 4 - Presencial - AMERICANA : JARDIM GIRASSOL,UC7-E,UC (1-5),4,Semi Presencial 30.20 Licenciatura,USJT,46,120.0,Presencial,Mediador Presencial
+787,USJT - UC7-E - Educação - Semi Presencial 30.20 Licenciatura - 4 - Presencial - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC7-E,UC (1-5),4,Semi Presencial 30.20 Licenciatura,USJT,49,120.0,Presencial,Mediador Presencial
+788,USJT - UC7-E - PEDAGOGIA - Semi Presencial 30.20 Licenciatura - Professor Regente,UC7-E,UC (1-5),4,Semi Presencial 30.20 Licenciatura,USJT,95,99999.0,Assíncrono,Professor Regente
+789,USJT - UC8 - ADMINISTRAÇÃO - Semi Presencial 30.20 Bacharelado - Professor Regente,UC8,UC (4-8),4,Semi Presencial 30.20 Bacharelado,USJT,45,99999.0,Assíncrono,Professor Regente
+790,USJT - UC8 - ANÁLISE E DESENVOLVIMENTO DE SISTEMAS - Semi Presencial 30.20 Bacharelado - Professor Regente,UC8,UC (4-8),4,Semi Presencial 30.20 Bacharelado,USJT,81,99999.0,Assíncrono,Professor Regente
+791,USJT - UC8 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC8,UC (1-6),4,Semi Presencial 40.20 Bacharelado,USJT,33,99999.0,Assíncrono,Professor Regente
+792,USJT - UC8 - CIÊNCIAS CONTÁBEIS - Semi Presencial 30.20 Bacharelado - Professor Regente,UC8,UC (4-8),4,Semi Presencial 30.20 Bacharelado,USJT,36,99999.0,Assíncrono,Professor Regente
+793,USJT - UC8 - Computação e Tecnologias da Informação e Comunicação (TIC) - Semi Presencial 30.20 Bacharelado - 4 - Assíncrono - Polos Agrupados,UC8,UC (4-8),4,Semi Presencial 30.20 Bacharelado,USJT,81,99999.0,Assíncrono,Professor Regente
+794,USJT - UC8 - Computação e Tecnologias da Informação e Comunicação (TIC) - Semi Presencial 30.20 Bacharelado - 4 - Presencial - AMERICANA : JARDIM GIRASSOL,UC8,UC (4-8),4,Semi Presencial 30.20 Bacharelado,USJT,41,120.0,Presencial,Mediador Presencial
+795,USJT - UC8 - Computação e Tecnologias da Informação e Comunicação (TIC) - Semi Presencial 30.20 Bacharelado - 4 - Presencial - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC8,UC (4-8),4,Semi Presencial 30.20 Bacharelado,USJT,40,120.0,Presencial,Mediador Presencial
+796,USJT - UC8 - Computação e Tecnologias da Informação e Comunicação (TIC) - Semi Presencial 30.20 Bacharelado - 4 - Síncrono Mediado - Polos Agrupados,UC8,UC (4-8),4,Semi Presencial 30.20 Bacharelado,USJT,81,70.0,Síncrono Mediado,Mediador Online
+797,USJT - UC8 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC8,UC (1-6),4,Semi Presencial 40.20 Bacharelado,USJT,43,99999.0,Assíncrono,Professor Regente
+798,USJT - UC8 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado - Professor Regente,UC8,UC (1-6),4,Semi Presencial 40.20 Bacharelado,USJT,84,99999.0,Assíncrono,Professor Regente
+799,USJT - UC8 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado - Professor Regente,UC8,UC (1-6),4,Semi Presencial 40.20 Bacharelado,USJT,39,99999.0,Assíncrono,Professor Regente
+800,USJT - UC8 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC8,UC (1-6),4,Semi Presencial 40.20 Bacharelado,USJT,78,99999.0,Assíncrono,Professor Regente
+801,USJT - UC8 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC8,UC (1-6),4,Semi Presencial 40.20 Bacharelado,USJT,77,99999.0,Assíncrono,Professor Regente
+802,"USJT - UC8 - Engenharia, produção e construção - Semi Presencial 40.20 Bacharelado - 4 - Assíncrono - Polos Agrupados",UC8,UC (1-6),4,Semi Presencial 40.20 Bacharelado,USJT,278,99999.0,Assíncrono,Professor Regente
+803,"USJT - UC8 - Engenharia, produção e construção - Semi Presencial 40.20 Bacharelado - 4 - Presencial - AMERICANA : JARDIM GIRASSOL",UC8,UC (1-6),4,Semi Presencial 40.20 Bacharelado,USJT,137,120.0,Presencial,Mediador Presencial
+804,"USJT - UC8 - Engenharia, produção e construção - Semi Presencial 40.20 Bacharelado - 4 - Presencial - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO",UC8,UC (1-6),4,Semi Presencial 40.20 Bacharelado,USJT,141,120.0,Presencial,Mediador Presencial
+805,"USJT - UC8 - Engenharia, produção e construção - Semi Presencial 40.20 Bacharelado - 4 - Síncrono Mediado - Polos Agrupados",UC8,UC (1-6),4,Semi Presencial 40.20 Bacharelado,USJT,278,70.0,Síncrono Mediado,Mediador Online
+806,USJT - UC8 - FARMÁCIA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC8,UC (1-6),4,Semi Presencial 40.20 Bacharelado,USJT,48,99999.0,Assíncrono,Professor Regente
+807,USJT - UC8 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC8,UC (1-6),4,Semi Presencial 40.20 Bacharelado,USJT,45,99999.0,Assíncrono,Professor Regente
+808,USJT - UC8 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado - Professor Regente,UC8,UC (1-6),4,Semi Presencial 40.20 Bacharelado,USJT,33,99999.0,Assíncrono,Professor Regente
+809,"USJT - UC8 - Negócios, administração e direito - Semi Presencial 30.20 Bacharelado - 4 - Assíncrono - Polos Agrupados",UC8,UC (4-8),4,Semi Presencial 30.20 Bacharelado,USJT,81,99999.0,Assíncrono,Professor Regente
+810,"USJT - UC8 - Negócios, administração e direito - Semi Presencial 30.20 Bacharelado - 4 - Presencial - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO",UC8,UC (4-8),4,Semi Presencial 30.20 Bacharelado,USJT,81,120.0,Presencial,Mediador Presencial
+811,"USJT - UC8 - Negócios, administração e direito - Semi Presencial 30.20 Bacharelado - 4 - Síncrono Mediado - Polos Agrupados",UC8,UC (4-8),4,Semi Presencial 30.20 Bacharelado,USJT,81,70.0,Síncrono Mediado,Mediador Online
+812,USJT - UC8-E - Educação - Semi Presencial 30.20 Licenciatura - 4 - Assíncrono - Polos Agrupados,UC8-E,UC (1-5),4,Semi Presencial 30.20 Licenciatura,USJT,95,99999.0,Assíncrono,Professor Regente
+813,USJT - UC8-E - Educação - Semi Presencial 30.20 Licenciatura - 4 - Presencial - AMERICANA : JARDIM GIRASSOL,UC8-E,UC (1-5),4,Semi Presencial 30.20 Licenciatura,USJT,46,120.0,Presencial,Mediador Presencial
+814,USJT - UC8-E - Educação - Semi Presencial 30.20 Licenciatura - 4 - Presencial - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC8-E,UC (1-5),4,Semi Presencial 30.20 Licenciatura,USJT,49,120.0,Presencial,Mediador Presencial
+815,USJT - UC8-E - PEDAGOGIA - Semi Presencial 30.20 Licenciatura - Professor Regente,UC8-E,UC (1-5),4,Semi Presencial 30.20 Licenciatura,USJT,95,99999.0,Assíncrono,Professor Regente
+816,USJT - UC9 - ADMINISTRAÇÃO - Semi Presencial 30.20 Bacharelado - Professor Regente,UC9,UC (4-8),5,Semi Presencial 30.20 Bacharelado,USJT,26,99999.0,Assíncrono,Professor Regente
+817,USJT - UC9 - ANÁLISE E DESENVOLVIMENTO DE SISTEMAS - Semi Presencial 30.20 Bacharelado - Professor Regente,UC9,UC (4-8),5,Semi Presencial 30.20 Bacharelado,USJT,53,99999.0,Assíncrono,Professor Regente
+818,USJT - UC9 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC9,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,23,99999.0,Assíncrono,Professor Regente
+819,USJT - UC9 - CIÊNCIAS CONTÁBEIS - Semi Presencial 30.20 Bacharelado - Professor Regente,UC9,UC (4-8),5,Semi Presencial 30.20 Bacharelado,USJT,28,99999.0,Assíncrono,Professor Regente
+820,USJT - UC9 - Computação e Tecnologias da Informação e Comunicação (TIC) - Semi Presencial 30.20 Bacharelado - 5 - Assíncrono - Polos Agrupados,UC9,UC (4-8),5,Semi Presencial 30.20 Bacharelado,USJT,53,99999.0,Assíncrono,Professor Regente
+821,USJT - UC9 - Computação e Tecnologias da Informação e Comunicação (TIC) - Semi Presencial 30.20 Bacharelado - 5 - Presencial - AMERICANA : JARDIM GIRASSOL,UC9,UC (4-8),5,Semi Presencial 30.20 Bacharelado,USJT,30,120.0,Presencial,Mediador Presencial
+822,USJT - UC9 - Computação e Tecnologias da Informação e Comunicação (TIC) - Semi Presencial 30.20 Bacharelado - 5 - Presencial - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC9,UC (4-8),5,Semi Presencial 30.20 Bacharelado,USJT,23,120.0,Presencial,Mediador Presencial
+823,USJT - UC9 - Computação e Tecnologias da Informação e Comunicação (TIC) - Semi Presencial 30.20 Bacharelado - 5 - Síncrono Mediado - Polos Agrupados,UC9,UC (4-8),5,Semi Presencial 30.20 Bacharelado,USJT,53,70.0,Síncrono Mediado,Mediador Online
+824,USJT - UC9 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC9,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,28,99999.0,Assíncrono,Professor Regente
+825,USJT - UC9 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado - Professor Regente,UC9,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,38,99999.0,Assíncrono,Professor Regente
+826,USJT - UC9 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado - Professor Regente,UC9,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,24,99999.0,Assíncrono,Professor Regente
+827,USJT - UC9 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC9,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,44,99999.0,Assíncrono,Professor Regente
+828,USJT - UC9 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC9,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,51,99999.0,Assíncrono,Professor Regente
+829,USJT - UC9 - Educação - Semi Presencial 30.20 Licenciatura - 5 - Assíncrono - Polos Agrupados,UC9,UC (1-5),5,Semi Presencial 30.20 Licenciatura,USJT,54,99999.0,Assíncrono,Professor Regente
+830,USJT - UC9 - Educação - Semi Presencial 30.20 Licenciatura - 5 - Presencial - AMERICANA : JARDIM GIRASSOL,UC9,UC (1-5),5,Semi Presencial 30.20 Licenciatura,USJT,27,120.0,Presencial,Mediador Presencial
+831,USJT - UC9 - Educação - Semi Presencial 30.20 Licenciatura - 5 - Presencial - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO,UC9,UC (1-5),5,Semi Presencial 30.20 Licenciatura,USJT,27,120.0,Presencial,Mediador Presencial
+832,"USJT - UC9 - Engenharia, produção e construção - Semi Presencial 40.20 Bacharelado - 5 - Assíncrono - Polos Agrupados",UC9,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,157,99999.0,Assíncrono,Professor Regente
+833,"USJT - UC9 - Engenharia, produção e construção - Semi Presencial 40.20 Bacharelado - 5 - Presencial - AMERICANA : JARDIM GIRASSOL",UC9,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,73,120.0,Presencial,Mediador Presencial
+834,"USJT - UC9 - Engenharia, produção e construção - Semi Presencial 40.20 Bacharelado - 5 - Presencial - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO",UC9,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,84,120.0,Presencial,Mediador Presencial
+835,"USJT - UC9 - Engenharia, produção e construção - Semi Presencial 40.20 Bacharelado - 5 - Síncrono Mediado - Polos Agrupados",UC9,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,157,70.0,Síncrono Mediado,Mediador Online
+836,USJT - UC9 - FARMÁCIA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC9,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,24,99999.0,Assíncrono,Professor Regente
+837,USJT - UC9 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado - Professor Regente,UC9,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,22,99999.0,Assíncrono,Professor Regente
+838,USJT - UC9 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado - Professor Regente,UC9,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,25,99999.0,Assíncrono,Professor Regente
+839,"USJT - UC9 - Negócios, administração e direito - Semi Presencial 30.20 Bacharelado - 5 - Assíncrono - Polos Agrupados",UC9,UC (4-8),5,Semi Presencial 30.20 Bacharelado,USJT,54,99999.0,Assíncrono,Professor Regente
+840,"USJT - UC9 - Negócios, administração e direito - Semi Presencial 30.20 Bacharelado - 5 - Presencial - UNIDADE ACADÊMICA SÃO BERNARDO DO CAMPO",UC9,UC (4-8),5,Semi Presencial 30.20 Bacharelado,USJT,54,120.0,Presencial,Mediador Presencial
+841,"USJT - UC9 - Negócios, administração e direito - Semi Presencial 30.20 Bacharelado - 5 - Síncrono Mediado - Polos Agrupados",UC9,UC (4-8),5,Semi Presencial 30.20 Bacharelado,USJT,54,70.0,Síncrono Mediado,Mediador Online
+842,USJT - UC9 - PEDAGOGIA - Semi Presencial 30.20 Licenciatura - Professor Regente,UC9,UC (1-5),5,Semi Presencial 30.20 Licenciatura,USJT,54,99999.0,Assíncrono,Professor Regente

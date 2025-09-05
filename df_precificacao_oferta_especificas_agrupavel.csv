@@ -1,0 +1,253 @@
+,Chave,UC,Tipo de UC,Semestre,Modelo,Marca,Tipo de CH,Ator Pedagógico,Máximo de Alunos,Base de Alunos
+0,USJT - UC10 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado,UC10,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,23
+1,USJT - UC10 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado,UC10,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,23
+2,USJT - UC10 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado,UC10,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,28
+3,USJT - UC10 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado,UC10,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,28
+4,USJT - UC10 - FARMÁCIA - Semi Presencial 40.20 Bacharelado,UC10,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,24
+5,USJT - UC10 - FARMÁCIA - Semi Presencial 40.20 Bacharelado,UC10,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,24
+6,USJT - UC10 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado,UC10,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,22
+7,USJT - UC10 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado,UC10,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,22
+8,USJT - UC10 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado,UC10,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,25
+9,USJT - UC10 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado,UC10,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,25
+10,USJT - UC11 - ADMINISTRAÇÃO - Semi Presencial 30.20 Bacharelado,UC11,UC (4-8),6,Semi Presencial 30.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,35
+11,USJT - UC11 - ADMINISTRAÇÃO - Semi Presencial 30.20 Bacharelado,UC11,UC (4-8),6,Semi Presencial 30.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,35
+12,USJT - UC11 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado,UC11,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,44
+13,USJT - UC11 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado,UC11,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,44
+14,USJT - UC11 - CIÊNCIAS CONTÁBEIS - Semi Presencial 30.20 Bacharelado,UC11,UC (4-8),6,Semi Presencial 30.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,40
+15,USJT - UC11 - CIÊNCIAS CONTÁBEIS - Semi Presencial 30.20 Bacharelado,UC11,UC (4-8),6,Semi Presencial 30.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,40
+16,USJT - UC11 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado,UC11,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,40
+17,USJT - UC11 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado,UC11,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,40
+18,USJT - UC11 - FARMÁCIA - Semi Presencial 40.20 Bacharelado,UC11,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,35
+19,USJT - UC11 - FARMÁCIA - Semi Presencial 40.20 Bacharelado,UC11,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,35
+20,USJT - UC11 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado,UC11,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,35
+21,USJT - UC11 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado,UC11,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,35
+22,USJT - UC11 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado,UC11,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,31
+23,USJT - UC11 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado,UC11,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,31
+24,USJT - UC11 - PEDAGOGIA - Semi Presencial 30.20 Licenciatura,UC11,UC (6-8),6,Semi Presencial 30.20 Licenciatura,USJT,Assíncrono,Mediador Assíncrono,550.0,70
+25,USJT - UC11 - PEDAGOGIA - Semi Presencial 30.20 Licenciatura,UC11,UC (6-8),6,Semi Presencial 30.20 Licenciatura,USJT,Assíncrono,Professor Regente,99999.0,70
+26,USJT - UC12 - ADMINISTRAÇÃO - Semi Presencial 30.20 Bacharelado,UC12,UC (4-8),6,Semi Presencial 30.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,35
+27,USJT - UC12 - ADMINISTRAÇÃO - Semi Presencial 30.20 Bacharelado,UC12,UC (4-8),6,Semi Presencial 30.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,35
+28,USJT - UC12 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado,UC12,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,44
+29,USJT - UC12 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado,UC12,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,44
+30,USJT - UC12 - CIÊNCIAS CONTÁBEIS - Semi Presencial 30.20 Bacharelado,UC12,UC (4-8),6,Semi Presencial 30.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,40
+31,USJT - UC12 - CIÊNCIAS CONTÁBEIS - Semi Presencial 30.20 Bacharelado,UC12,UC (4-8),6,Semi Presencial 30.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,40
+32,USJT - UC12 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado,UC12,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,40
+33,USJT - UC12 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado,UC12,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,40
+34,USJT - UC12 - FARMÁCIA - Semi Presencial 40.20 Bacharelado,UC12,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,35
+35,USJT - UC12 - FARMÁCIA - Semi Presencial 40.20 Bacharelado,UC12,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,35
+36,USJT - UC12 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado,UC12,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,35
+37,USJT - UC12 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado,UC12,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,35
+38,USJT - UC12 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado,UC12,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,31
+39,USJT - UC12 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado,UC12,UC (1-6),6,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,31
+40,USJT - UC12 - PEDAGOGIA - Semi Presencial 30.20 Licenciatura,UC12,UC (6-8),6,Semi Presencial 30.20 Licenciatura,USJT,Assíncrono,Mediador Assíncrono,550.0,70
+41,USJT - UC12 - PEDAGOGIA - Semi Presencial 30.20 Licenciatura,UC12,UC (6-8),6,Semi Presencial 30.20 Licenciatura,USJT,Assíncrono,Professor Regente,99999.0,70
+42,USJT - UC13 - ADMINISTRAÇÃO - Semi Presencial 30.20 Bacharelado,UC13,UC (4-8),7,Semi Presencial 30.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,25
+43,USJT - UC13 - ADMINISTRAÇÃO - Semi Presencial 30.20 Bacharelado,UC13,UC (4-8),7,Semi Presencial 30.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,25
+44,USJT - UC13 - ANÁLISE E DESENVOLVIMENTO DE SISTEMAS - Semi Presencial 30.20 Bacharelado,UC13,UC (4-8),7,Semi Presencial 30.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,45
+45,USJT - UC13 - ANÁLISE E DESENVOLVIMENTO DE SISTEMAS - Semi Presencial 30.20 Bacharelado,UC13,UC (4-8),7,Semi Presencial 30.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,45
+46,USJT - UC13 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado,UC13,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,28
+47,USJT - UC13 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado,UC13,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,28
+48,USJT - UC13 - CIÊNCIAS CONTÁBEIS - Semi Presencial 30.20 Bacharelado,UC13,UC (4-8),7,Semi Presencial 30.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,21
+49,USJT - UC13 - CIÊNCIAS CONTÁBEIS - Semi Presencial 30.20 Bacharelado,UC13,UC (4-8),7,Semi Presencial 30.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,21
+50,USJT - UC13 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado,UC13,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,20
+51,USJT - UC13 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado,UC13,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,20
+52,USJT - UC13 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado,UC13,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,44
+53,USJT - UC13 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado,UC13,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,44
+54,USJT - UC13 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado,UC13,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,22
+55,USJT - UC13 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado,UC13,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,22
+56,USJT - UC13 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado,UC13,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,40
+57,USJT - UC13 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado,UC13,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,40
+58,USJT - UC13 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado,UC13,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,52
+59,USJT - UC13 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado,UC13,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,52
+60,USJT - UC13 - FARMÁCIA - Semi Presencial 40.20 Bacharelado,UC13,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,26
+61,USJT - UC13 - FARMÁCIA - Semi Presencial 40.20 Bacharelado,UC13,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,26
+62,USJT - UC13 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado,UC13,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,16
+63,USJT - UC13 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado,UC13,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,16
+64,USJT - UC13 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado,UC13,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,19
+65,USJT - UC13 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado,UC13,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,19
+66,USJT - UC13 - PEDAGOGIA - Semi Presencial 30.20 Licenciatura,UC13,UC (6-8),7,Semi Presencial 30.20 Licenciatura,USJT,Assíncrono,Mediador Assíncrono,550.0,41
+67,USJT - UC13 - PEDAGOGIA - Semi Presencial 30.20 Licenciatura,UC13,UC (6-8),7,Semi Presencial 30.20 Licenciatura,USJT,Assíncrono,Professor Regente,99999.0,41
+68,USJT - UC14 - ADMINISTRAÇÃO - Semi Presencial 30.20 Bacharelado,UC14,UC (4-8),7,Semi Presencial 30.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,25
+69,USJT - UC14 - ADMINISTRAÇÃO - Semi Presencial 30.20 Bacharelado,UC14,UC (4-8),7,Semi Presencial 30.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,25
+70,USJT - UC14 - ANÁLISE E DESENVOLVIMENTO DE SISTEMAS - Semi Presencial 30.20 Bacharelado,UC14,UC (4-8),7,Semi Presencial 30.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,45
+71,USJT - UC14 - ANÁLISE E DESENVOLVIMENTO DE SISTEMAS - Semi Presencial 30.20 Bacharelado,UC14,UC (4-8),7,Semi Presencial 30.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,45
+72,USJT - UC14 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado,UC14,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,28
+73,USJT - UC14 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado,UC14,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,28
+74,USJT - UC14 - CIÊNCIAS CONTÁBEIS - Semi Presencial 30.20 Bacharelado,UC14,UC (4-8),7,Semi Presencial 30.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,21
+75,USJT - UC14 - CIÊNCIAS CONTÁBEIS - Semi Presencial 30.20 Bacharelado,UC14,UC (4-8),7,Semi Presencial 30.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,21
+76,USJT - UC14 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado,UC14,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,20
+77,USJT - UC14 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado,UC14,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,20
+78,USJT - UC14 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado,UC14,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,44
+79,USJT - UC14 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado,UC14,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,44
+80,USJT - UC14 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado,UC14,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,22
+81,USJT - UC14 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado,UC14,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,22
+82,USJT - UC14 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado,UC14,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,40
+83,USJT - UC14 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado,UC14,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,40
+84,USJT - UC14 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado,UC14,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,52
+85,USJT - UC14 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado,UC14,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,52
+86,USJT - UC14 - FARMÁCIA - Semi Presencial 40.20 Bacharelado,UC14,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,26
+87,USJT - UC14 - FARMÁCIA - Semi Presencial 40.20 Bacharelado,UC14,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,26
+88,USJT - UC14 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado,UC14,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,16
+89,USJT - UC14 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado,UC14,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,16
+90,USJT - UC14 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado,UC14,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,19
+91,USJT - UC14 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado,UC14,UC (7-9),7,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,19
+92,USJT - UC14 - PEDAGOGIA - Semi Presencial 30.20 Licenciatura,UC14,UC (6-8),8,Semi Presencial 30.20 Licenciatura,USJT,Assíncrono,Mediador Assíncrono,550.0,64
+93,USJT - UC14 - PEDAGOGIA - Semi Presencial 30.20 Licenciatura,UC14,UC (6-8),8,Semi Presencial 30.20 Licenciatura,USJT,Assíncrono,Professor Regente,99999.0,64
+94,USJT - UC15 - ADMINISTRAÇÃO - Semi Presencial 30.20 Bacharelado,UC15,UC (4-8),8,Semi Presencial 30.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,27
+95,USJT - UC15 - ADMINISTRAÇÃO - Semi Presencial 30.20 Bacharelado,UC15,UC (4-8),8,Semi Presencial 30.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,27
+96,USJT - UC15 - ANÁLISE E DESENVOLVIMENTO DE SISTEMAS - Semi Presencial 30.20 Bacharelado,UC15,UC (4-8),8,Semi Presencial 30.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,54
+97,USJT - UC15 - ANÁLISE E DESENVOLVIMENTO DE SISTEMAS - Semi Presencial 30.20 Bacharelado,UC15,UC (4-8),8,Semi Presencial 30.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,54
+98,USJT - UC15 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado,UC15,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,36
+99,USJT - UC15 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado,UC15,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,36
+100,USJT - UC15 - CIÊNCIAS CONTÁBEIS - Semi Presencial 30.20 Bacharelado,UC15,UC (4-8),8,Semi Presencial 30.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,28
+101,USJT - UC15 - CIÊNCIAS CONTÁBEIS - Semi Presencial 30.20 Bacharelado,UC15,UC (4-8),8,Semi Presencial 30.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,28
+102,USJT - UC15 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado,UC15,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,35
+103,USJT - UC15 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado,UC15,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,35
+104,USJT - UC15 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado,UC15,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,57
+105,USJT - UC15 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado,UC15,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,57
+106,USJT - UC15 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado,UC15,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,31
+107,USJT - UC15 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado,UC15,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,31
+108,USJT - UC15 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado,UC15,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,60
+109,USJT - UC15 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado,UC15,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,60
+110,USJT - UC15 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado,UC15,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,77
+111,USJT - UC15 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado,UC15,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,77
+112,USJT - UC15 - FARMÁCIA - Semi Presencial 40.20 Bacharelado,UC15,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,38
+113,USJT - UC15 - FARMÁCIA - Semi Presencial 40.20 Bacharelado,UC15,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,38
+114,USJT - UC15 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado,UC15,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,31
+115,USJT - UC15 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado,UC15,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,31
+116,USJT - UC15 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado,UC15,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,22
+117,USJT - UC15 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado,UC15,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,22
+118,USJT - UC16 - ADMINISTRAÇÃO - Semi Presencial 30.20 Bacharelado,UC16,UC (4-8),8,Semi Presencial 30.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,27
+119,USJT - UC16 - ADMINISTRAÇÃO - Semi Presencial 30.20 Bacharelado,UC16,UC (4-8),8,Semi Presencial 30.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,27
+120,USJT - UC16 - ANÁLISE E DESENVOLVIMENTO DE SISTEMAS - Semi Presencial 30.20 Bacharelado,UC16,UC (4-8),8,Semi Presencial 30.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,54
+121,USJT - UC16 - ANÁLISE E DESENVOLVIMENTO DE SISTEMAS - Semi Presencial 30.20 Bacharelado,UC16,UC (4-8),8,Semi Presencial 30.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,54
+122,USJT - UC16 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado,UC16,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,36
+123,USJT - UC16 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado,UC16,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,36
+124,USJT - UC16 - CIÊNCIAS CONTÁBEIS - Semi Presencial 30.20 Bacharelado,UC16,UC (4-8),8,Semi Presencial 30.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,28
+125,USJT - UC16 - CIÊNCIAS CONTÁBEIS - Semi Presencial 30.20 Bacharelado,UC16,UC (4-8),8,Semi Presencial 30.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,28
+126,USJT - UC16 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado,UC16,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,35
+127,USJT - UC16 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado,UC16,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,35
+128,USJT - UC16 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado,UC16,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,57
+129,USJT - UC16 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado,UC16,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,57
+130,USJT - UC16 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado,UC16,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,31
+131,USJT - UC16 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado,UC16,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,31
+132,USJT - UC16 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado,UC16,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,60
+133,USJT - UC16 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado,UC16,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,60
+134,USJT - UC16 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado,UC16,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,77
+135,USJT - UC16 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado,UC16,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,77
+136,USJT - UC16 - FARMÁCIA - Semi Presencial 40.20 Bacharelado,UC16,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,38
+137,USJT - UC16 - FARMÁCIA - Semi Presencial 40.20 Bacharelado,UC16,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,38
+138,USJT - UC16 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado,UC16,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,31
+139,USJT - UC16 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado,UC16,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,31
+140,USJT - UC16 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado,UC16,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,22
+141,USJT - UC16 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado,UC16,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,22
+142,USJT - UC17 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado,UC17,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,36
+143,USJT - UC17 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado,UC17,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,36
+144,USJT - UC17 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado,UC17,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,35
+145,USJT - UC17 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado,UC17,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,35
+146,USJT - UC17 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado,UC17,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,57
+147,USJT - UC17 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado,UC17,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,57
+148,USJT - UC17 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado,UC17,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,31
+149,USJT - UC17 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado,UC17,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,31
+150,USJT - UC17 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado,UC17,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,60
+151,USJT - UC17 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado,UC17,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,60
+152,USJT - UC17 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado,UC17,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,77
+153,USJT - UC17 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado,UC17,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,77
+154,USJT - UC17 - FARMÁCIA - Semi Presencial 40.20 Bacharelado,UC17,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,38
+155,USJT - UC17 - FARMÁCIA - Semi Presencial 40.20 Bacharelado,UC17,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,38
+156,USJT - UC17 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado,UC17,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,31
+157,USJT - UC17 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado,UC17,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,31
+158,USJT - UC17 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado,UC17,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,22
+159,USJT - UC17 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado,UC17,UC (7-9),8,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,22
+160,USJT - UC18 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado,UC18,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,21
+161,USJT - UC18 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado,UC18,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,21
+162,USJT - UC18 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado,UC18,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,20
+163,USJT - UC18 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado,UC18,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,20
+164,USJT - UC18 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado,UC18,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,21
+165,USJT - UC18 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado,UC18,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,21
+166,USJT - UC18 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado,UC18,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,21
+167,USJT - UC18 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado,UC18,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,21
+168,USJT - UC18 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado,UC18,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,19
+169,USJT - UC18 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado,UC18,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,19
+170,USJT - UC18 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado,UC18,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,14
+171,USJT - UC18 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado,UC18,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,14
+172,USJT - UC18 - FARMÁCIA - Semi Presencial 40.20 Bacharelado,UC18,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,19
+173,USJT - UC18 - FARMÁCIA - Semi Presencial 40.20 Bacharelado,UC18,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,19
+174,USJT - UC18 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado,UC18,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,21
+175,USJT - UC18 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado,UC18,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,21
+176,USJT - UC18 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado,UC18,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,19
+177,USJT - UC18 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado,UC18,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,19
+178,USJT - UC19 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado,UC19,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,21
+179,USJT - UC19 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado,UC19,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,21
+180,USJT - UC19 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado,UC19,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,20
+181,USJT - UC19 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado,UC19,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,20
+182,USJT - UC19 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado,UC19,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,21
+183,USJT - UC19 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado,UC19,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,21
+184,USJT - UC19 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado,UC19,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,21
+185,USJT - UC19 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado,UC19,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,21
+186,USJT - UC19 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado,UC19,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,19
+187,USJT - UC19 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado,UC19,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,19
+188,USJT - UC19 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado,UC19,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,14
+189,USJT - UC19 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado,UC19,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,14
+190,USJT - UC19 - FARMÁCIA - Semi Presencial 40.20 Bacharelado,UC19,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,19
+191,USJT - UC19 - FARMÁCIA - Semi Presencial 40.20 Bacharelado,UC19,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,19
+192,USJT - UC19 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado,UC19,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,21
+193,USJT - UC19 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado,UC19,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,21
+194,USJT - UC19 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado,UC19,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,19
+195,USJT - UC19 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado,UC19,UC (7-9),9,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,19
+196,USJT - UC20 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado,UC20,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,31
+197,USJT - UC20 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado,UC20,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,31
+198,USJT - UC20 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado,UC20,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,5
+199,USJT - UC20 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado,UC20,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,5
+200,USJT - UC20 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado,UC20,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,7
+201,USJT - UC20 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado,UC20,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,7
+202,USJT - UC20 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado,UC20,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,0
+203,USJT - UC20 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado,UC20,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,0
+204,USJT - UC20 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado,UC20,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,4
+205,USJT - UC20 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado,UC20,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,4
+206,USJT - UC20 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado,UC20,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,7
+207,USJT - UC20 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado,UC20,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,7
+208,USJT - UC20 - FARMÁCIA - Semi Presencial 40.20 Bacharelado,UC20,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,10
+209,USJT - UC20 - FARMÁCIA - Semi Presencial 40.20 Bacharelado,UC20,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,10
+210,USJT - UC20 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado,UC20,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,14
+211,USJT - UC20 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado,UC20,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,14
+212,USJT - UC20 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado,UC20,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,24
+213,USJT - UC20 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado,UC20,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,24
+214,USJT - UC21 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado,UC21,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,31
+215,USJT - UC21 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado,UC21,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,31
+216,USJT - UC21 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado,UC21,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,5
+217,USJT - UC21 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado,UC21,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,5
+218,USJT - UC21 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado,UC21,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,7
+219,USJT - UC21 - ENGENHARIA CIVIL - Semi Presencial 40.20 Bacharelado,UC21,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,7
+220,USJT - UC21 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado,UC21,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,0
+221,USJT - UC21 - ENGENHARIA DE PRODUÇÃO - Semi Presencial 40.20 Bacharelado,UC21,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,0
+222,USJT - UC21 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado,UC21,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,4
+223,USJT - UC21 - ENGENHARIA ELÉTRICA - Semi Presencial 40.20 Bacharelado,UC21,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,4
+224,USJT - UC21 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado,UC21,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,7
+225,USJT - UC21 - ENGENHARIA MECÂNICA - Semi Presencial 40.20 Bacharelado,UC21,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,7
+226,USJT - UC21 - FARMÁCIA - Semi Presencial 40.20 Bacharelado,UC21,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,10
+227,USJT - UC21 - FARMÁCIA - Semi Presencial 40.20 Bacharelado,UC21,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,10
+228,USJT - UC21 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado,UC21,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,14
+229,USJT - UC21 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado,UC21,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,14
+230,USJT - UC21 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado,UC21,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,24
+231,USJT - UC21 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado,UC21,UC (10),10,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,24
+232,USJT - UC8 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado,UC8,UC (1-6),4,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,33
+233,USJT - UC8 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado,UC8,UC (1-6),4,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,33
+234,USJT - UC8 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado,UC8,UC (1-6),4,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,43
+235,USJT - UC8 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado,UC8,UC (1-6),4,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,43
+236,USJT - UC8 - FARMÁCIA - Semi Presencial 40.20 Bacharelado,UC8,UC (1-6),4,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,48
+237,USJT - UC8 - FARMÁCIA - Semi Presencial 40.20 Bacharelado,UC8,UC (1-6),4,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,48
+238,USJT - UC8 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado,UC8,UC (1-6),4,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,45
+239,USJT - UC8 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado,UC8,UC (1-6),4,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,45
+240,USJT - UC8 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado,UC8,UC (1-6),4,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,33
+241,USJT - UC8 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado,UC8,UC (1-6),4,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,33
+242,USJT - UC9 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado,UC9,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,23
+243,USJT - UC9 - BIOMEDICINA - Semi Presencial 40.20 Bacharelado,UC9,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,23
+244,USJT - UC9 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado,UC9,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,28
+245,USJT - UC9 - EDUCAÇÃO FÍSICA - Semi Presencial 40.20 Bacharelado,UC9,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,28
+246,USJT - UC9 - FARMÁCIA - Semi Presencial 40.20 Bacharelado,UC9,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,24
+247,USJT - UC9 - FARMÁCIA - Semi Presencial 40.20 Bacharelado,UC9,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,24
+248,USJT - UC9 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado,UC9,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,22
+249,USJT - UC9 - FISIOTERAPIA - Semi Presencial 40.20 Bacharelado,UC9,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,22
+250,USJT - UC9 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado,UC9,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,Assíncrono,Professor Regente,99999.0,25
+251,USJT - UC9 - NUTRIÇÃO - Semi Presencial 40.20 Bacharelado,UC9,UC (1-6),5,Semi Presencial 40.20 Bacharelado,USJT,Síncrono Mediado,Mediador Online,70.0,25

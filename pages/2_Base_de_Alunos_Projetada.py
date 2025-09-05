@@ -777,7 +777,8 @@ def calcular_analise_completa(cursos_selecionados: dict, df_matrizes: pd.DataFra
                 "df_oferta": calcular_df_precificacao_oferta(adiciona_linha_total(df_final, base_alunos_total)),
                 "df_oferta_por_uc": oferta_por_uc,
                 "df_rateio": df_rateio,
-                "df_rateio_por_polo": rateio_por_polo
+                "df_rateio_por_polo": rateio_por_polo,
+                "df_oferta_por_curso": oferta_por_curso
             },
             "dados_para_plots": {
                 "custo_docente": dados_para_plot_custo_docente,
@@ -1025,7 +1026,7 @@ if st.session_state.cursos_selecionados and st.session_state.get('simulacao_ativ
                 # ... (o seu código do dataframe de sinergia continua aqui)
                  df_sinergia = dfs['df_sinergia'].rename(columns={
                     "curso": "Curso", "modelo": "Modelo", "cluster": "Cluster",
-                    "ch_sinergica": "CH Sinérgica", "percentual_sinergico": "% Sinérgica",
+                    "ch_sinergica": "CH Sinérgica", "per    centual_sinergico": "% Sinérgica",
                     "ucs_sinergicas": "UCs Sinérgicas", "ucs_especificas": "UCs Específicas"
                 })
                  st.dataframe(df_sinergia)
@@ -1033,11 +1034,41 @@ if st.session_state.cursos_selecionados and st.session_state.get('simulacao_ativ
             with st.expander("Detalhamento da Oferta", expanded=False):
                 st.markdown("Todas as ofertas")
                 df_oferta = dfs['df_oferta']
-                df_oferta_formatado = formatar_df_precificacao_oferta(df_oferta)
+
+                if "CH por Semestre_Assíncrono" in df_oferta.columns:
+                    with st.expander("CH Assíncrona"):
+                        df_oferta_assin = df_oferta[df_oferta["CH por Semestre_Assíncrono"]>0]
+                        df_oferta_assin = df_oferta_assin[["Chave", "Semestre","Base de Alunos", "CH por Semestre_Assíncrono", "Custo Docente por Semestre_Assíncrono"]]
+                        df_oferta_assin = formatar_df_precificacao_oferta(df_oferta_assin)
+
+                if "CH por Semestre_Síncrono Mediado" in df_oferta.columns:
+                    with st.expander("CH Síncrona Mediada"):
+                        df_oferta_sinc_med = df_oferta[df_oferta["CH por Semestre_Síncrono Mediado"]>0]
+                        df_oferta_sinc_med = df_oferta_sinc_med[["Chave", "Semestre","Base de Alunos", "CH por Semestre_Síncrono Mediado",  "Custo Docente por Semestre_Síncrono Mediado"]]
+                        df_oferta_sinc_med = formatar_df_precificacao_oferta(df_oferta_sinc_med)
+
+                if "CH por Semestre_Presencial" in df_oferta.columns:
+                    with st.expander("CH Presencial"):
+                        df_oferta_pres = df_oferta[df_oferta["CH por Semestre_Presencial"]>0]
+                        df_oferta_pres = df_oferta_pres[["Chave", "Semestre","Base de Alunos", "CH por Semestre_Presencial",  "Custo Docente por Semestre_Presencial"]]
+                        df_oferta_pres = formatar_df_precificacao_oferta(df_oferta_pres)
+
+                if "CH por Semestre_Síncrono" in df_oferta.columns:
+                    with st.expander("CH Síncrona"):
+                        df_oferta_sinc = df_oferta[df_oferta["CH por Semestre_Síncrono"]>0]
+                        df_oferta_sinc = df_oferta_sinc[["Chave", "Semestre","Base de Alunos", "CH por Semestre_Síncrono",  "Custo Docente por Semestre_Síncrono"]]
+                        df_oferta_sinc = formatar_df_precificacao_oferta(df_oferta_sinc)
+
+                #df_oferta_formatado = formatar_df_precificacao_oferta(df_oferta)
             with st.expander("Rateio de Custos"):
                 formatar_df_rateio(dfs["df_rateio"])
                 formatar_df_rateio_polo(dfs['df_rateio_por_polo'])
-                
+                #st.markdown("oferta_por_uc")
+                #dfs["df_oferta_por_uc"]
+                #st.markdown("df_oferta_por_curso")
+                #dfs["df_oferta_por_curso"]
+                #st.markdown("df_final")
+                #dfs["df_final"]
 
 # O debug pode ser movido para fora ou mantido aqui, se preferir.
 st.sidebar.title("Debug Info")

@@ -31,7 +31,7 @@ def formatar_valor_brl(valor):
 def formatar_df_precificacao_oferta(df:pd.DataFrame):
     def highlight_total(row):
         if "Chave" in row and row["Chave"] == "Total Geral":
-            return (len(row)-2)*['background-color: #282c34'] + ['font-weight: bold; background-color: #273333'] * 2
+            return (len(row)-2)*['background-color: #282c34 ; color:yellow'] + ['font-weight: bold; background-color: #273333; color: yellow'] * 2
         return [''] * len(row)
         # --- Dicionários Mestre com TODAS as configurações possíveis ---
 

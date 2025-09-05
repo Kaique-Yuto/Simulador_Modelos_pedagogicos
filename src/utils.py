@@ -383,7 +383,22 @@ def agrupar_oferta(OFERTA_POR_CURSO: pd.DataFrame, df_matrizes: pd.DataFrame, df
                     entry['total_alunos'] += num_alunos
                     entry['alunos_por_polo'][polo_nome] = entry['alunos_por_polo'].get(polo_nome, 0) + num_alunos
                     sinergia_acumulador[chave_acumulador] = entry
-                        
+
+            # --- Adição do Professor Regente ---
+            oferta_rows.append({
+                "UC": uc,
+                "Tipo de UC": tipo_uc,
+                "Chave": f"{marca_nome} - {uc} - {curso_nome} - {modelo_nome} - Professor Regente",
+                "Semestre": semestre,
+                "Modelo": modelo_nome,
+                "Base de Alunos": num_alunos,
+                "Marca": marca_nome,
+                "Polo": polo_nome,
+                "Tipo de CH": "Assíncrono"
+            })
+
+
+
         # --- Processamento das UCs Específicas ---
         ucs_especificas = row['ucs_especificas']
 
@@ -409,6 +424,20 @@ def agrupar_oferta(OFERTA_POR_CURSO: pd.DataFrame, df_matrizes: pd.DataFrame, df
                     "Polo": polo_nome,
                     "Tipo de CH": "Todas"
                     })
+                # --- Adição do Professor Regente ---
+                oferta_rows.append({
+                    "UC": uc,
+                    "Tipo de UC": tipo_uc,
+                    "Chave": f"{marca_nome} - {uc} - {curso_nome} - {modelo_nome} - Professor Regente",
+                    "Semestre": semestre,
+                    "Modelo": modelo_nome,
+                    "Base de Alunos": num_alunos,
+                    "Marca": marca_nome,
+                    "Polo": polo_nome,
+                    "Tipo de CH": "Assíncrono"
+                })
+                
+
 
     # UCs Sinérgicas
     for chave_tuple, data_dict in sinergia_acumulador.items():
@@ -494,7 +523,24 @@ def calcula_df_final(df_parametros_editado: pd.DataFrame, OFERTA_POR_UC: pd.Data
     df_precificacao_oferta_especificas = df_precificacao_oferta_especificas.drop(columns=["Parâmetro"]).rename(columns={"Valor": "Máximo de Alunos"})
     df_precificacao_oferta_sinergicas = df_sinergicas.merge(right=df_parametros_editado[filtro], how='left',on=['Tipo de UC','Modelo', 'Tipo de CH'])
     df_precificacao_oferta_sinergicas = df_precificacao_oferta_sinergicas.drop(columns=["Parâmetro"]).rename(columns={"Valor": "Máximo de Alunos"})
+    
+    # ------------UCS ESPECÍFICAS AINDA SÃO SINÉRGICAS NO CURSO ---------
+    df_precificacao_oferta_especificas_presencial = df_precificacao_oferta_especificas[df_precificacao_oferta_especificas["Tipo de CH"] == "Presencial"]
+    
+    df_precificacao_oferta_especificas_agrupavel = df_precificacao_oferta_especificas[df_precificacao_oferta_especificas["Tipo de CH"] != "Presencial"]
+    df_precificacao_oferta_especificas_agrupavel = df_precificacao_oferta_especificas_agrupavel[~df_precificacao_oferta_especificas_agrupavel["Chave"].str.endswith("Professor Regente", na=False)]
+    df_precificacao_oferta_especificas_agrupavel["Chave"] = (df_precificacao_oferta_especificas_agrupavel["Chave"].str.split(" - ").str[:-1].str.join(" - "))
+    colunas_de_agrupamento_2 = ['Chave', 'UC', 'Tipo de UC', 'Semestre', 'Modelo', 'Marca', 'Tipo de CH', 'Ator Pedagógico', 'Máximo de Alunos']
+    df_precificacao_oferta_especificas_agrupavel = df_precificacao_oferta_especificas_agrupavel.groupby(colunas_de_agrupamento_2, as_index=False).agg(
+                                                                                                    Base_Alunos_Grupo=('Base de Alunos', 'sum')
+                                                                                                )
+    df_precificacao_oferta_especificas_agrupavel= df_precificacao_oferta_especificas_agrupavel.rename(columns={"Base_Alunos_Grupo": "Base de Alunos"})
+    df_precificacao_oferta_especificas_agrupavel.to_csv("df_precificacao_oferta_especificas_agrupavel.csv")
+    df_precificacao_oferta_especificas = pd.concat([df_precificacao_oferta_especificas_presencial, df_precificacao_oferta_especificas_agrupavel])
+    # ------------UCS ESPECÍFICAS AINDA SÃO SINÉRGICAS NO CURSO ---------
+        
     df_precificacao_oferta = pd.concat([df_precificacao_oferta_especificas, df_precificacao_oferta_sinergicas], ignore_index=True)
+    df_precificacao_oferta.to_csv("df_precificacao_oferta.csv")
     # Remuneração
     filtro = (df_parametros_editado['Parâmetro']=='Remuneração por Hora')
     df_precificacao_oferta = df_precificacao_oferta.merge(right=df_parametros_editado[filtro], how='left',on=['Tipo de UC','Modelo', 'Tipo de CH', 'Ator Pedagógico'])
@@ -505,6 +551,20 @@ def calcula_df_final(df_parametros_editado: pd.DataFrame, OFERTA_POR_UC: pd.Data
     df_precificacao_oferta = df_precificacao_oferta.merge(right=df_parametros_editado[filtro], how='left',on=['Tipo de UC','Modelo', 'Tipo de CH', 'Ator Pedagógico'])
     df_precificacao_oferta = df_precificacao_oferta.drop(columns=["Parâmetro"]).rename(columns={"Valor": "CH Semanal"})
     #df_precificacao_oferta['CH Semanal'] = df_precificacao_oferta['CH Semanal'] + 1 if df_precificacao_oferta['Tipo de CH'] == "Assíncrona" else df_precificacao_oferta['CH Semanal']
+    
+    # ------------PROFESSOR REGENTE ------------------
+    df_prof_regente = df_precificacao_oferta[df_precificacao_oferta["Chave"].str.endswith("Professor Regente", na=False)]
+    df_prof_regente = df_prof_regente[df_prof_regente["Ator Pedagógico"] == "Professor Regente"]
+    df_prof_regente.groupby(colunas_de_agrupamento, as_index=False).agg(
+                            Base_Alunos_Grupo=('Base de Alunos', 'sum')
+                        )
+    df_prof_regente = df_prof_regente.rename(columns={"Base_Alunos_Grupo": "Base de Alunos"})
+
+    df_precificacao_oferta = df_precificacao_oferta[~df_precificacao_oferta["Chave"].str.endswith("Professor Regente", na=False)]
+    df_precificacao_oferta = df_precificacao_oferta[df_precificacao_oferta["Ator Pedagógico"] != "Professor Regente"]
+    
+    df_precificacao_oferta = pd.concat([df_precificacao_oferta, df_prof_regente])
+    # ------------PROFESSOR REGENTE ------------------
 
     df_precificacao_oferta["Qtde Turmas"] = np.ceil(df_precificacao_oferta["Base de Alunos"]/df_precificacao_oferta["Máximo de Alunos"])
     df_precificacao_oferta["CH por Semestre"] = df_precificacao_oferta["CH Semanal"] * df_precificacao_oferta["Qtde Turmas"] * 20
@@ -598,18 +658,12 @@ def plot_custo_docente_pag2(df: pd.DataFrame):
     df_plot = df.groupby('Semestre').agg(func='sum')
 
     # Criar a figura
-    fig, ax = plt.subplots(figsize=(6, 6))
-
-    # Fundo e cores
-    fig.patch.set_facecolor('#0E1117')
-    ax.set_facecolor('#0E1117')
-    bar_color = '#1f77b4'
+    fig, ax = plt.subplots(figsize=(6, 3))
 
     # Gráfico de barras
     bars = ax.bar(
         df_plot.index,
         df_plot['Custo Total'],
-        color=bar_color,
         align='center'
     )
 
@@ -630,16 +684,15 @@ def plot_custo_docente_pag2(df: pd.DataFrame):
             f'R$ {height:,.2f}'.replace(',', 'X').replace('.', ',').replace('X', '.'),
             ha='center',
             va='bottom',
-            color='white',
-            fontsize=8,
+            fontsize=4.5,
             fontweight='bold'
         )
 
     formatter = FuncFormatter(formatador_k)
     ax.yaxis.set_major_formatter(formatter)
 
-    ax.tick_params(colors='white', axis='y', labelsize=8)
-    ax.tick_params(colors='white', axis='x', labelsize=8)
+    ax.tick_params(axis='y', labelsize=6)
+    ax.tick_params(axis='x', labelsize=6)
 
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
@@ -648,7 +701,7 @@ def plot_custo_docente_pag2(df: pd.DataFrame):
     # Define os rótulos dos ticks como números inteiros
     ax.set_xticklabels(df_plot.index.astype(int))
 
-    ax.set_xlabel("Custo Docente por Série", fontdict={"color": "white", "fontsize": 13})
+    ax.set_xlabel("Custo Docente por Série", fontsize=13)
     return fig
 
 def plot_ch_docente_por_categoria_pag2(df: pd.DataFrame):
@@ -671,42 +724,34 @@ def plot_ch_docente_por_categoria_pag2(df: pd.DataFrame):
 
     df_plot = pd.Series(totais_categoria).sort_values(ascending=False)
 
-    fig, ax = plt.subplots(figsize=(12, 2))
-    fig.patch.set_facecolor('#0E1117')
-    ax.set_facecolor('#0E1117')
+    fig, ax = plt.subplots(figsize=(12, 1.5))
 
-    # Paleta de cores
-    colors = plt.cm.Blues(np.linspace(0.4, 0.9, len(df_plot)))
-
+    # Gráfico de rosca
     wedges, _ = ax.pie(
         df_plot,
         startangle=90,
-        colors=colors,
-        wedgeprops=dict(width=0.4, edgecolor='#0E1117')
+        wedgeprops=dict(width=0.4) # A cor da borda foi removida
     )
 
-    # Criar os rótulos para a legenda, combinando categoria e porcentagem
+    # Criar os rótulos para a legenda
     total = df_plot.sum()
     legend_labels = [
         f'{label} ({value/total:.1%})'
         for label, value in df_plot.items()
     ]
 
-    # Adicionar e estilizar a legenda
+    # Adicionar a legenda sem estilização de cor
     ax.legend(
         wedges,
         legend_labels,
         loc="center left",
-        bbox_to_anchor=(1, 0, 0.5, 1), # Posiciona a legenda à direita do gráfico
+        bbox_to_anchor=(1, 0, 0.5, 1),
         fontsize=8,
-        facecolor='#0E1117',
-        edgecolor='white',
-        labelcolor='white',
         title_fontsize='12'
     )
 
     # Título
-    ax.set_title("Distribuição da CH Docente por Categoria", color='white', fontsize=12, fontweight='bold', pad=20)
+    ax.set_title("Distribuição da CH Docente por Categoria", fontsize=12, fontweight='bold', pad=20)
     
     # Garante que o layout se ajuste para a legenda não ser cortada
     plt.tight_layout(rect=[0, 0, 0.85, 1])
@@ -800,22 +845,15 @@ def plot_eficiencia_por_semestre_pag2(dict_semestres: dict):
 
 def plot_custo_aluno_por_semestre_pag2(dict_semestres: dict, ticket: float):
     if not dict_semestres:
-        fig, ax = plt.subplots(figsize=(6, 4))
-        fig.patch.set_facecolor('#0E1117')
-        ax.set_facecolor('#0E1117')
+        fig, ax = plt.subplots(figsize=(12, 1.5))
         ax.text(0.5, 0.5, 'Dados insuficientes para gerar o gráfico.',
-                color='white', ha='center', va='center')
+                ha='center', va='center')
+        ax.set_axis_off() # Oculta os eixos quando não há dados
         return fig
 
     df = pd.DataFrame.from_dict(dict_semestres, orient='index', columns=["eficiencia"])
 
-    fig, ax = plt.subplots(figsize=(6, 4))
-    fig.patch.set_facecolor('#0E1117')
-    ax.set_facecolor('#0E1117')
-
-    # Cores
-    line_color = '#1f77b4'
-    ticket_line_color = '#d62728'
+    fig, ax = plt.subplots(figsize=(6, 2))
     
     # Dados para o gráfico
     x = df.index
@@ -823,16 +861,16 @@ def plot_custo_aluno_por_semestre_pag2(dict_semestres: dict, ticket: float):
     y = df['eficiencia']
 
     # Gráfico de linha padrão com marcadores
-    ax.plot(x, y, color=line_color, linewidth=2.5, marker='o', markersize=8, label='Custo por Aluno')
+    ax.plot(x, y, linewidth=2.5, marker='o', markersize=8, label='Custo por Aluno')
 
     # Encontrar e destacar o maior valor
     max_val = y.max()
     max_idx = y.idxmax() + 1
     # Formata o texto do maior valor para não ter casas decimais e adicionar "R$"
-    ax.plot(max_idx, max_val, marker='o', markersize=10, color='red', linestyle='None', label=f'Maior Custo/Aluno (R$ {int(max_val):,})')
+    ax.plot(max_idx, max_val, marker='o', markersize=10, linestyle='None', label=f'Maior Custo/Aluno (R$ {int(max_val):,})')
     
     # Adicionar a linha constante para o valor do ticket
-    ax.axhline(y=ticket, color=ticket_line_color, linestyle='--', linewidth=2, label=f'Ticket R$ {int(ticket):,}')
+    ax.axhline(y=ticket, linestyle='--', linewidth=2, label=f'Ticket R$ {int(ticket):,}')
 
     # Adicionar data labels com formatação em reais e sem centavos
     for xi, yi in zip(x, y):
@@ -842,8 +880,7 @@ def plot_custo_aluno_por_semestre_pag2(dict_semestres: dict, ticket: float):
             f'R$ {int(yi):,}',
             ha='center',
             va='bottom',
-            color='white',
-            fontsize=10,
+            fontsize=4.5,
             fontweight='bold'
         )
     
@@ -852,19 +889,17 @@ def plot_custo_aluno_por_semestre_pag2(dict_semestres: dict, ticket: float):
     ax.set_xlim(x.min() - 0.5, x.max() + 0.5)
 
     # Formatação e estilo
-    ax.tick_params(colors='white', axis='y', labelsize=8)
-    ax.tick_params(colors='white', axis='x', labelsize=8)
+    ax.tick_params(axis='y', labelsize=8)
+    ax.tick_params(axis='x', labelsize=8)
     ax.set_xticks(x)
     ax.set_xticklabels(x.astype(int))
 
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
-    ax.spines['left'].set_color('white')
-    ax.spines['bottom'].set_color('white')
     
-    ax.set_xlabel("Série", fontdict={"color": "white", "fontsize": 12})
+    ax.set_xlabel("Série", fontsize=4.5)
     
-    legend = ax.legend(facecolor='#0E1117', edgecolor='white', labelcolor='white')
+    ax.legend()
     
     return fig
 
