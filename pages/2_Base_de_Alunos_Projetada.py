@@ -1,6 +1,6 @@
 import streamlit as st
 from src.data import carregar_dados, carregar_lista_marca_polo, carregar_base_alunos, carregar_tickets, encontrar_ticket
-from src.utils import obter_modelos_para_curso, oferta_resumida_por_curso, agrupar_oferta,calcular_df_precificacao_oferta, calcular_resumo_semestre, calcula_base_alunos_por_semestre, calcula_base_alunos_total, adiciona_linha_total,calcula_df_final, plotar_custo_total_pag2, plotar_ch_total_pag2, plot_custo_docente_pag2, plot_ch_docente_por_categoria_pag2, formatar_df_por_semestre, projetar_base_alunos, calcula_custo_aluno_para_todos_semestre,plot_custo_aluno_por_semestre_pag2, calcula_ticket_medio,  busca_base_de_alunos, adicionar_todas_ofertas_do_polo, remover_ofertas_por_marca, remover_ofertas_por_polo, trazer_ofertas_para_novo_modelo, adicionar_todas_ofertas_da_marca, cria_select_box_modelo, plotar_composicao_alunos_por_serie, plotar_evolucao_total_alunos, preparar_dados_para_dashboard_macro, plotar_margem_e_base_alunos, plotar_custos_vs_receita, ratear_custo_por_polo, calcula_total_alunos_por_polo, processar_base_ingressantes_e_adicionar
+from src.utils import obter_modelos_para_curso, oferta_resumida_por_curso, agrupar_oferta,calcular_df_precificacao_oferta, calcular_resumo_semestre, calcula_base_alunos_por_semestre, calcula_base_alunos_total, adiciona_linha_total,calcula_df_final, plotar_custo_total_pag2, plotar_ch_total_pag2, plot_custo_docente_pag2, plot_ch_docente_por_categoria_pag2, formatar_df_por_semestre, projetar_base_alunos, calcula_custo_aluno_para_todos_semestre,plot_custo_aluno_por_semestre_pag2, calcula_ticket_medio,  busca_base_de_alunos, adicionar_todas_ofertas_do_polo, remover_ofertas_por_marca, remover_ofertas_por_polo, trazer_ofertas_para_novo_modelo, adicionar_todas_ofertas_da_marca, cria_select_box_modelo, plotar_composicao_alunos_por_serie, plotar_evolucao_total_alunos, preparar_dados_para_dashboard_macro, plotar_margem_e_base_alunos, plotar_custos_vs_receita, ratear_custo_por_polo, calcula_total_alunos_por_polo, processar_base_ingressantes_e_adicionar, adiciona_linha_total_rateio
 from src.formatting import formatar_valor_brl, formatar_df_precificacao_oferta, formatar_df_rateio, formatar_df_rateio_polo
 import pandas as pd
 import numpy as np
@@ -935,10 +935,21 @@ if st.session_state.cursos_selecionados and st.session_state.get('simulacao_ativ
         st.subheader("Análise Detalhada por Semestre")
         # Tabela 1: Pivot com semestres nas colunas e custo rateado nos valores
         st.markdown("##### Custos Rateados por Semestre")
+        df_pivot_custo = adiciona_linha_total_rateio(df_pivot_custo.reset_index())
+        colunas_numericas = df_pivot_custo.select_dtypes(include='number').columns
+
+        # Cria o dicionário de formatação apenas para essas colunas
+        formatador = {
+            col: lambda val: f'R$ {val:_.2f}'.replace('.', ',').replace('_', '.') 
+            for col in colunas_numericas
+        }
+
+        # Aplica o estilo formatando apenas as colunas especificadas
         st.dataframe(
-            df_pivot_custo.style.format(lambda val: f'R$ {val:_.2f}'.replace('.', ',').replace('_', '.')),
+            df_pivot_custo.style.format(formatador),
             use_container_width=True
         )
+        
         default_index_analise = len(todos_os_periodos_analise) - 1
 
         periodo_selecionado_analise = st.selectbox(

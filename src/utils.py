@@ -647,6 +647,27 @@ def adiciona_linha_total(df: pd.DataFrame, base_alunos: int) -> pd.DataFrame:
     df_com_total = pd.concat([df, pd.DataFrame([linha_total])], ignore_index=True)
     return df_com_total
 
+def adiciona_linha_total_rateio(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Calcula a soma das colunas numéricas de um DataFrame e adiciona uma linha 'Total' ao final.
+    """
+    # Cria uma cópia para evitar modificar o DataFrame original inesperadamente.
+    df_com_total = df.copy()
+    
+    # Calcula a soma das colunas numéricas para formar a base da nova linha.
+    linha_total = df.sum(numeric_only=True)
+    
+    # Define o valor da primeira coluna como 'Total'.
+    # Isso assume que a primeira coluna (após o reset_index) é a que deve conter o rótulo.
+    linha_total[df.columns[0]] = 'Total'
+    
+    # Adiciona a Série como uma nova linha no final do DataFrame.
+    # O pandas alinha os valores da Série com as colunas do DataFrame automaticamente.
+    df_com_total.loc[len(df_com_total)] = linha_total
+    
+    return df_com_total
+
+
 def plotar_custo_total_pag2(df: pd.DataFrame)-> float:
     return np.round(float(df['Custo Total'].sum()),2)
 
@@ -1503,7 +1524,12 @@ def plotar_margem_e_base_alunos(df_macro: pd.DataFrame):
     return fig
 
 def ratear_custo_por_polo(oferta_por_uc: pd.DataFrame, df_final: pd.DataFrame) -> pd.DataFrame:
-
+    # Transformar chaves da oferta por UC
+    oferta_por_uc_nao_todas = oferta_por_uc.copy()
+    oferta_por_uc_todas = oferta_por_uc[oferta_por_uc["Tipo de CH"]== "Todas"]
+    oferta_por_uc_todas["Chave"] = (oferta_por_uc_todas["Chave"].str.split(" - ").str[:-1].str.join(" - "))
+    oferta_por_uc_todas = oferta_por_uc_todas.drop_duplicates()
+    oferta_por_uc = pd.concat([oferta_por_uc_nao_todas, oferta_por_uc_todas])
     # 1. Seleciona apenas as colunas necessárias do DataFrame de custos para a junção
     df_custos_para_merge = df_final[['Chave', 'Custo Total']].copy()
 
