@@ -56,6 +56,7 @@ def formatar_df_precificacao_oferta(df:pd.DataFrame):
         "Custo Docente por Semestre_Síncrono Mediado": column_config.NumberColumn("Custo CH Síncrona Mediada"),
         "CH Total": column_config.NumberColumn("CH Total", format="%d"),
         "Eficiência da UC": column_config.NumberColumn("Eficiência da UC", format="%2f"),
+        "Qtde Turmas": column_config.NumberColumn("Qtde Turmas", format="%d")
     }
 
     # --- Criação dos Dicionários Seguros ---
@@ -78,6 +79,7 @@ def formatar_df_rateio(df: pd.DataFrame):
         "Custo Total": lambda val: f'R$ {val:_.2f}'.replace('.', ',').replace('_', '.'),
         "Custo Rateado": lambda val: f'R$ {val:_.2f}'.replace('.', ',').replace('_', '.')
     }
+    df = df[df["Custo Total"] >0]
     df = df.style.format(formatador_mestre)
     df = st.dataframe(
         df,
@@ -90,7 +92,7 @@ def formatar_df_rateio_polo(df):
     # Garante que a ordem das colunas está correta
     colunas_ordenadas = ["Polo", "Base Alunos no Polo", "Base Alunos Total", "% de Alunos", "Custo Rateado", "Custo Total", "% de Custo"]
     df = df[colunas_ordenadas]
-
+    df = df[df["Custo Total"]>0]
     formatador_mestre = {
         "Custo Rateado": lambda val: f'R$ {val:_.2f}'.replace('.', ',').replace('_', '.'),
         "Custo Total": lambda val: f'R$ {val:_.2f}'.replace('.', ',').replace('_', '.'),

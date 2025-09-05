@@ -173,7 +173,7 @@ with st.container(border=True):
     with col1:
         checkbox_base_alunos = st.checkbox(
             label="Buscar base de alunos (2025/1)",
-            help="O sistema buscará a base de alunos histórica e preencherá automaticamente todas as 'séries' do curso. Se uma base não for encontrada, todos os semestres são preenchidos com 50 estudantes",
+            help="O sistema buscará a base de ingressantes histórica (em 2025/1) e admitirá o mesmo volume de ingressantes para 2026/1. Caso uma base não seja encontrada, 50 alunos são ingressados na primeira série do curso em 2026/1",
             value=False
         )
     with col2:
@@ -196,7 +196,7 @@ with st.container(border=True):
                     if checkbox_base_alunos:
                         alunos_por_semestre = busca_base_de_alunos(df_base_alunos, marca_para_adicionar, polo_para_adicionar, curso_para_adicionar, modelo_para_adicionar, num_semestres)
                     else:
-                        alunos_por_semestre = {f"Semestre {i}": 50 for i in range(1, num_semestres + 1)}
+                        alunos_por_semestre = {"Semestre 1": 50}
 
                     if checkbox_calda_longa_oferta:
                         alunos_por_semestre = {semestre: alunos for semestre, alunos in alunos_por_semestre.items() if alunos >= 25}
@@ -353,51 +353,50 @@ with st.container(border=True):
 
 
 st.divider()
-st.subheader("Ferramentas de Gerenciamento")
-# Lógica para os novos botões
-with st.container(border=True):
-    col1, col2 = st.columns(2)
-    with col1:
-        st.markdown("**Remoção em Lote**")
-        # Remover por marca
-        marcas_selecionadas = sorted(list(set(config['marca'] for config in st.session_state.cursos_selecionados.values())))
-        marca_para_remover = st.selectbox(
-            "Selecione uma marca para remover",
-            options=marcas_selecionadas,
-            index=None,
-            placeholder="Escolha uma marca...",
-            label_visibility="collapsed"
-        )
-        if st.button("Remover todas as ofertas da MARCA", disabled=not marca_para_remover, use_container_width=True):
-            remover_ofertas_por_marca(marca_para_remover)
-            st.rerun()
+with st.expander("Ferramentas de Gerenciamento", expanded=True):
+    # Lógica para os novos botões
+    with st.container(border=True):
+        col1, col2 = st.columns(2)
+        with col1:
+            st.markdown("**Remoção em Lote**")
+            # Remover por marca
+            marcas_selecionadas = sorted(list(set(config['marca'] for config in st.session_state.cursos_selecionados.values())))
+            marca_para_remover = st.selectbox(
+                "Selecione uma marca para remover",
+                options=marcas_selecionadas,
+                index=None,
+                placeholder="Escolha uma marca...",
+                label_visibility="collapsed"
+            )
+            if st.button("Remover todas as ofertas da MARCA", disabled=not marca_para_remover, use_container_width=True):
+                remover_ofertas_por_marca(marca_para_remover)
+                st.rerun()
 
-        # Remover por polo
-        polos_selecionados = sorted(list(set(config['polo'] for config in st.session_state.cursos_selecionados.values())))
-        polo_para_remover = st.selectbox(
-            "Selecione um polo para remover",
-            options=polos_selecionados,
-            index=None,
-            placeholder="Escolha um polo...",
-            label_visibility="collapsed"
-        )
-        if st.button("Remover todas as ofertas do POLO", disabled=not polo_para_remover, use_container_width=True):
-            remover_ofertas_por_polo(polo_para_remover)
-            st.rerun()
+            # Remover por polo
+            polos_selecionados = sorted(list(set(config['polo'] for config in st.session_state.cursos_selecionados.values())))
+            polo_para_remover = st.selectbox(
+                "Selecione um polo para remover",
+                options=polos_selecionados,
+                index=None,
+                placeholder="Escolha um polo...",
+                label_visibility="collapsed"
+            )
+            if st.button("Remover todas as ofertas do POLO", disabled=not polo_para_remover, use_container_width=True):
+                remover_ofertas_por_polo(polo_para_remover)
+                st.rerun()
 
-    # Coluna para ações globais
-    with col2:
-        st.markdown("**Ações Globais**")
-        if st.button("Remover calda longa (< 25 alunos)", help="Remove todas as turmas com menos de 25 alunos.", use_container_width=True):
-            remover_calda_longa()
+        # Coluna para ações globais
+        with col2:
+            st.markdown("**Ações Globais**")
+            if st.button("Remover calda longa (< 25 alunos)", help="Remove todas as turmas com menos de 25 alunos.", use_container_width=True):
+                remover_calda_longa()
 
-        if st.button("Trazer ofertas para o novo modelo", help="Altera os modelos 'Atuais' para a nova nomenclatura (Ex: EAD Atual -> EAD 10.10)", use_container_width=True):
-            trazer_ofertas_para_novo_modelo(df_dimensao_cursos, df_curso_marca_modalidade, df_curso_modalidade, df_modalidade)
-            time.sleep(5)
+            if st.button("Trazer ofertas para o novo modelo", help="Altera os modelos 'Atuais' para a nova nomenclatura (Ex: EAD Atual -> EAD 10.10)", use_container_width=True):
+                trazer_ofertas_para_novo_modelo(df_dimensao_cursos, df_curso_marca_modalidade, df_curso_modalidade, df_modalidade)
+                time.sleep(5)
 
-        if st.button("Limpar TODAS as ofertas", help="Limpa todas as ofertas para começar do zero.", type="primary", use_container_width=True):
-            limpar_todas_as_ofertas()
-st.divider()
+            if st.button("Limpar TODAS as ofertas", help="Limpa todas as ofertas para começar do zero.", type="primary", use_container_width=True):
+                limpar_todas_as_ofertas()
 
 # --- Seção 3 (Configurar Cursos) ---
 st.subheader("Configuração de Ofertas Adicionadas")
@@ -509,25 +508,22 @@ else:
                 
                 
                
-                
-                
-                
-                
-                
-                
-                
+
                 st.markdown("##### Modo de Projeção")
                 # Opções do radio button
                 opcoes_projecao = ["Continuar da Base Histórica", "Iniciar do Zero", "Definir Base Personalizada"]
                 # Desabilita a opção 'Continuar' se não houver base histórica carregada
                 desabilitar_continuar = 'alunos_por_semestre' not in config or not config['alunos_por_semestre']
 
+                valor_atual = config.get('modo_projecao', opcoes_projecao[0])
+                indice_padrao = opcoes_projecao.index(valor_atual)
                 # Salva a escolha do usuário no session_state da oferta
                 config['modo_projecao'] = st.radio(
                     label="Escolha como a projeção deve começar para esta oferta:",
                     options=opcoes_projecao,
                     key=f"modo_projecao_{chave_oferta}",
                     horizontal=True,
+                    index=indice_padrao,
                     help="""
                     - **Iniciar do Zero:** Começa a simulação apenas com uma turma de calouros.
                     - **Continuar da Base Histórica:** Usa a base de 2025/1 como ponto de partida.
@@ -624,7 +620,6 @@ else:
                     "decaimento_evasao": decaimento_evasao
                 }
 st.divider()
-
 # --- Seção 3: Executar Simulação ---
 st.header("3. Defina os parâmetros de Precificação", divider='rainbow')
 
@@ -988,6 +983,49 @@ if st.session_state.cursos_selecionados and st.session_state.get('simulacao_ativ
                 fig_custo_aluno_serie = dados_plots.get("custo_aluno_serie")
                 st.pyplot(plot_custo_aluno_por_semestre_pag2(fig_custo_aluno_serie, metricas['ticket_medio']))
                 
+
+
+            with st.expander("Detalhamento da Oferta", expanded=False):
+                st.markdown("Todas as ofertas")
+                df_oferta = dfs['df_oferta']
+
+                if "CH por Semestre_Assíncrono" in df_oferta.columns:
+                    with st.expander("CH Assíncrona"):
+                        df_oferta_assin = df_oferta[df_oferta["CH por Semestre_Assíncrono"]>0]
+                        df_oferta_assin = df_oferta_assin[["Chave", "Semestre","Base de Alunos", "Qtde Turmas", "CH por Semestre_Assíncrono", "Custo Docente por Semestre_Assíncrono"]]
+                        df_oferta_assin = formatar_df_precificacao_oferta(df_oferta_assin)
+
+                if "CH por Semestre_Síncrono Mediado" in df_oferta.columns:
+                    with st.expander("CH Síncrona Mediada"):
+                        df_oferta_sinc_med = df_oferta[df_oferta["CH por Semestre_Síncrono Mediado"]>0]
+                        df_oferta_sinc_med = df_oferta_sinc_med[["Chave", "Semestre","Base de Alunos", "Qtde Turmas","CH por Semestre_Síncrono Mediado",  "Custo Docente por Semestre_Síncrono Mediado"]]
+                        df_oferta_sinc_med = formatar_df_precificacao_oferta(df_oferta_sinc_med)
+
+                if "CH por Semestre_Presencial" in df_oferta.columns:
+                    with st.expander("CH Presencial"):
+                        df_oferta_pres = df_oferta[df_oferta["CH por Semestre_Presencial"]>0]
+                        df_oferta_pres = df_oferta_pres[["Chave", "Semestre","Base de Alunos", "Qtde Turmas","CH por Semestre_Presencial",  "Custo Docente por Semestre_Presencial"]]
+                        df_oferta_pres = formatar_df_precificacao_oferta(df_oferta_pres)
+
+                if "CH por Semestre_Síncrono" in df_oferta.columns:
+                    with st.expander("CH Síncrona"):
+                        df_oferta_sinc = df_oferta[df_oferta["CH por Semestre_Síncrono"]>0]
+                        df_oferta_sinc = df_oferta_sinc[["Chave", "Semestre","Base de Alunos", "Qtde Turmas","CH por Semestre_Síncrono",  "Custo Docente por Semestre_Síncrono"]]
+                        df_oferta_sinc = formatar_df_precificacao_oferta(df_oferta_sinc)
+
+                #df_oferta_formatado = formatar_df_precificacao_oferta(df_oferta)
+
+            with st.expander("Rateio de Custos"):
+                formatar_df_rateio(dfs["df_rateio"])
+                formatar_df_rateio_polo(dfs['df_rateio_por_polo'])
+                #st.markdown("oferta_por_uc")
+                #dfs["df_oferta_por_uc"]
+                #st.markdown("df_oferta_por_curso")
+                #dfs["df_oferta_por_curso"]
+                #st.markdown("df_final")
+                #dfs["df_final"]
+
+
             # O restante dos expanders com os detalhes que você já tinha
             with st.expander("Detalhamento por Série", expanded=False):
                 # ... (o seu código para o loop de detalhes por série continua aqui, sem alterações)
@@ -1024,45 +1062,6 @@ if st.session_state.cursos_selecionados and st.session_state.get('simulacao_ativ
                     "ucs_sinergicas": "UCs Sinérgicas", "ucs_especificas": "UCs Específicas"
                 })
                  st.dataframe(df_sinergia)
-
-            with st.expander("Detalhamento da Oferta", expanded=False):
-                st.markdown("Todas as ofertas")
-                df_oferta = dfs['df_oferta']
-
-                if "CH por Semestre_Assíncrono" in df_oferta.columns:
-                    with st.expander("CH Assíncrona"):
-                        df_oferta_assin = df_oferta[df_oferta["CH por Semestre_Assíncrono"]>0]
-                        df_oferta_assin = df_oferta_assin[["Chave", "Semestre","Base de Alunos", "CH por Semestre_Assíncrono", "Custo Docente por Semestre_Assíncrono"]]
-                        df_oferta_assin = formatar_df_precificacao_oferta(df_oferta_assin)
-
-                if "CH por Semestre_Síncrono Mediado" in df_oferta.columns:
-                    with st.expander("CH Síncrona Mediada"):
-                        df_oferta_sinc_med = df_oferta[df_oferta["CH por Semestre_Síncrono Mediado"]>0]
-                        df_oferta_sinc_med = df_oferta_sinc_med[["Chave", "Semestre","Base de Alunos", "CH por Semestre_Síncrono Mediado",  "Custo Docente por Semestre_Síncrono Mediado"]]
-                        df_oferta_sinc_med = formatar_df_precificacao_oferta(df_oferta_sinc_med)
-
-                if "CH por Semestre_Presencial" in df_oferta.columns:
-                    with st.expander("CH Presencial"):
-                        df_oferta_pres = df_oferta[df_oferta["CH por Semestre_Presencial"]>0]
-                        df_oferta_pres = df_oferta_pres[["Chave", "Semestre","Base de Alunos", "CH por Semestre_Presencial",  "Custo Docente por Semestre_Presencial"]]
-                        df_oferta_pres = formatar_df_precificacao_oferta(df_oferta_pres)
-
-                if "CH por Semestre_Síncrono" in df_oferta.columns:
-                    with st.expander("CH Síncrona"):
-                        df_oferta_sinc = df_oferta[df_oferta["CH por Semestre_Síncrono"]>0]
-                        df_oferta_sinc = df_oferta_sinc[["Chave", "Semestre","Base de Alunos", "CH por Semestre_Síncrono",  "Custo Docente por Semestre_Síncrono"]]
-                        df_oferta_sinc = formatar_df_precificacao_oferta(df_oferta_sinc)
-
-                #df_oferta_formatado = formatar_df_precificacao_oferta(df_oferta)
-            with st.expander("Rateio de Custos"):
-                formatar_df_rateio(dfs["df_rateio"])
-                formatar_df_rateio_polo(dfs['df_rateio_por_polo'])
-                #st.markdown("oferta_por_uc")
-                #dfs["df_oferta_por_uc"]
-                #st.markdown("df_oferta_por_curso")
-                #dfs["df_oferta_por_curso"]
-                #st.markdown("df_final")
-                #dfs["df_final"]
 
 # O debug pode ser movido para fora ou mantido aqui, se preferir.
 st.sidebar.title("Debug Info")

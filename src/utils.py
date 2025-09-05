@@ -535,12 +535,12 @@ def calcula_df_final(df_parametros_editado: pd.DataFrame, OFERTA_POR_UC: pd.Data
                                                                                                     Base_Alunos_Grupo=('Base de Alunos', 'sum')
                                                                                                 )
     df_precificacao_oferta_especificas_agrupavel= df_precificacao_oferta_especificas_agrupavel.rename(columns={"Base_Alunos_Grupo": "Base de Alunos"})
-    df_precificacao_oferta_especificas_agrupavel.to_csv("df_precificacao_oferta_especificas_agrupavel.csv")
+    #df_precificacao_oferta_especificas_agrupavel.to_csv("df_precificacao_oferta_especificas_agrupavel.csv")
     df_precificacao_oferta_especificas = pd.concat([df_precificacao_oferta_especificas_presencial, df_precificacao_oferta_especificas_agrupavel])
     # ------------UCS ESPECÍFICAS AINDA SÃO SINÉRGICAS NO CURSO ---------
         
     df_precificacao_oferta = pd.concat([df_precificacao_oferta_especificas, df_precificacao_oferta_sinergicas], ignore_index=True)
-    df_precificacao_oferta.to_csv("df_precificacao_oferta.csv")
+    #df_precificacao_oferta.to_csv("df_precificacao_oferta.csv")
     # Remuneração
     filtro = (df_parametros_editado['Parâmetro']=='Remuneração por Hora')
     df_precificacao_oferta = df_precificacao_oferta.merge(right=df_parametros_editado[filtro], how='left',on=['Tipo de UC','Modelo', 'Tipo de CH', 'Ator Pedagógico'])
@@ -573,7 +573,7 @@ def calcula_df_final(df_parametros_editado: pd.DataFrame, OFERTA_POR_UC: pd.Data
     df_precificacao_oferta
 
     df_pivot = df_precificacao_oferta.pivot_table(
-                                        index=["Chave","Semestre","Base de Alunos"],
+                                        index=["Chave","Semestre","Base de Alunos", "Qtde Turmas"],
                                         columns="Tipo de CH",
                                         values=["CH por Semestre","Custo Docente por Semestre"],
                                         aggfunc='sum'    
@@ -930,6 +930,7 @@ def formatar_df_por_semestre(df: pd.DataFrame):
         "Custo Docente por Semestre_Síncrono Mediado": column_config.NumberColumn("Custo CH Síncrona Mediada"),
         "CH Total": column_config.NumberColumn("CH Total", format="%d"),
         "Eficiência da UC": column_config.NumberColumn("Eficiência da UC", format="%2f"),
+        "Qtde Turmas": column_config.NumberColumn(format="%d")
     }
 
     formatadores_seguros = {col: func for col, func in formatador_mestre.items() if col in df.columns}
@@ -1072,7 +1073,7 @@ def busca_base_de_alunos(df: pd.DataFrame, marca: str, campus: str, curso: str, 
             for i in range(1, num_semestres + 1)
         }
     else:
-        alunos_por_semestre = {f"Semestre {i}": 50 for i in range(1, num_semestres + 1)}
+        alunos_por_semestre = {f"Semestre 1": 50 }
     return alunos_por_semestre
 
 def adicionar_todas_ofertas_do_polo(marca, polo, df_base_alunos, df_dimensao_cursos, df_curso_marca_modalidade, df_curso_modalidade, df_modalidade):
