@@ -996,7 +996,7 @@ if st.session_state.cursos_selecionados and st.session_state.get('simulacao_ativ
                 
 
 
-            with st.expander("Detalhamento da Oferta", expanded=False):
+            with st.expander("Agrupamento da Oferta", expanded=False):
                 st.markdown("Todas as ofertas")
                 df_oferta = dfs['df_oferta']
 
