@@ -388,7 +388,7 @@ def agrupar_oferta(OFERTA_POR_CURSO: pd.DataFrame, df_matrizes: pd.DataFrame, df
             oferta_rows.append({
                 "UC": uc,
                 "Tipo de UC": tipo_uc,
-                "Chave": f"{marca_nome} - {uc} - {curso_nome} - {modelo_nome} - Professor Regente",
+                "Chave": f"{marca_nome} - {uc} - {cluster_nome} - {modelo_nome} - Professor Regente",
                 "Semestre": semestre,
                 "Modelo": modelo_nome,
                 "Base de Alunos": num_alunos,
@@ -516,6 +516,7 @@ def calcula_df_final(df_parametros_editado: pd.DataFrame, OFERTA_POR_UC: pd.Data
 
     df_sinergicas = OFERTA_POR_UC[OFERTA_POR_UC['Tipo de CH']!="Todas"]
     df_especificas = OFERTA_POR_UC[OFERTA_POR_UC['Tipo de CH']=="Todas"].drop(columns=['Tipo de CH'])
+    primeira_uc_especifica = df_especificas["Chave"].str.split(" - ").str[1].str.replace("UC", "").astype(int).min()
 
     # Max de alunos
     filtro = (df_parametros_editado['Parâmetro']=='Máximo de Alunos por Turma')
@@ -553,6 +554,7 @@ def calcula_df_final(df_parametros_editado: pd.DataFrame, OFERTA_POR_UC: pd.Data
     #df_precificacao_oferta['CH Semanal'] = df_precificacao_oferta['CH Semanal'] + 1 if df_precificacao_oferta['Tipo de CH'] == "Assíncrona" else df_precificacao_oferta['CH Semanal']
     
     # ------------PROFESSOR REGENTE ------------------
+
     df_prof_regente = df_precificacao_oferta[df_precificacao_oferta["Chave"].str.endswith("Professor Regente", na=False)]
     df_prof_regente = df_prof_regente[df_prof_regente["Ator Pedagógico"] == "Professor Regente"]
     df_prof_regente.groupby(colunas_de_agrupamento, as_index=False).agg(
@@ -648,23 +650,10 @@ def adiciona_linha_total(df: pd.DataFrame, base_alunos: int) -> pd.DataFrame:
     return df_com_total
 
 def adiciona_linha_total_rateio(df: pd.DataFrame) -> pd.DataFrame:
-    """
-    Calcula a soma das colunas numéricas de um DataFrame e adiciona uma linha 'Total' ao final.
-    """
-    # Cria uma cópia para evitar modificar o DataFrame original inesperadamente.
     df_com_total = df.copy()
-    
-    # Calcula a soma das colunas numéricas para formar a base da nova linha.
     linha_total = df.sum(numeric_only=True)
-    
-    # Define o valor da primeira coluna como 'Total'.
-    # Isso assume que a primeira coluna (após o reset_index) é a que deve conter o rótulo.
-    linha_total[df.columns[0]] = 'Total'
-    
-    # Adiciona a Série como uma nova linha no final do DataFrame.
-    # O pandas alinha os valores da Série com as colunas do DataFrame automaticamente.
+    linha_total[df.columns[0]] = 'Total Geral'
     df_com_total.loc[len(df_com_total)] = linha_total
-    
     return df_com_total
 
 
@@ -1382,7 +1371,8 @@ def plotar_composicao_alunos_por_serie(cursos_selecionados, periodo_selecionado)
 
     # Gera o gráfico
     fig, ax = plt.subplots(figsize=(12, 4))
-    bars = ax.bar(df_composicao['Série'], df_composicao['Número de Alunos'])
+    x = df_composicao['Série'].str.replace("Semestre", "Série")
+    bars = ax.bar(x, df_composicao['Número de Alunos'])
     ax.set_title(f'Composição Agregada de Alunos por Série em {periodo_selecionado}')
     ax.set_ylabel('Número de Alunos')
     ax.set_xlabel('Série do Curso')

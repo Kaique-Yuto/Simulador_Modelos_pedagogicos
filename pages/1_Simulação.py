@@ -998,36 +998,99 @@ if st.session_state.cursos_selecionados and st.session_state.get('simulacao_ativ
 
             with st.expander("Agrupamento da Oferta", expanded=False):
                 st.markdown("Todas as ofertas")
-                df_oferta = dfs['df_oferta']
+                df_oferta = dfs['df_oferta'].copy()
+                df_rateio = dfs["df_rateio"].copy()
+                # --------- Oferta -----------
+                split_cols = df_oferta['Chave'].str.split(' - ', expand=True)
+                if split_cols.shape[1] < 2:
+                    st.error("Não foi possível extrair 'Marca' e 'UC' da coluna 'Chave'. Verifique se o separador ' - ' existe nos dados.")
+                    st.stop()
+                else:
+                    df_oferta['Marca'] = split_cols[0]
+                    df_oferta['UC'] = split_cols[1]
+
+                df_oferta.dropna(subset=['Marca', 'UC'], inplace=True)
+                df_oferta['UC'] = df_oferta['UC'].astype(str)
+                # --------- Oferta -----------
+
+                # --------- Rateio -----------
+                split_cols2 = df_rateio['Chave'].str.split(' - ', expand=True)
+                if split_cols2.shape[1] < 2:
+                    st.error("Não foi possível extrair 'Marca' e 'UC' da coluna 'Chave'. Verifique se o separador ' - ' existe nos dados.")
+                    st.stop()
+                else:
+                    df_rateio['Marca'] = split_cols2[0]
+                    df_rateio['UC'] = split_cols2[1]
+
+                df_rateio.dropna(subset=['Marca', 'UC'], inplace=True)
+                df_rateio['UC'] = df_rateio['UC'].astype(str)
+                # --------- Rateio -----------
+
+                
+                marcas_disponiveis = sorted(df_oferta['Marca'].unique())
+                col1,col2, _ = st.columns([1,1,2])
+                with col1:
+                    marcas_selecionadas = st.multiselect(
+                        "Filtro por Marca:",
+                        options=marcas_disponiveis,
+                        default=marcas_disponiveis
+                    )
+
+                    if marcas_selecionadas:
+                        df_filtrado_marca = df_oferta[(df_oferta['Marca'].isin(marcas_selecionadas))]
+                        df_rateio_filtrado_marca = df_rateio[(df_rateio['Marca'].isin(marcas_selecionadas))]
+                    else:
+                        df_filtrado_marca = df_oferta
+                        df_rateio_filtrado_marca = df_rateio
+
+                    ucs_disponiveis = sorted(df_filtrado_marca['UC'].unique())
+                with col2: 
+                    ucs_selecionadas = st.multiselect(
+                        "Filtro por UC:",
+                        options=ucs_disponiveis,
+                        default=None
+                    )
+
+                    if ucs_selecionadas:
+                        df_oferta = df_filtrado_marca[df_filtrado_marca['UC'].isin(ucs_selecionadas)]
+                        df_rateio_filtrado_marca = df_rateio[(df_rateio['UC'].isin(ucs_selecionadas))]
+                    else:
+                        df_oferta = df_filtrado_marca
+                        df_rateio_filtrado_marca = df_rateio
 
                 if "CH por Semestre_Assíncrono" in df_oferta.columns:
                     with st.expander("CH Assíncrona"):
-                        df_oferta_assin = df_oferta[df_oferta["CH por Semestre_Assíncrono"]>0]
-                        df_oferta_assin = df_oferta_assin[["Chave", "Semestre","Base de Alunos", "Qtde Turmas", "CH por Semestre_Assíncrono", "Custo Docente por Semestre_Assíncrono"]]
-                        df_oferta_assin = formatar_df_precificacao_oferta(df_oferta_assin)
+                        df_oferta_assin = df_oferta[df_oferta["CH por Semestre_Assíncrono"] > 0].copy()
+                        df_oferta_assin = df_oferta_assin[["Chave", "Semestre", "Base de Alunos", "Qtde Turmas", "CH por Semestre_Assíncrono", "Custo Docente por Semestre_Assíncrono"]]
+                        df_oferta_assin = adiciona_linha_total_rateio(df_oferta_assin)
+                        formatar_df_precificacao_oferta(df_oferta_assin)
 
                 if "CH por Semestre_Síncrono Mediado" in df_oferta.columns:
                     with st.expander("CH Síncrona Mediada"):
-                        df_oferta_sinc_med = df_oferta[df_oferta["CH por Semestre_Síncrono Mediado"]>0]
-                        df_oferta_sinc_med = df_oferta_sinc_med[["Chave", "Semestre","Base de Alunos", "Qtde Turmas","CH por Semestre_Síncrono Mediado",  "Custo Docente por Semestre_Síncrono Mediado"]]
-                        df_oferta_sinc_med = formatar_df_precificacao_oferta(df_oferta_sinc_med)
+                        df_oferta_sinc_med = df_oferta[df_oferta["CH por Semestre_Síncrono Mediado"] > 0].copy()
+                        df_oferta_sinc_med = df_oferta_sinc_med[["Chave", "Semestre", "Base de Alunos", "Qtde Turmas", "CH por Semestre_Síncrono Mediado", "Custo Docente por Semestre_Síncrono Mediado"]]
+                        df_oferta_sinc_med = adiciona_linha_total_rateio(df_oferta_sinc_med)
+                        formatar_df_precificacao_oferta(df_oferta_sinc_med)
 
                 if "CH por Semestre_Presencial" in df_oferta.columns:
                     with st.expander("CH Presencial"):
-                        df_oferta_pres = df_oferta[df_oferta["CH por Semestre_Presencial"]>0]
-                        df_oferta_pres = df_oferta_pres[["Chave", "Semestre","Base de Alunos", "Qtde Turmas","CH por Semestre_Presencial",  "Custo Docente por Semestre_Presencial"]]
-                        df_oferta_pres = formatar_df_precificacao_oferta(df_oferta_pres)
+                        df_oferta_pres = df_oferta[df_oferta["CH por Semestre_Presencial"] > 0].copy()
+                        df_oferta_pres = df_oferta_pres[["Chave", "Semestre", "Base de Alunos", "Qtde Turmas", "CH por Semestre_Presencial", "Custo Docente por Semestre_Presencial"]]
+                        df_oferta_pres = adiciona_linha_total_rateio(df_oferta_pres)
+                        formatar_df_precificacao_oferta(df_oferta_pres)
 
                 if "CH por Semestre_Síncrono" in df_oferta.columns:
                     with st.expander("CH Síncrona"):
-                        df_oferta_sinc = df_oferta[df_oferta["CH por Semestre_Síncrono"]>0]
-                        df_oferta_sinc = df_oferta_sinc[["Chave", "Semestre","Base de Alunos", "Qtde Turmas","CH por Semestre_Síncrono",  "Custo Docente por Semestre_Síncrono"]]
-                        df_oferta_sinc = formatar_df_precificacao_oferta(df_oferta_sinc)
+                        df_oferta_sinc = df_oferta[df_oferta["CH por Semestre_Síncrono"] > 0].copy()
+                        df_oferta_sinc = df_oferta_sinc[["Chave", "Semestre", "Base de Alunos", "Qtde Turmas", "CH por Semestre_Síncrono", "Custo Docente por Semestre_Síncrono"]]
+                        df_oferta_sinc = adiciona_linha_total_rateio(df_oferta_sinc)
+                        formatar_df_precificacao_oferta(df_oferta_sinc)
 
                 #df_oferta_formatado = formatar_df_precificacao_oferta(df_oferta)
 
             with st.expander("Rateio de Custos"):
-                formatar_df_rateio(dfs["df_rateio"])
+                df_rateio = df_rateio_filtrado_marca
+                formatar_df_rateio(df_rateio)
                 formatar_df_rateio_polo(dfs['df_rateio_por_polo'])
                 #st.markdown("oferta_por_uc")
                 #dfs["df_oferta_por_uc"]

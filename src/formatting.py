@@ -56,7 +56,9 @@ def formatar_df_precificacao_oferta(df:pd.DataFrame):
         "Custo Docente por Semestre_Síncrono Mediado": column_config.NumberColumn("Custo CH Síncrona Mediada"),
         "CH Total": column_config.NumberColumn("CH Total", format="%d"),
         "Eficiência da UC": column_config.NumberColumn("Eficiência da UC", format="%2f"),
-        "Qtde Turmas": column_config.NumberColumn("Qtde Turmas", format="%d")
+        "Qtde Turmas": column_config.NumberColumn("Qtde Turmas", format="%d"),
+        "Base de Alunos": column_config.NumberColumn("Base de Alunos", format="%d"),
+        "Semestre": column_config.TextColumn("Semestre")
     }
 
     # --- Criação dos Dicionários Seguros ---
