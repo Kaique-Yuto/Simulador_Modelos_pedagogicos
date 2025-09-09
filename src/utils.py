@@ -34,59 +34,6 @@ def obter_modelos_para_curso(df: pd.DataFrame, nome_curso: str) -> list:
         # Retorna lista vazia se o curso não for encontrado ou ocorrer outro erro
         return []
 
-def plot_custo_docente(df_precificacao_curso):
-    # Agregar os dados
-    df_plot = df_precificacao_curso.groupby('Semestre').agg(func='sum')
-
-    # Criar a figura
-    fig, ax = plt.subplots(figsize=(6, 6))
-
-    # Fundo e cores
-    fig.patch.set_facecolor('#0E1117')
-    ax.set_facecolor('#0E1117')
-    bar_color = '#1f77b4'
-
-    # Gráfico de barras
-    bars = ax.bar(
-        df_plot.index,
-        df_plot['total_uc_as'],
-        color=bar_color
-    )
-
-    # Aumenta o limite superior do eixo Y para dar espaço para as labels
-    ax.set_ylim(top=df_plot['total_uc_as'].max() * 1.15)
-
-    # Adicionar data labels formatados em moeda brasileira
-    for i, bar in enumerate(bars):
-        height = bar.get_height()
-        if i % 2 == 0:
-            y_position = height + (df_plot['total_uc_as'].max() * 0.05)
-        else:
-            y_position = height
-
-        ax.text(
-            bar.get_x() + bar.get_width()/2,
-            y_position,
-            f'R$ {height:,.2f}'.replace(',', 'X').replace('.', ',').replace('X', '.'),
-            ha='center',
-            va='bottom',
-            color='white',
-            fontsize=8,
-            fontweight='bold'
-        )
-
-    formatter = FuncFormatter(formatador_k)
-    ax.yaxis.set_major_formatter(formatter)
-
-    ax.tick_params(colors='white', axis='y', labelsize=8) # Aplica a cor branca apenas ao eixo y
-    ax.tick_params(colors='white', axis='x', labelsize=8) # Aplica a cor branca apenas ao eixo x
-
-    ax.spines['top'].set_visible(False)
-    ax.spines['right'].set_visible(False)
-    
-    ax.set_xlabel("Custo Docente por Série", fontdict={"color": "white", "fontsize": 13})
-    return fig
-
 def plot_eficiencia_por_semestre(df_precificacao_curso, base_alunos=70):
     # Agregar os dados
     df_plot = df_precificacao_curso.groupby('Semestre').agg(func='sum')
@@ -144,63 +91,6 @@ def plot_eficiencia_por_semestre(df_precificacao_curso, base_alunos=70):
     # Adicionar legenda
     legend = ax.legend(facecolor='#0E1117', edgecolor='white', labelcolor='white')
     
-    return fig
-
-def plot_ch_docente_por_categoria(df_precificacao_curso: pd.DataFrame):
-    """
-    Plota a distribuição da CH Docente como um gráfico de rosca,
-    utilizando uma legenda para identificar as categorias e porcentagens.
-    """
-    totais_categoria = {}
-
-    for _, row in df_precificacao_curso.iterrows():
-        df_precificacao = row["Precificacao"]
-        soma_categoria = df_precificacao.groupby("Tipo de CH")["ch_ator_pedagogico"].sum()
-        for cat, valor in soma_categoria.items():
-            totais_categoria[cat] = totais_categoria.get(cat, 0) + valor
-
-    df_plot = pd.Series(totais_categoria).sort_values(ascending=False)
-
-    fig, ax = plt.subplots(figsize=(12, 2))
-    fig.patch.set_facecolor('#0E1117')
-    ax.set_facecolor('#0E1117')
-
-    # Paleta de cores
-    colors = plt.cm.Blues(np.linspace(0.4, 0.9, len(df_plot)))
-
-    wedges, _ = ax.pie(
-        df_plot,
-        startangle=90,
-        colors=colors,
-        wedgeprops=dict(width=0.4, edgecolor='#0E1117')
-    )
-
-    # Criar os rótulos para a legenda, combinando categoria e porcentagem
-    total = df_plot.sum()
-    legend_labels = [
-        f'{label} ({value/total:.1%})'
-        for label, value in df_plot.items()
-    ]
-
-    # Adicionar e estilizar a legenda
-    ax.legend(
-        wedges,
-        legend_labels,
-        loc="center left",
-        bbox_to_anchor=(1, 0, 0.5, 1), # Posiciona a legenda à direita do gráfico
-        fontsize=8,
-        facecolor='#0E1117',
-        edgecolor='white',
-        labelcolor='white',
-        title_fontsize='12'
-    )
-
-    # Título
-    ax.set_title("Distribuição da CH Docente por Categoria", color='white', fontsize=12, fontweight='bold', pad=20)
-    
-    # Garante que o layout se ajuste para a legenda não ser cortada
-    plt.tight_layout(rect=[0, 0, 0.85, 1])
-
     return fig
 
 def plotar_indicador_eficiencia(total_ch: float, numero_alunos: int):
@@ -711,14 +601,11 @@ def plot_custo_docente_pag2(df: pd.DataFrame):
     # Define os rótulos dos ticks como números inteiros
     ax.set_xticklabels(df_plot.index.astype(int))
 
-    ax.set_xlabel("Custo Docente por Série", fontsize=13)
+    ax.set_xlabel("Série", fontsize=6)
+    ax.set_title("Custo Docente por Série", fontsize=10)
     return fig
 
 def plot_ch_docente_por_categoria_pag2(df: pd.DataFrame):
-    """
-    Plota a distribuição da CH Docente como um gráfico de rosca,
-    utilizando uma legenda para identificar as categorias e porcentagens.
-    """
     totais_categoria = {}
     colunas_ch = [
         "CH por Semestre_Assíncrono",
@@ -761,7 +648,7 @@ def plot_ch_docente_por_categoria_pag2(df: pd.DataFrame):
     )
 
     # Título
-    ax.set_title("Distribuição da CH Docente por Categoria", fontsize=12, fontweight='bold', pad=20)
+    ax.set_title("Distribuição da CH Docente por Categoria", fontsize=10, pad=20)
     
     # Garante que o layout se ajuste para a legenda não ser cortada
     plt.tight_layout(rect=[0, 0, 0.85, 1])
@@ -871,13 +758,13 @@ def plot_custo_aluno_por_semestre_pag2(dict_semestres: dict, ticket: float):
     y = df['eficiencia']
 
     # Gráfico de linha padrão com marcadores
-    ax.plot(x, y, linewidth=2.5, marker='o', markersize=8, label='Custo por Aluno')
+    ax.plot(x, y, linewidth=2.5, marker='o', markersize=4.5, label='Custo por Aluno')
 
     # Encontrar e destacar o maior valor
     max_val = y.max()
     max_idx = y.idxmax() + 1
     # Formata o texto do maior valor para não ter casas decimais e adicionar "R$"
-    ax.plot(max_idx, max_val, marker='o', markersize=10, linestyle='None', label=f'Maior Custo/Aluno (R$ {int(max_val):,})')
+    ax.plot(max_idx, max_val, marker='o', markersize=4.5, linestyle='None', label=f'Maior Custo/Aluno (R$ {int(max_val):,})')
     
     # Adicionar a linha constante para o valor do ticket
     ax.axhline(y=ticket, linestyle='--', linewidth=2, label=f'Ticket R$ {int(ticket):,}')
@@ -907,9 +794,9 @@ def plot_custo_aluno_por_semestre_pag2(dict_semestres: dict, ticket: float):
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
     
-    ax.set_xlabel("Série", fontsize=4.5)
+    ax.set_xlabel("Série", fontsize=6)
     
-    ax.legend()
+    ax.legend(fontsize=6, borderpad=0.4, labelspacing=0.5)
     
     return fig
 
@@ -1373,9 +1260,9 @@ def plotar_composicao_alunos_por_serie(cursos_selecionados, periodo_selecionado)
     fig, ax = plt.subplots(figsize=(12, 4))
     x = df_composicao['Série'].str.replace("Semestre", "Série")
     bars = ax.bar(x, df_composicao['Número de Alunos'])
-    ax.set_title(f'Composição Agregada de Alunos por Série em {periodo_selecionado}')
+    ax.set_title(f'Composição Agregada de Alunos por Série em {periodo_selecionado}', fontsize=20)
     ax.set_ylabel('Número de Alunos')
-    ax.set_xlabel('Série do Curso')
+    ax.set_xlabel('Série do Curso', fontsize=12)
     plt.xticks(rotation=45)
 
     # Adiciona os data labels em cima de cada barra
@@ -1477,7 +1364,7 @@ def plotar_margem_e_base_alunos(df_macro: pd.DataFrame):
     ymax = max(50, max_margem) * 1.1
     
     min_margem = df_macro['margem'].min()
-    ymin = min_margem * 1.1
+    ymin = min_margem * 1.1 if min_margem < 0 else 0
     
     ax1.set_ylim(bottom=ymin, top=ymax)
 
@@ -1619,3 +1506,51 @@ def processar_base_ingressantes_e_adicionar(
     except Exception as e:
         st.error(f"Ocorreu um erro ao processar o arquivo: {e}")
         st.error("Verifique se as colunas 'Curso' e 'Modalidade' existem e se o arquivo não está corrompido.")
+
+def calcula_receita_por_polo_periodo(config: dict, todos_periodos: list) -> pd.DataFrame:
+    cursos = config.get("cursos_selecionados", {})
+    dados_agregados = {}
+
+    for periodo in todos_periodos:
+        chave_sufixo_temporal = "_" + periodo.replace("/", "_")
+        for _, dados_curso in cursos.items():
+            polo = dados_curso.get("polo")
+            if not polo:
+                continue
+
+            # Chave única para agregação
+            chave_agregacao = (polo, periodo)
+
+            # Inicializa a chave no dicionário se for a primeira vez
+            if chave_agregacao not in dados_agregados:
+                dados_agregados[chave_agregacao] = {"receita": 0, "alunos": 0}
+
+            ticket_curso = dados_curso.get("ticket", 0)
+            alunos_no_periodo_curso = 0
+            
+            alunos_por_semestre = dados_curso.get(f"alunos_por_semestre{chave_sufixo_temporal}", {})
+            for _, num_alunos in alunos_por_semestre.items():
+                alunos_no_periodo_curso += num_alunos
+            
+            # Acumula os valores para a chave (polo, periodo)
+            dados_agregados[chave_agregacao]["alunos"] += alunos_no_periodo_curso
+            dados_agregados[chave_agregacao]["receita"] += alunos_no_periodo_curso * ticket_curso
+
+    # Monta a lista de resultados a partir dos dados agregados
+    lista_final = []
+    for (polo, periodo), totais in dados_agregados.items():
+        receita = totais["receita"]
+        alunos = totais["alunos"]
+        
+        lista_final.append({
+            "polo": polo,
+            "semestre": periodo,
+            "receita": receita,
+            "alunos": alunos,
+            "ticket_medio": receita / alunos if alunos > 0 else 0
+        })
+    
+    return pd.DataFrame(lista_final)
+
+    df_receita = pd.DataFrame(df_receita)
+    return df_receita

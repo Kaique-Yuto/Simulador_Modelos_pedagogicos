@@ -1,7 +1,7 @@
 import streamlit as st
 from src.data import carregar_dados, carregar_lista_marca_polo, carregar_base_alunos, carregar_tickets, encontrar_ticket
-from src.utils import obter_modelos_para_curso, oferta_resumida_por_curso, agrupar_oferta,calcular_df_precificacao_oferta, calcular_resumo_semestre, calcula_base_alunos_por_semestre, calcula_base_alunos_total, adiciona_linha_total,calcula_df_final, plotar_custo_total_pag2, plotar_ch_total_pag2, plot_custo_docente_pag2, plot_ch_docente_por_categoria_pag2, formatar_df_por_semestre, projetar_base_alunos, calcula_custo_aluno_para_todos_semestre,plot_custo_aluno_por_semestre_pag2, calcula_ticket_medio,  busca_base_de_alunos, adicionar_todas_ofertas_do_polo, remover_ofertas_por_marca, remover_ofertas_por_polo, trazer_ofertas_para_novo_modelo, adicionar_todas_ofertas_da_marca, cria_select_box_modelo, plotar_composicao_alunos_por_serie, plotar_evolucao_total_alunos, preparar_dados_para_dashboard_macro, plotar_margem_e_base_alunos, plotar_custos_vs_receita, ratear_custo_por_polo, calcula_total_alunos_por_polo, processar_base_ingressantes_e_adicionar, adiciona_linha_total_rateio
-from src.formatting import formatar_valor_brl, formatar_df_precificacao_oferta, formatar_df_rateio, formatar_df_rateio_polo
+from src.utils import obter_modelos_para_curso, oferta_resumida_por_curso, agrupar_oferta,calcular_df_precificacao_oferta, calcular_resumo_semestre, calcula_base_alunos_por_semestre, calcula_base_alunos_total, adiciona_linha_total,calcula_df_final, plotar_custo_total_pag2, plotar_ch_total_pag2, plot_custo_docente_pag2, plot_ch_docente_por_categoria_pag2, formatar_df_por_semestre, projetar_base_alunos, calcula_custo_aluno_para_todos_semestre,plot_custo_aluno_por_semestre_pag2, calcula_ticket_medio,  busca_base_de_alunos, adicionar_todas_ofertas_do_polo, remover_ofertas_por_marca, remover_ofertas_por_polo, trazer_ofertas_para_novo_modelo, adicionar_todas_ofertas_da_marca, cria_select_box_modelo, plotar_composicao_alunos_por_serie, plotar_evolucao_total_alunos, preparar_dados_para_dashboard_macro, plotar_margem_e_base_alunos, plotar_custos_vs_receita, ratear_custo_por_polo, calcula_total_alunos_por_polo, processar_base_ingressantes_e_adicionar, adiciona_linha_total_rateio, calcula_receita_por_polo_periodo
+from src.formatting import formatar_valor_brl, formatar_df_precificacao_oferta, formatar_df_rateio, formatar_df_rateio_polo, formatar_df_pivot_custo
 import pandas as pd
 import numpy as np
 import locale
@@ -350,9 +350,6 @@ with st.container(border=True):
         st.success("Projeção de base de alunos concluída para todas as ofertas!")
         st.rerun()
 
-
-
-st.divider()
 with st.expander("Ferramentas de Gerenciamento", expanded=True):
     # Lógica para os novos botões
     with st.container(border=True):
@@ -669,11 +666,45 @@ with st.expander("Mostrar Parâmetros", expanded=True):
     if ignorar_extensao:
         df_parametros_editado = df_parametros_editado[df_parametros_editado["Tipo de UC"] != "EXTENSÃO"]
         df_matrizes_editado = df_matrizes_editado[df_matrizes_editado["Tipo de UC"] != "EXTENSÃO"]
-    df_parametros_editado = st.data_editor(df_parametros_editado,
-                                           hide_index=True,
-                                           use_container_width=True,
-                                           disabled=['Modelo', 'Tipo de UC', 'Parâmetro', 'Tipo de CH', 'Ator Pedagógico']
-                                          )
+
+    ignorar_ppi = st.checkbox(
+        label="Não considerar PPI na análise (influencia apenas licenciatura)",
+        value=True
+    )
+    
+    if ignorar_ppi:
+        df_parametros_editado = df_parametros_editado[df_parametros_editado["Tipo de UC"] != "PPI"]
+        df_matrizes_editado = df_matrizes_editado[df_matrizes_editado["Tipo de UC"] != "PPI"]
+
+
+    df_para_visualizar = df_parametros_editado.pivot_table(
+        index=['Modelo', 'Tipo de UC', 'Ator Pedagógico', 'Tipo de CH'],
+        columns='Parâmetro',
+        values='Valor'
+    ).reset_index()
+    df_para_visualizar.columns.name = None
+
+
+    # Chamar o data_editor com a versão pivotada
+    df_visualizado_editado = st.data_editor(
+        df_para_visualizar,
+        hide_index=True,
+        use_container_width=True,
+        disabled=['Modelo', 'Tipo de UC', 'Ator Pedagógico', 'Tipo de CH'],
+        column_config={
+        "Remuneração por Hora": st.column_config.NumberColumn(
+            label="Remuneração por Hora",
+            format="R$ %.2f"
+        )
+    }
+    )
+
+    # Despivotar de volta para o formato longo original
+    df_parametros_editado = df_visualizado_editado.melt(
+        id_vars=['Modelo', 'Tipo de UC', 'Ator Pedagógico', 'Tipo de CH'],
+        var_name='Parâmetro',
+        value_name='Valor'
+    )
                                           
 # Verifica se os dataframes essenciais foram carregados
 dataframes_carregados = df_matrizes_editado is not None and df_parametros is not None and df_dimensao_cursos is not None
@@ -804,7 +835,6 @@ def calcular_analise_completa(cursos_selecionados: dict, df_matrizes: pd.DataFra
                     "margem": margem_sem,
                     "delta_margem": (margem_sem / ticket_medio_sem * 100) if ticket_medio_sem > 0 else 0
                 }
-
     return resultados_finais
 
 
@@ -925,8 +955,17 @@ if st.session_state.cursos_selecionados and st.session_state.get('simulacao_ativ
                 'Base_Alunos_Total_Polo': 'Base Alunos no Polo'
             })
 
+            receita_por_polo_periodo = calcula_receita_por_polo_periodo(config=st.session_state,todos_periodos=todos_os_periodos_analise)
+            receita_por_polo = receita_por_polo_periodo.groupby("polo")['receita'].sum().reset_index().rename(columns={'receita': 'Receita do Polo'})
+            df_resumo_polos = df_resumo_polos.merge(receita_por_polo, left_on='Polo', right_on='polo')
             # Utiliza a função que já criamos para formatar a tabela
-            formatar_df_rateio_polo(df_resumo_polos)
+            receita_geral = df_resumo_polos['Receita do Polo'].sum()
+            df_resumo_polos['% Receita'] = (df_resumo_polos['Receita do Polo'] / receita_geral) 
+            df_resumo_polos['Margem do Polo'] = (df_resumo_polos['Receita do Polo'] - df_resumo_polos['Custo Rateado']) / df_resumo_polos['Receita do Polo']
+            
+            df_resumo_polos = adiciona_linha_total_rateio(df_resumo_polos)
+            formatar_df_rateio_polo(df_resumo_polos, True)
+
 
         st.divider()
         # ---DASHBOARD MACRO---
@@ -936,19 +975,8 @@ if st.session_state.cursos_selecionados and st.session_state.get('simulacao_ativ
         # Tabela 1: Pivot com semestres nas colunas e custo rateado nos valores
         st.markdown("##### Custos Rateados por Semestre")
         df_pivot_custo = adiciona_linha_total_rateio(df_pivot_custo.reset_index())
-        colunas_numericas = df_pivot_custo.select_dtypes(include='number').columns
+        df_pivot_custo = formatar_df_pivot_custo(df_pivot_custo)
 
-        # Cria o dicionário de formatação apenas para essas colunas
-        formatador = {
-            col: lambda val: f'R$ {val:_.2f}'.replace('.', ',').replace('_', '.') 
-            for col in colunas_numericas
-        }
-
-        # Aplica o estilo formatando apenas as colunas especificadas
-        st.dataframe(
-            df_pivot_custo.style.format(formatador),
-            use_container_width=True
-        )
         
         default_index_analise = len(todos_os_periodos_analise) - 1
 
@@ -994,7 +1022,21 @@ if st.session_state.cursos_selecionados and st.session_state.get('simulacao_ativ
                 fig_custo_aluno_serie = dados_plots.get("custo_aluno_serie")
                 st.pyplot(plot_custo_aluno_por_semestre_pag2(fig_custo_aluno_serie, metricas['ticket_medio']))
                 
-
+            
+            with st.expander("Detalhamento da Sinergia", expanded=False):
+                # ... (o seu código do dataframe de sinergia continua aqui)
+                 df_sinergia = dfs['df_sinergia'].rename(columns={
+                    "curso": "Curso", "modelo": "Modelo", "cluster": "Cluster",
+                    "ch_sinergica": "CH Sinérgica", "per    centual_sinergico": "% Sinérgica",
+                    "ucs_sinergicas": "UCs Sinérgicas", "ucs_especificas": "UCs Específicas"
+                })
+                 st.dataframe(df_sinergia)
+                
+            with st.expander("Rateio de Custos"):
+                #df_rateio = df_rateio_filtrado_marca
+                df_rateio = dfs["df_rateio"]
+                formatar_df_rateio(df_rateio)
+                formatar_df_rateio_polo(dfs['df_rateio_por_polo'], False)
 
             with st.expander("Agrupamento da Oferta", expanded=False):
                 st.markdown("Todas as ofertas")
@@ -1088,18 +1130,6 @@ if st.session_state.cursos_selecionados and st.session_state.get('simulacao_ativ
 
                 #df_oferta_formatado = formatar_df_precificacao_oferta(df_oferta)
 
-            with st.expander("Rateio de Custos"):
-                df_rateio = df_rateio_filtrado_marca
-                formatar_df_rateio(df_rateio)
-                formatar_df_rateio_polo(dfs['df_rateio_por_polo'])
-                #st.markdown("oferta_por_uc")
-                #dfs["df_oferta_por_uc"]
-                #st.markdown("df_oferta_por_curso")
-                #dfs["df_oferta_por_curso"]
-                #st.markdown("df_final")
-                #dfs["df_final"]
-
-
             # O restante dos expanders com os detalhes que você já tinha
             with st.expander("Detalhamento por Série", expanded=False):
                 # ... (o seu código para o loop de detalhes por série continua aqui, sem alterações)
@@ -1126,16 +1156,6 @@ if st.session_state.cursos_selecionados and st.session_state.get('simulacao_ativ
                         df_por_semestre = adiciona_linha_total(df_por_semestre, dados_serie['base_alunos'])
                         formatar_df_por_semestre(df_por_semestre)
                         st.divider()
-
-
-            with st.expander("Detalhamento da Sinergia", expanded=False):
-                # ... (o seu código do dataframe de sinergia continua aqui)
-                 df_sinergia = dfs['df_sinergia'].rename(columns={
-                    "curso": "Curso", "modelo": "Modelo", "cluster": "Cluster",
-                    "ch_sinergica": "CH Sinérgica", "per    centual_sinergico": "% Sinérgica",
-                    "ucs_sinergicas": "UCs Sinérgicas", "ucs_especificas": "UCs Específicas"
-                })
-                 st.dataframe(df_sinergia)
 
 # O debug pode ser movido para fora ou mantido aqui, se preferir.
 st.sidebar.title("Debug Info")

@@ -90,22 +90,55 @@ def formatar_df_rateio(df: pd.DataFrame):
     )
     return df
 
-def formatar_df_rateio_polo(df):
+def formatar_df_pivot_custo(df:pd.DataFrame):
+    def highlight_total(row):
+        if "Polo" in row and row["Polo"] == "Total Geral":
+            return (len(row)-2)*['background-color: #282c34; color:yellow'] + ['font-weight: bold; background-color: #273333; color: yellow'] * 2
+        return [''] * len(row)
+    colunas_numericas = df.select_dtypes(include='number').columns
+
+    # Cria o dicionário de formatação apenas para essas colunas
+    formatador = {
+        col: lambda val: f'R$ {val:_.2f}'.replace('.', ',').replace('_', '.') 
+        for col in colunas_numericas
+    }
+
+    return st.dataframe(
+        df.style.apply(highlight_total, axis=1).format(formatador),
+        use_container_width=True
+    )
+
+def formatar_df_rateio_polo(df:pd.DataFrame, receita:bool):
+    def highlight_total(row):
+        if "Polo" in row and row["Polo"] == "Total Geral":
+            return (len(row)-2)*['background-color: #282c34; color:yellow'] + ['font-weight: bold; background-color: #273333; color: yellow'] * 2
+        return [''] * len(row)
     # Garante que a ordem das colunas está correta
-    colunas_ordenadas = ["Polo", "Base Alunos no Polo", "Base Alunos Total", "% de Alunos", "Custo Rateado", "Custo Total", "% de Custo"]
+    colunas_ordenadas = ["Polo", "Base Alunos no Polo", "% de Alunos", "Custo Rateado", "% de Custo"]
+    if receita:
+        colunas_ordenadas.insert(3, "Receita do Polo")
+        colunas_ordenadas.insert(4, "% Receita")
+        colunas_ordenadas.insert(7, "Margem do Polo")
     df = df[colunas_ordenadas]
-    df = df[df["Custo Total"]>0]
+    df = df[df["Custo Rateado"]>0]
     formatador_mestre = {
         "Custo Rateado": lambda val: f'R$ {val:_.2f}'.replace('.', ',').replace('_', '.'),
-        "Custo Total": lambda val: f'R$ {val:_.2f}'.replace('.', ',').replace('_', '.'),
+        #"Custo Total": lambda val: f'R$ {val:_.2f}'.replace('.', ',').replace('_', '.'),
         "% de Custo": lambda val: f'{val:.2%}'.replace('.', ','),
         "% de Alunos": lambda val: f'{val:.2%}'.replace('.', ',')
     }
-    
-    df_estilizado = df.style.format(formatador_mestre)
+    if receita:
+        formatador_mestre["Receita do Polo"] = lambda val: f'R$ {val:_.2f}'.replace('.', ',').replace('_', '.')
+        formatador_mestre["% Receita"] = lambda val: f'{val:.2%}'.replace('.', ',')
+        formatador_mestre["Margem do Polo"] = lambda val: f'{val:.2%}'.replace('.', ',')
+        df.loc[df["Polo"] == "Total Geral", "Margem do Polo"] = None
+
+        
+    df_estilizado = df.style.apply(highlight_total, axis=1).format(formatador_mestre)
     
     return st.dataframe(
         df_estilizado,
+        column_config={"Base Alunos no Polo": column_config.NumberColumn(format="%d")},
         use_container_width=True,
         hide_index=True
     )
