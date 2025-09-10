@@ -8,6 +8,7 @@ import matplotlib.ticker as mticker
 from .formatting import formatador_k
 from .data import encontrar_ticket
 import time
+from collections import defaultdict
 
 def format_currency(x, pos):
     if x >= 1_000_000:
@@ -740,40 +741,64 @@ def plot_eficiencia_por_semestre_pag2(dict_semestres: dict):
 
     return fig
 
-def plot_custo_aluno_por_semestre_pag2(dict_semestres: dict, ticket: float):
+def plot_custo_aluno_por_semestre_pag2(dict_semestres: dict, df_ticket: pd.DataFrame):
     if not dict_semestres:
         fig, ax = plt.subplots(figsize=(12, 1.5))
-        ax.text(0.5, 0.5, 'Dados insuficientes para gerar o gráfico.',
+        ax.text(0.5, 0.5, 'Dados de custo insuficientes para gerar o gráfico.',
                 ha='center', va='center')
-        ax.set_axis_off() # Oculta os eixos quando não há dados
+        ax.set_axis_off()
         return fig
 
-    df = pd.DataFrame.from_dict(dict_semestres, orient='index', columns=["eficiencia"])
+    df_custo = pd.DataFrame.from_dict(dict_semestres, orient='index', columns=["eficiencia"])
+    
+    df_custo.index = df_custo.index.astype(int) + 1
+    df_custo = df_custo.sort_index()
 
     fig, ax = plt.subplots(figsize=(6, 2))
     
-    # Dados para o gráfico
-    x = df.index
-    x = x.astype(int) + 1
-    y = df['eficiencia']
+    x_custo = df_custo.index
+    y_custo = df_custo['eficiencia']
 
-    # Gráfico de linha padrão com marcadores
-    ax.plot(x, y, linewidth=2.5, marker='o', markersize=4.5, label='Custo por Aluno')
+    ax.plot(x_custo, y_custo, linewidth=2.5, marker='o', markersize=4.5, label='Custo por Aluno')
 
-    # Encontrar e destacar o maior valor
-    max_val = y.max()
-    max_idx = y.idxmax() + 1
-    # Formata o texto do maior valor para não ter casas decimais e adicionar "R$"
-    ax.plot(max_idx, max_val, marker='o', markersize=4.5, linestyle='None', label=f'Maior Custo/Aluno (R$ {int(max_val):,})')
+    max_val_custo = y_custo.max()
+    max_idx_custo = y_custo.idxmax()
+    ax.plot(max_idx_custo, max_val_custo, marker='o', markersize=4.5, linestyle='None', 
+            label=f'Maior Custo/Aluno (R$ {max_val_custo:,.0f})')
     
-    # Adicionar a linha constante para o valor do ticket
-    ax.axhline(y=ticket, linestyle='--', linewidth=2, label=f'Ticket R$ {int(ticket):,}')
+    max_val_y_axis = y_custo.max()
+    all_x_values = list(x_custo)
 
-    # Adicionar data labels com formatação em reais e sem centavos
-    for xi, yi in zip(x, y):
+    if not df_ticket.empty:
+        # --- INÍCIO DA MODIFICAÇÃO ---
+        
+        ticket_values = df_ticket.iloc[:, 0]
+        df_ticket_to_plot = pd.DataFrame() # Inicia um DF vazio
+
+        # Encontra o índice da última série com ticket > 0
+        if (ticket_values > 0).any():
+            last_valid_index = (ticket_values > 0).iloc[::-1].idxmax()
+            last_pos = df_ticket.index.get_loc(last_valid_index)
+            # Corta o DataFrame para incluir dados apenas até essa última série válida
+            df_ticket_to_plot = df_ticket.iloc[:last_pos + 1]
+
+        if not df_ticket_to_plot.empty:
+            x_ticket = df_ticket_to_plot.index.str.replace(r'\D', '', regex=True).astype(int)
+            y_ticket = df_ticket_to_plot.iloc[:, 0]
+            
+            ax.plot(x_ticket, y_ticket, linestyle='--', linewidth=2, label='Ticket Médio')
+
+            if not y_ticket.empty:
+                max_val_y_axis = max(max_val_y_axis, y_ticket.max())
+            
+            all_x_values.extend(x_ticket)
+        # --- FIM DA MODIFICAÇÃO ---
+
+
+    for xi, yi in zip(x_custo, y_custo):
         ax.text(
             xi,
-            yi + yi * 0.05,  # Posição um pouco acima do ponto
+            yi + yi * 0.05,
             f'R$ {int(yi):,}',
             ha='center',
             va='bottom',
@@ -781,24 +806,32 @@ def plot_custo_aluno_por_semestre_pag2(dict_semestres: dict, ticket: float):
             fontweight='bold'
         )
     
-    # Aumenta o limite superior do eixo Y para dar espaço para as labels e a linha do ticket
-    ax.set_ylim(bottom=0, top=max(y.max() * 1.25, ticket * 1.25))
-    ax.set_xlim(x.min() - 0.5, x.max() + 0.5)
+    x_min = min(all_x_values) - 0.5 if all_x_values else 0
+    x_max = max(all_x_values) + 0.5 if all_x_values else 5
+    
+    ax.set_ylim(bottom=0, top=max_val_y_axis * 1.25)
+    ax.set_xlim(x_min, x_max)
 
-    # Formatação e estilo
     ax.tick_params(axis='y', labelsize=8)
     ax.tick_params(axis='x', labelsize=8)
-    ax.set_xticks(x)
-    ax.set_xticklabels(x.astype(int))
+    
+    if all_x_values:
+        unique_ticks = sorted(list(set(all_x_values)))
+        ax.set_xticks(unique_ticks)
+        ax.set_xticklabels([str(int(x)) for x in unique_ticks])
+    
+    ax.get_yaxis().set_major_formatter(mticker.FuncFormatter(lambda x, p: f'R$ {int(x):,}'))
 
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
     
     ax.set_xlabel("Série", fontsize=6)
     
-    ax.legend(fontsize=6, borderpad=0.4, labelspacing=0.5)
+    ax.legend(fontsize=6, borderpad=0.4, labelspacing=0.5, loc='best')
     
     return fig
+
+
 
 def formatar_df_por_semestre(df: pd.DataFrame):
     
@@ -1407,8 +1440,20 @@ def ratear_custo_por_polo(oferta_por_uc: pd.DataFrame, df_final: pd.DataFrame) -
     oferta_por_uc_todas["Chave"] = (oferta_por_uc_todas["Chave"].str.split(" - ").str[:-1].str.join(" - "))
     oferta_por_uc_todas = oferta_por_uc_todas.drop_duplicates()
     oferta_por_uc = pd.concat([oferta_por_uc_nao_todas, oferta_por_uc_todas])
+    oferta_por_uc.drop(columns=["Tipo de CH"], inplace=True)
     # 1. Seleciona apenas as colunas necessárias do DataFrame de custos para a junção
-    df_custos_para_merge = df_final[['Chave', 'Custo Total']].copy()
+    conditions = [
+    df_final['CH por Semestre_Assíncrono'].notna(),
+    df_final['CH por Semestre_Presencial'].notna(),
+    df_final['CH por Semestre_Síncrono Mediado'].notna()
+    ]
+    choices = [
+        'Assíncrono',
+        'Presencial',
+        'Síncrono Mediado'
+    ]
+    df_final['Tipo de CH'] = np.select(conditions, choices, default=None)
+    df_custos_para_merge = df_final[['Chave', 'Custo Total', 'Tipo de CH']].copy()
 
     # 2. Junta o Custo Total ao DataFrame detalhado, usando a 'Chave' como elo
     df_merged = pd.merge(oferta_por_uc, df_custos_para_merge, on='Chave', how='left')
@@ -1552,5 +1597,52 @@ def calcula_receita_por_polo_periodo(config: dict, todos_periodos: list) -> pd.D
     
     return pd.DataFrame(lista_final)
 
-    df_receita = pd.DataFrame(df_receita)
-    return df_receita
+
+def calcula_ticket_por_serie_no_semestre(config: dict, periodo: str) -> pd.DataFrame:
+    """
+    Calcula o ticket médio por série (semestre) para um dado período,
+    agregando dados de múltiplos cursos.
+    """
+    cursos = config.get("cursos_selecionados", {})
+    
+    # Estruturas para acumular os totais de todos os cursos.
+    receita_total_por_semestre = defaultdict(float)
+    alunos_total_por_semestre = defaultdict(int)
+
+    chave_sufixo_temporal = "_" + periodo.replace("/", "_")
+    
+    for _, dados_curso in cursos.items():
+        if not dados_curso.get("polo"):
+            continue
+
+        ticket_curso = dados_curso.get("ticket", 0)
+        alunos_por_semestre = dados_curso.get(f"alunos_por_semestre{chave_sufixo_temporal}", {})
+        
+        # Acumula a receita e o número de alunos para cada semestre.
+        for semestre, num_alunos in alunos_por_semestre.items():
+            receita_total_por_semestre[semestre] += num_alunos * ticket_curso
+            alunos_total_por_semestre[semestre] += num_alunos
+
+    # Calcula o ticket médio para cada semestre com base nos totais acumulados.
+    ticket_medio_por_semestre = {}
+    for semestre, total_alunos in alunos_total_por_semestre.items():
+        if total_alunos > 0:
+            receita_total = receita_total_por_semestre[semestre]
+            ticket_medio_por_semestre[semestre] = receita_total / total_alunos
+        else:
+            # Evita divisão por zero caso não haja alunos.
+            ticket_medio_por_semestre[semestre] = 0
+            
+    # Converte o dicionário final para um DataFrame, conforme a assinatura da função.
+    if not ticket_medio_por_semestre:
+        return pd.DataFrame(columns=['TicketMedio'])
+
+    df_resultado = pd.DataFrame.from_dict(
+        ticket_medio_por_semestre, 
+        orient='index', 
+        columns=['TicketMedio']
+    )
+    df_resultado.index.name = 'Semestre'
+    df_resultado = df_resultado.sort_index()
+
+    return df_resultado
