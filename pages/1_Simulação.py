@@ -842,11 +842,15 @@ def calcular_analise_completa(cursos_selecionados: dict, df_matrizes: pd.DataFra
 if st.session_state.cursos_selecionados and st.session_state.get('simulacao_ativa', False):
     st.header("4. Analítico de Custos", divider='rainbow')
 
-    todos_os_resultados = calcular_analise_completa(
-        st.session_state.cursos_selecionados,
-        df_matrizes_editado,
-        df_parametros_editado
-    )
+    try:
+        todos_os_resultados = calcular_analise_completa(
+            st.session_state.cursos_selecionados,
+            df_matrizes_editado,
+            df_parametros_editado
+        )
+    except:
+        st.warning("Tente clicar em Simular TODAS as Bases de Alunos novamente")
+        todos_os_resultados = None
 
     if not todos_os_resultados:
         st.warning("A análise de custos não pôde ser gerada. Verifique se a projeção da base de alunos resultou em estudantes para os períodos futuros.")
@@ -1157,7 +1161,7 @@ if st.session_state.cursos_selecionados and st.session_state.get('simulacao_ativ
                         formatar_df_por_semestre(df_por_semestre)
                         st.divider()
 
-# O debug pode ser movido para fora ou mantido aqui, se preferir.
-#st.sidebar.title("Debug Info")
-#with st.sidebar.expander("Dados da Simulação (Session State)"):
-    #st.json(st.session_state)
+
+st.sidebar.title("Debug Info")
+with st.sidebar.expander("Dados da Simulação (Session State)"):
+    st.json(st.session_state)

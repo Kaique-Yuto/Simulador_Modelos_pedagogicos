@@ -750,64 +750,52 @@ def plot_custo_aluno_por_semestre_pag2(dict_semestres: dict, df_ticket: pd.DataF
         return fig
 
     df_custo = pd.DataFrame.from_dict(dict_semestres, orient='index', columns=["eficiencia"])
-    
     df_custo.index = df_custo.index.astype(int) + 1
-    df_custo = df_custo.sort_index()
+    
+    df_ticket_proc = df_ticket.copy()
+
+    # --- INÍCIO DA CORREÇÃO ---
+    # Verifica se 'Semestre' é uma coluna. Se não, assume que está no índice.
+    if 'Semestre' in df_ticket_proc.columns:
+        df_ticket_proc['Série'] = df_ticket_proc['Semestre'].str.extract('(\d+)').astype(int)
+    else:
+        # Se não for uma coluna, extrai do índice do DataFrame.
+        # Isso previne o KeyError.
+        df_ticket_proc['Série'] = df_ticket_proc.index.to_series().str.extract('(\d+)').astype(int)
+    
+    df_ticket_proc = df_ticket_proc.set_index('Série').sort_index()
+    # --- FIM DA CORREÇÃO ---
+
+    df_plot = df_custo.join(df_ticket_proc['TicketMedio'])
 
     fig, ax = plt.subplots(figsize=(6, 2))
     
-    x_custo = df_custo.index
-    y_custo = df_custo['eficiencia']
+    x_values = df_plot.index
+    y_custo = df_plot['eficiencia']
+    y_ticket = df_plot['TicketMedio']
 
-    ax.plot(x_custo, y_custo, linewidth=2.5, marker='o', markersize=4.5, label='Custo por Aluno')
+    ax.plot(x_values, y_custo, linewidth=2.5, marker='o', markersize=4.5, label='Custo por Aluno')
+    
+    if not y_ticket.isnull().all():
+        ax.plot(x_values, y_ticket, linestyle=':', color='gray', label='Ticket Médio')
+        for serie, row in df_plot.iterrows():
+            if pd.notna(row['TicketMedio']) and row['eficiencia'] > row['TicketMedio']:
+                ax.plot(serie, row['eficiencia'], marker='o', markersize=4.5, color='red', linestyle='None')
 
     max_val_custo = y_custo.max()
     max_idx_custo = y_custo.idxmax()
     ax.plot(max_idx_custo, max_val_custo, marker='o', markersize=4.5, linestyle='None', 
             label=f'Maior Custo/Aluno (R$ {max_val_custo:,.0f})')
     
-    max_val_y_axis = y_custo.max()
-    all_x_values = list(x_custo)
-
-    if not df_ticket.empty:
-        # --- INÍCIO DA MODIFICAÇÃO ---
-        
-        ticket_values = df_ticket.iloc[:, 0]
-        df_ticket_to_plot = pd.DataFrame() # Inicia um DF vazio
-
-        # Encontra o índice da última série com ticket > 0
-        if (ticket_values > 0).any():
-            last_valid_index = (ticket_values > 0).iloc[::-1].idxmax()
-            last_pos = df_ticket.index.get_loc(last_valid_index)
-            # Corta o DataFrame para incluir dados apenas até essa última série válida
-            df_ticket_to_plot = df_ticket.iloc[:last_pos + 1]
-
-        if not df_ticket_to_plot.empty:
-            x_ticket = df_ticket_to_plot.index.str.replace(r'\D', '', regex=True).astype(int)
-            y_ticket = df_ticket_to_plot.iloc[:, 0]
-            
-            ax.plot(x_ticket, y_ticket, linestyle='--', linewidth=2, label='Ticket Médio')
-
-            if not y_ticket.empty:
-                max_val_y_axis = max(max_val_y_axis, y_ticket.max())
-            
-            all_x_values.extend(x_ticket)
-        # --- FIM DA MODIFICAÇÃO ---
-
-
-    for xi, yi in zip(x_custo, y_custo):
-        ax.text(
-            xi,
-            yi + yi * 0.05,
-            f'R$ {int(yi):,}',
-            ha='center',
-            va='bottom',
-            fontsize=4.5,
-            fontweight='bold'
-        )
+    for xi, yi in y_custo.items():
+        ax.text(xi, yi + yi * 0.05, f'R$ {int(yi):,}', ha='center',
+                va='bottom', fontsize=4.5, fontweight='bold')
     
-    x_min = min(all_x_values) - 0.5 if all_x_values else 0
-    x_max = max(all_x_values) + 0.5 if all_x_values else 5
+    all_y_values = pd.concat([y_custo, y_ticket]).dropna()
+    max_val_y_axis = all_y_values.max() if not all_y_values.empty else y_custo.max()
+    
+    x_min = min(x_values) - 0.5 if not x_values.empty else 0
+    x_max = max(x_values) + 0.5 if not x_values.empty else 5
     
     ax.set_ylim(bottom=0, top=max_val_y_axis * 1.25)
     ax.set_xlim(x_min, x_max)
@@ -815,13 +803,12 @@ def plot_custo_aluno_por_semestre_pag2(dict_semestres: dict, df_ticket: pd.DataF
     ax.tick_params(axis='y', labelsize=8)
     ax.tick_params(axis='x', labelsize=8)
     
-    if all_x_values:
-        unique_ticks = sorted(list(set(all_x_values)))
+    if not x_values.empty:
+        unique_ticks = sorted(list(x_values))
         ax.set_xticks(unique_ticks)
         ax.set_xticklabels([str(int(x)) for x in unique_ticks])
     
     ax.get_yaxis().set_major_formatter(mticker.FuncFormatter(lambda x, p: f'R$ {int(x):,}'))
-
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
     
@@ -1125,7 +1112,7 @@ def trazer_ofertas_para_novo_modelo(df_dimensao_cursos, df_curso_marca_modalidad
                         nova_config['ticket'] = encontrar_ticket(nova_config['curso'], nova_config['marca'], modelo_novo_tentativa, df_curso_marca_modalidade, df_curso_modalidade, df_modalidade)
                         nova_config['cluster'] = dados_curso_novo['Cluster']
                         nova_config['sinergia'] = dados_curso_novo['Sinergia']
-                        
+                        nova_config['num_semestres'] = dados_curso_novo['Qtde Semestres']
                         chave_nova = f"{nova_config['marca']} - {nova_config['polo']} - {nova_config['curso']} ({modelo_novo_tentativa})"
                         novos_cursos_selecionados[chave_nova] = nova_config
                         
@@ -1630,7 +1617,6 @@ def calcula_ticket_por_serie_no_semestre(config: dict, periodo: str) -> pd.DataF
             receita_total = receita_total_por_semestre[semestre]
             ticket_medio_por_semestre[semestre] = receita_total / total_alunos
         else:
-            # Evita divisão por zero caso não haja alunos.
             ticket_medio_por_semestre[semestre] = 0
             
     # Converte o dicionário final para um DataFrame, conforme a assinatura da função.
