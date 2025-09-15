@@ -9,6 +9,7 @@ st.set_page_config(
 # --- Título e Descrição ---
 st.title("Simulação de Precificação para Polos 🎓")
 st.markdown("Use esta ferramenta para simular um portfólio de oferta em diversos polos/sedes da Ânima, com uma visão também para expansão de polos/sedes, tudo de acordo com as premissas do novo marco regulatório")
+st.markdown("Este simulador está apto para duas versões: Adaptação de projeção recebida direto da área demandante, e área demandante simular a partir de uma base zero, diretamente do simulador")
 st.markdown("Você pode personalizar a oferta da maneira que desejar e obter uma estimativa de custo docente, receita, contratação de CH e muito mais! ")
 st.markdown("Você pode dar início navegando à página 'Simulação' na aba lateral ao lado.")
 st.markdown('''A página de simulação contém várias seções, entre elas: 
@@ -37,7 +38,7 @@ A opção "Continuar da Base Histórica" admite a base de ingressantes em 2025/1
             
 - A sinergia entre cursos é aplicada com base no percentual de CH "Ânima" + "Integrada", definido pelas novas matrizes radiais, para cada Área do Conhecimento, de acordo com o **BI Matrizes Radiais**
             
-- Essa sinergia é aplicada nas UCs iniciais de cada curso, até que a CH sinérgina se aproxime do percentual da área de conhecimento, conforme o modelo de oferta.
+- Essa sinergia é aplicada nas UCs iniciais de cada curso, até que a CH sinérgina se aproxime do percentual da área de conhecimento, conforme o tempo de duração de curso, determinado pelo Chassi.
             
 - O agrupamento de oferta é feito com base na Marca, Polo/Sede, Curso, Modelo de Oferta, Área do Conhecimento, UC, dessa maneira:
             
@@ -53,7 +54,7 @@ A opção "Continuar da Base Histórica" admite a base de ingressantes em 2025/1
             
     - A disciplina de **Academia de Futuros Profissionais (AFP)** é agrupada na mesma marca, mas isolando o presencial com os demais tipos de oferta.
             
-- O ticket médio foi apurado por curso, modalidade, e marca, com base em 2025/1, de acordo com o BI de Performance Acadêmica 2025.
+- O ticket médio foi apurado por curso, modalidade, e marca, com base em 2025/1, de acordo com o BI de Performance Acadêmica 2025, fonte da Diretoria de Receitas
             
 - Caso a combinação de curso, modalidade e marca não seja encontrada na base de tickets, admite-se a média Ânima do curso e modalidade. Caso a Ânima não oferte o curso na modalidade escolhida, é admitido o ticket médio da própria modalidade de oferta na Ânima (ignorando o curso).
             
@@ -61,11 +62,11 @@ A opção "Continuar da Base Histórica" admite a base de ingressantes em 2025/1
             
 - Um semestre letivo é composto por 20 semanas de aulas.
             
-- O pagamento dos docentes inclui descansos remunerados, deixando um valor efetivo de 5,25 semanas por mês. Além disso, incluímos 170% sobre o valor para pagamento de encargos (Custo Semestral = Custo semanal * 5,25 * 1,7 * 6)
+- O pagamento dos docentes inclui descansos remunerados, deixando um valor efetivo de 5,25 semanas por mês. Além disso, incluímos o adicional de 70% sobre o valor para pagamento de encargos (Custo Semestral = Custo semanal * 5,25 * 1,7 * 6)
 
 - As premissas de ofertas do modelo atual (EAD Atual, Semi Presencial Atual e Presencial Atual) também estão admitindo as mesmas regras de enturmação e Chassi, diferindo do novo marco apenas pelos parâmetros na Seção 3.
             
-- O ator pedagógico "Professor Regente" é considerado o mesmo para:
+- Seguindo a lógica do Chassi, o ator pedagógico "Professor Regente" é considerado o mesmo para:
     - **UCs sinérgicas**: Área do conhecimento, marca e modelo de oferta.
     - **UCs específicas**: Curso, marca e modelo de oferta.
             

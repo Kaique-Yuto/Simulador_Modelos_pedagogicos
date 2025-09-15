@@ -407,7 +407,7 @@ def calcula_df_final(df_parametros_editado: pd.DataFrame, OFERTA_POR_UC: pd.Data
 
     df_sinergicas = OFERTA_POR_UC[OFERTA_POR_UC['Tipo de CH']!="Todas"]
     df_especificas = OFERTA_POR_UC[OFERTA_POR_UC['Tipo de CH']=="Todas"].drop(columns=['Tipo de CH'])
-    primeira_uc_especifica = df_especificas["Chave"].str.split(" - ").str[1].str.replace("UC", "").astype(int).min()
+    #primeira_uc_especifica = df_especificas["Chave"].str.split(" - ").str[1].str.replace("UC", "").astype(int).min()
 
     # Max de alunos
     filtro = (df_parametros_editado['Parâmetro']=='Máximo de Alunos por Turma')
@@ -1428,20 +1428,24 @@ def ratear_custo_por_polo(oferta_por_uc: pd.DataFrame, df_final: pd.DataFrame) -
     oferta_por_uc_todas = oferta_por_uc_todas.drop_duplicates()
     oferta_por_uc = pd.concat([oferta_por_uc_nao_todas, oferta_por_uc_todas])
     oferta_por_uc.drop(columns=["Tipo de CH"], inplace=True)
-    # 1. Seleciona apenas as colunas necessárias do DataFrame de custos para a junção
-    conditions = [
-    df_final['CH por Semestre_Assíncrono'].notna(),
-    df_final['CH por Semestre_Presencial'].notna(),
-    df_final['CH por Semestre_Síncrono Mediado'].notna()
-    ]
-    choices = [
-        'Assíncrono',
-        'Presencial',
-        'Síncrono Mediado'
-    ]
+
+    colunas_ch = {
+    'CH por Semestre_Assíncrono': 'Assíncrono',
+    'CH por Semestre_Presencial': 'Presencial',
+    'CH por Semestre_Síncrono Mediado': 'Síncrono Mediado',
+    'CH por Semestre_Síncrono': 'Síncrono'
+    }
+    conditions = []
+    choices = []
+
+    for coluna, tipo in colunas_ch.items():
+        if coluna in df_final.columns:
+            conditions.append(df_final[coluna].notna())
+            choices.append(tipo)
+
     df_final['Tipo de CH'] = np.select(conditions, choices, default=None)
     df_custos_para_merge = df_final[['Chave', 'Custo Total', 'Tipo de CH']].copy()
-
+    
     # 2. Junta o Custo Total ao DataFrame detalhado, usando a 'Chave' como elo
     df_merged = pd.merge(oferta_por_uc, df_custos_para_merge, on='Chave', how='left')
     df_merged['Custo Total'].fillna(0, inplace=True)

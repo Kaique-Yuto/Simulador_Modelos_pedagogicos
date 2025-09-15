@@ -726,10 +726,10 @@ def calcular_analise_completa(cursos_selecionados: dict, df_matrizes: pd.DataFra
         for config in cursos_selecionados.values()
         for k in config if k.startswith("alunos_por_semestre_")
     )))
-
+    print("Passo 1 Concluido")
     # 2. Preparar os dataframes base que são iguais para todos os períodos
     oferta_por_curso = oferta_resumida_por_curso(df_matrizes, cursos_selecionados)
-    
+    print("Passo 2 Concluido")
     # 3. Inicializar o dicionário que guardará todos os resultados
     resultados_finais = {}
 
@@ -748,17 +748,21 @@ def calcular_analise_completa(cursos_selecionados: dict, df_matrizes: pd.DataFra
         
         dados_para_analise = {'cursos_selecionados': snapshot_cursos}
         base_alunos_total = calcula_base_alunos_total(dados_para_analise)
-
+        print("Passo 3 Concluido")
         # Se não houver alunos, pula para o próximo período
         if base_alunos_total == 0:
             continue
 
         # Lógica de cálculo principal (a mesma que você já tinha)
         oferta_por_uc = agrupar_oferta(oferta_por_curso, df_matrizes, df_parametros=df_parametros, session_state=dados_para_analise)
+        print("Passo 4 Concluido")
         oferta_por_uc = oferta_por_uc[(oferta_por_uc['Tipo de UC'].isin(df_parametros['Tipo de UC'].unique().tolist())) | (oferta_por_uc['Tipo de UC'] == 'AFP')]
         df_final = calcula_df_final(df_parametros, oferta_por_uc)
+        print("Passo 5 Concluido")
         df_final = df_final[df_final['Custo Total'] > 0]
+        print("Passo 6 Concluido")
         df_rateio = ratear_custo_por_polo(df_final=df_final, oferta_por_uc=oferta_por_uc)
+        print("Passo 20 Concluido")
         # 5. Calcular e armazenar todas as métricas e dataframes
         custo_total_periodo = plotar_custo_total_pag2(df_final)
         ticket_medio_periodo = calcula_ticket_medio(dados_para_analise, None)
@@ -848,8 +852,9 @@ if st.session_state.cursos_selecionados and st.session_state.get('simulacao_ativ
             df_matrizes_editado,
             df_parametros_editado
         )
-    except:
+    except Exception as e:
         st.warning("Tente clicar em Simular TODAS as Bases de Alunos novamente")
+        st.markdown(str(e))
         todos_os_resultados = None
 
     if not todos_os_resultados:
