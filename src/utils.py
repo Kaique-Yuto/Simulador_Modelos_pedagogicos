@@ -1082,7 +1082,6 @@ def trazer_ofertas_para_novo_modelo(df_dimensao_cursos, df_curso_marca_modalidad
         migrados_falha = 0
         falhas = []
 
-        # Usar .items() para iterar de forma mais segura sobre a cópia do dicionário
         for chave_antiga, config in st.session_state.cursos_selecionados.items():
             modelo_antigo = config['modelo']
             curso = config['curso']
