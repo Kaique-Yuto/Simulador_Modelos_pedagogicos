@@ -1,6 +1,6 @@
 import streamlit as st
 from src.data import carregar_dados, carregar_lista_marca_polo, carregar_base_alunos, carregar_tickets, encontrar_ticket
-from src.utils import obter_modelos_para_curso, oferta_resumida_por_curso, agrupar_oferta,calcular_df_precificacao_oferta, calcular_resumo_semestre, calcula_base_alunos_por_semestre, calcula_base_alunos_total, adiciona_linha_total,calcula_df_final, plotar_custo_total_pag2, plotar_ch_total_pag2, plot_custo_docente_pag2, plot_ch_docente_por_categoria_pag2, formatar_df_por_semestre, projetar_base_alunos, calcula_custo_aluno_para_todos_semestre,plot_custo_aluno_por_semestre_pag2, calcula_ticket_medio,  busca_base_de_alunos, adicionar_todas_ofertas_do_polo, remover_ofertas_por_marca, remover_ofertas_por_polo, trazer_ofertas_para_novo_modelo, adicionar_todas_ofertas_da_marca, cria_select_box_modelo, plotar_composicao_alunos_por_serie, plotar_evolucao_total_alunos, preparar_dados_para_dashboard_macro, plotar_margem_e_base_alunos, plotar_custos_vs_receita, ratear_custo_por_polo, calcula_total_alunos_por_polo, processar_base_ingressantes_e_adicionar, adiciona_linha_total_rateio, calcula_receita_por_polo_periodo, calcula_ticket_por_serie_no_semestre
+from src.utils import obter_modelos_para_curso, oferta_resumida_por_curso, agrupar_oferta,calcular_df_precificacao_oferta, calcular_resumo_semestre, calcula_base_alunos_por_semestre, calcula_base_alunos_total, adiciona_linha_total,calcula_df_final, plotar_custo_total_pag2, plotar_ch_total_pag2, plot_custo_docente_pag2, plot_ch_docente_por_categoria_pag2, formatar_df_por_semestre, projetar_base_alunos, calcula_custo_aluno_para_todos_semestre,plot_custo_aluno_por_semestre_pag2, calcula_ticket_medio,  busca_base_de_alunos, adicionar_todas_ofertas_do_polo, remover_ofertas_por_marca, remover_ofertas_por_polo, trazer_ofertas_para_novo_modelo, adicionar_todas_ofertas_da_marca, cria_select_box_modelo, plotar_composicao_alunos_por_serie, plotar_evolucao_total_alunos, preparar_dados_para_dashboard_macro, plotar_margem_e_base_alunos, plotar_custos_vs_receita, ratear_custo_por_polo, calcula_total_alunos_por_polo, upload_arquivo, adiciona_linha_total_rateio, calcula_receita_por_polo_periodo, calcula_ticket_por_serie_no_semestre
 from src.formatting import formatar_valor_brl, formatar_df_precificacao_oferta, formatar_df_rateio, formatar_df_rateio_polo, formatar_df_pivot_custo
 import pandas as pd
 import numpy as np
@@ -86,29 +86,27 @@ with col2:
     )
 
 with st.expander("Adicionar Polo Novo a partir de arquivo"):
-    if polo_para_adicionar == "Novo Polo":
-        with st.container(border=True):
-            st.markdown("##### Carregar Base de Ingressantes para o Novo Polo")
-            st.info("O arquivo Excel (.xlsx) deve conter as colunas 'Modalidade', 'Curso' e os semestres da projeção")
-            
-            uploaded_file = st.file_uploader(
-                "Selecione o arquivo Excel com a projeção de ingressantes",
-                type=['xlsx'],
-                label_visibility="collapsed"
-            )
-            
-            # Botão único com a lógica de processamento integrada
-            if st.button("Processar Arquivo e Adicionar Ofertas", type="primary", disabled=not uploaded_file, use_container_width=True):
-                with st.spinner("Processando arquivo e adicionando ofertas..."):
-                    processar_base_ingressantes_e_adicionar(
-                        uploaded_file=uploaded_file,
-                        marca_selecionada=marca_para_adicionar,
-                        df_dimensao_cursos=df_dimensao_cursos,
-                        df_curso_marca_modalidade=df_curso_marca_modalidade,
-                        df_curso_modalidade=df_curso_modalidade,
-                        df_modalidade=df_modalidade
-                    )
-                st.rerun() # Adicionado para recarregar a página e mostrar as novas ofertas
+    with st.container(border=True):
+        st.markdown("##### Carregar Base de Ingressantes para o Novo Polo")
+        st.info("O arquivo Excel (.xlsx) deve conter as colunas 'Modalidade', 'Curso' e os semestres da projeção")
+        
+        uploaded_file = st.file_uploader(
+            "Selecione o arquivo Excel com a projeção de ingressantes",
+            type=['xlsx'],
+            label_visibility="collapsed"
+        )
+        
+        # Botão único com a lógica de processamento integrada
+        if st.button("Processar Arquivo e Adicionar Ofertas", type="primary", disabled=not uploaded_file, use_container_width=True):
+            with st.spinner("Processando arquivo e adicionando ofertas..."):
+                upload_arquivo(
+                    uploaded_file=uploaded_file,
+                    df_dimensao_cursos=df_dimensao_cursos,
+                    df_curso_marca_modalidade=df_curso_marca_modalidade,
+                    df_curso_modalidade=df_curso_modalidade,
+                    df_modalidade=df_modalidade
+                )
+            time.sleep(10)
 
 st.write("")
 st.markdown("##### Preenchimento Automático")
@@ -235,7 +233,7 @@ with st.container(border=True):
         )
         st.session_state.parametros_globais["media_ingressantes"] = st.number_input(
             "Média de ingressantes por Ano", 
-            min_value=0, step=5, 
+            min_value=10, step=5, 
             value=st.session_state.parametros_globais["media_ingressantes"],
             key="global_media"
         )
@@ -569,13 +567,13 @@ else:
                 with sim_col1:
                     alunos_iniciais = st.number_input(
                         "Alunos da turma inicial", 
-                        min_value=0, step=5, 
+                        min_value=4, step=5, 
                         value=st.session_state.parametros_globais["alunos_iniciais"], 
                         key=f"sim_iniciais_{chave_oferta}"
                     )
                     media_ingressantes = st.number_input(
                         "Média de ingressantes por Ano", 
-                        min_value=0, step=5, 
+                        min_value=10, step=5, 
                         value=st.session_state.parametros_globais["media_ingressantes"], 
                         key=f"sim_media_{chave_oferta}"
                     )
@@ -726,10 +724,8 @@ def calcular_analise_completa(cursos_selecionados: dict, df_matrizes: pd.DataFra
         for config in cursos_selecionados.values()
         for k in config if k.startswith("alunos_por_semestre_")
     )))
-    print("Passo 1 Concluido")
     # 2. Preparar os dataframes base que são iguais para todos os períodos
     oferta_por_curso = oferta_resumida_por_curso(df_matrizes, cursos_selecionados)
-    print("Passo 2 Concluido")
     # 3. Inicializar o dicionário que guardará todos os resultados
     resultados_finais = {}
 
@@ -748,26 +744,21 @@ def calcular_analise_completa(cursos_selecionados: dict, df_matrizes: pd.DataFra
         
         dados_para_analise = {'cursos_selecionados': snapshot_cursos}
         base_alunos_total = calcula_base_alunos_total(dados_para_analise)
-        print("Passo 3 Concluido")
         # Se não houver alunos, pula para o próximo período
         if base_alunos_total == 0:
             continue
 
         # Lógica de cálculo principal (a mesma que você já tinha)
         oferta_por_uc = agrupar_oferta(oferta_por_curso, df_matrizes, df_parametros=df_parametros, session_state=dados_para_analise)
-        print("Passo 4 Concluido")
         oferta_por_uc = oferta_por_uc[(oferta_por_uc['Tipo de UC'].isin(df_parametros['Tipo de UC'].unique().tolist())) | (oferta_por_uc['Tipo de UC'] == 'AFP')]
         df_final = calcula_df_final(df_parametros, oferta_por_uc)
-        print("Passo 5 Concluido")
         df_final = df_final[df_final['Custo Total'] > 0]
-        print("Passo 6 Concluido")
         df_rateio = ratear_custo_por_polo(df_final=df_final, oferta_por_uc=oferta_por_uc)
-        print("Passo 20 Concluido")
         # 5. Calcular e armazenar todas as métricas e dataframes
         custo_total_periodo = plotar_custo_total_pag2(df_final)
         ticket_medio_periodo = calcula_ticket_medio(dados_para_analise, None)
         custo_por_aluno_periodo = custo_total_periodo / base_alunos_total
-        margem_periodo = ticket_medio_periodo - custo_por_aluno_periodo
+        margem_periodo = (ticket_medio_periodo*6 - custo_por_aluno_periodo) * base_alunos_total
         dados_para_plot_custo_docente = df_final
         dados_para_plot_ch_categoria = df_final
         dados_para_plot_custo_aluno_semestre = calcula_custo_aluno_para_todos_semestre(df_final, dados_para_analise)
@@ -799,7 +790,7 @@ def calcular_analise_completa(cursos_selecionados: dict, df_matrizes: pd.DataFra
                 "ticket_medio": ticket_medio_periodo,
                 "custo_por_aluno": custo_por_aluno_periodo,
                 "margem": margem_periodo,
-                "delta_margem": (margem_periodo / ticket_medio_periodo * 100) if ticket_medio_periodo > 0 else 0
+                "delta_margem": (margem_periodo/(ticket_medio_periodo*6*base_alunos_total) * 100) if ticket_medio_periodo > 0 else 0
             },
             "dataframes": {
                 "df_final": df_final,
@@ -827,7 +818,7 @@ def calcular_analise_completa(cursos_selecionados: dict, df_matrizes: pd.DataFra
             if base_alunos_semestre > 0:
                 ch_total_sem, custo_total_sem, custo_mensal_sem, _ = calcular_resumo_semestre(df_por_semestre, base_alunos_semestre)
                 ticket_medio_sem = calcula_ticket_medio(dados_para_analise, semestre_num)
-                margem_sem = ticket_medio_sem - (custo_total_sem / base_alunos_semestre)
+                margem_sem = ticket_medio_sem*base_alunos_semestre*6 - (custo_total_sem)
 
                 resultados_finais[periodo]["detalhes_por_serie"][semestre_num] = {
                     "base_alunos": base_alunos_semestre,
@@ -1011,7 +1002,7 @@ if st.session_state.cursos_selecionados and st.session_state.get('simulacao_ativ
                 with col1:
                     st.metric(label="Base de Alunos no Período", value=locale.format_string('%d', metricas['base_alunos'], grouping=True))
                     st.metric(label="Custo Total no Período", value=locale.currency(metricas['custo_total'], grouping=True, symbol="R$"))
-                    st.metric(label="Receita Total no Período", value=locale.currency(metricas['base_alunos'] * metricas['ticket_medio'], grouping=True, symbol="R$"))
+                    st.metric(label="Receita Total no Período", value=locale.currency(metricas['base_alunos'] * metricas['ticket_medio'] * 6, grouping=True, symbol="R$"))
                 with col2:
                     st.metric(label="Margem no Período", value=locale.currency(metricas['margem'], grouping=True, symbol="R$"), delta=f"{np.round(metricas['delta_margem'], 2)}%")
                     st.metric(label="Custo por Aluno", value=locale.currency(metricas['custo_por_aluno'], grouping=True, symbol="R$"))
@@ -1156,9 +1147,8 @@ if st.session_state.cursos_selecionados and st.session_state.get('simulacao_ativ
                         with col3_serie:
                             st.metric(label="Ticket Médio", value=formatar_valor_brl(dados_serie['ticket_medio']))
                             st.metric(
-                                label="Margem",
-                                value=formatar_valor_brl(dados_serie['margem']),
-                                delta=f"{np.round(dados_serie['delta_margem'], 2)}%"
+                                label="Lucro",
+                                value=formatar_valor_brl(dados_serie['margem'])
                             )
                         df_oferta = dfs['df_oferta']
                         df_por_semestre = df_oferta[df_oferta['Semestre'] == serie_num]

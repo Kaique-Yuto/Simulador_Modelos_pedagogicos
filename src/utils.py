@@ -753,8 +753,7 @@ def plot_custo_aluno_por_semestre_pag2(dict_semestres: dict, df_ticket: pd.DataF
     df_custo.index = df_custo.index.astype(int) + 1
     
     df_ticket_proc = df_ticket.copy()
-
-    # --- INÍCIO DA CORREÇÃO ---
+    df_ticket_proc["TicketMedio"] = df_ticket_proc["TicketMedio"]*6
     # Verifica se 'Semestre' é uma coluna. Se não, assume que está no índice.
     if 'Semestre' in df_ticket_proc.columns:
         df_ticket_proc['Série'] = df_ticket_proc['Semestre'].str.extract('(\d+)').astype(int)
@@ -764,7 +763,6 @@ def plot_custo_aluno_por_semestre_pag2(dict_semestres: dict, df_ticket: pd.DataF
         df_ticket_proc['Série'] = df_ticket_proc.index.to_series().str.extract('(\d+)').astype(int)
     
     df_ticket_proc = df_ticket_proc.set_index('Série').sort_index()
-    # --- FIM DA CORREÇÃO ---
 
     df_plot = df_custo.join(df_ticket_proc['TicketMedio'])
 
@@ -910,7 +908,7 @@ def projetar_base_alunos(
 
 
     # 3. TRATAMENTO DO PRIMEIRO PERÍODO (2026/1)
-    # Salva o estado (agora corrigido) como o resultado final para o primeiro período.
+    # Salva o estado como o resultado final para o primeiro período.
     chave_primeiro_periodo = f"alunos_por_semestre_{ano_inicial}_{semestre_inicial}"
     projecao_temporal[chave_primeiro_periodo] = {f"Semestre {k + 1}": int(num_alunos) for k, num_alunos in enumerate(turmas_atuais)}
     
@@ -918,7 +916,7 @@ def projetar_base_alunos(
     for i in range(1, n_periodos_a_projetar):
         turmas_seguinte = np.zeros(n_semestres_curso, dtype=int)
 
-        # A. LÓGICA DE PROMOÇÃO (sem alterações)
+        # A. LÓGICA DE PROMOÇÃO
         for j in range(n_semestres_curso - 1, 0, -1):
             alunos_para_avancar = turmas_atuais[j-1]
             taxa_de_permanencia = taxas_permanencia[j-1]
@@ -928,7 +926,7 @@ def projetar_base_alunos(
                 sobreviventes = 0
             turmas_seguinte[j] = int(max(0, sobreviventes))
 
-        # B. LÓGICA DE CAPTAÇÃO CONDICIONAL (sem alterações nesta parte)
+        # B. LÓGICA DE CAPTAÇÃO CONDICIONAL
         ano_atual = ano_inicial + (i // 2)
         semestre_atual = semestre_inicial + (i % 2)
         chave_periodo_lookup = f"{ano_atual}_{semestre_atual}"
@@ -943,7 +941,7 @@ def projetar_base_alunos(
             dp_semestral = dp_anual * fator_sazonal
             novos_ingressantes = np.round(np.random.normal(media_semestral, dp_semestral))
         
-        turmas_seguinte[0] = int(max(0, novos_ingressantes))
+        turmas_seguinte[0] = int(max(4, novos_ingressantes))
 
         # C. ARMAZENAMENTO E ATUALIZAÇÃO DE ESTADO
         chave_temporal = f"alunos_por_semestre_{ano_atual}_{semestre_atual}"
@@ -1315,7 +1313,7 @@ def preparar_dados_para_dashboard_macro(todos_os_resultados: dict) -> pd.DataFra
     df_macro.set_index('periodo', inplace=True)
 
     # Calcular novas colunas necessárias para os gráficos
-    df_macro['receita_total'] = df_macro['base_alunos'] * df_macro['ticket_medio']
+    df_macro['receita_total'] = df_macro['base_alunos'] * df_macro['ticket_medio'] * 6
     
     # Cálculos acumulados
     df_macro['custo_acumulado'] = df_macro['custo_total'].cumsum()
@@ -1373,7 +1371,7 @@ def plotar_margem_e_base_alunos(df_macro: pd.DataFrame):
     
     colors = ['lightcoral' if val < 0 else 'seagreen' for val in df_macro['margem']]
     
-    ax1.bar(index, df_macro['margem'], color=colors, alpha=0.7, label='Margem por Aluno')
+    ax1.bar(index, df_macro['margem'], color=colors, alpha=0.7, label='Lucro')
     ax1.set_xlabel('Período')
     ax1.set_ylabel('Margem (R$)', color='black')
     ax1.yaxis.set_major_formatter(mticker.FuncFormatter(format_currency))
@@ -1477,28 +1475,28 @@ def calcula_total_alunos_por_polo(cursos_selecionados, periodo_selecionado, nome
             
     return total_alunos_polo
 
-def processar_base_ingressantes_e_adicionar(
+def upload_arquivo(
     uploaded_file, 
-    marca_selecionada, 
-    df_dimensao_cursos,
-    df_curso_marca_modalidade, 
-    df_curso_modalidade, 
-    df_modalidade
-):
+    df_dimensao_cursos: pd.DataFrame,
+    df_curso_marca_modalidade: pd.DataFrame, 
+    df_curso_modalidade: pd.DataFrame, 
+    df_modalidade: pd.DataFrame
+) -> None:
     """
-    Lê um arquivo Excel com projeção de ingressantes e adiciona as ofertas
-    correspondentes ao session_state para um "Novo Polo".
+    Lê um arquivo Excel com projeção de ingressantes e adiciona as ofertas correspondentes
     """
     try:
-        df_ingressantes = pd.read_excel(uploaded_file)
+        df_ingressantes = pd.read_excel(uploaded_file, sheet_name="Ofertas")
+        df_ingressantes.dropna(axis=0, how="any", inplace=True)
+        df_ingressantes.drop_duplicates(inplace=True)
         cursos_adicionados = 0
         
-        # Itera sobre cada linha do arquivo (cada curso)
-        for index, row in df_ingressantes.iterrows():
+        for _, row in df_ingressantes.iterrows():
+            marca_nome = row['Marca']
+            polo_nome = row['Polo/Sede']
             curso_nome = row['Curso']
             modelo_nome = row['Modalidade']
             
-            # 1. Busca os dados dimensionais do curso
             filtro = (df_dimensao_cursos['Curso'] == curso_nome) & (df_dimensao_cursos['Modelo'] == modelo_nome)
             dados_curso = df_dimensao_cursos[filtro]
 
@@ -1507,7 +1505,7 @@ def processar_base_ingressantes_e_adicionar(
                 continue
 
             dados_curso = dados_curso.iloc[0]
-            chave_oferta = f"{marca_selecionada} - Novo Polo - {curso_nome} ({modelo_nome})"
+            chave_oferta = f"{marca_nome} - {polo_nome} - {curso_nome} ({modelo_nome})"
 
             if chave_oferta in st.session_state.cursos_selecionados:
                 st.warning(f"A oferta '{chave_oferta}' já existe e foi ignorada do arquivo.")
@@ -1522,11 +1520,11 @@ def processar_base_ingressantes_e_adicionar(
 
             # 3. Monta o objeto completo da oferta
             st.session_state.cursos_selecionados[chave_oferta] = {
-                "marca": marca_selecionada,
-                "polo": "Novo Polo",
+                "marca": marca_nome,
+                "polo": polo_nome,
                 "curso": curso_nome,
                 "modelo": modelo_nome,
-                "ticket": encontrar_ticket(curso_nome, marca_selecionada, modelo_nome, df_curso_marca_modalidade, df_curso_modalidade, df_modalidade),
+                "ticket": encontrar_ticket(curso_nome, marca_nome, modelo_nome, df_curso_marca_modalidade, df_curso_modalidade, df_modalidade),
                 "cluster": dados_curso['Cluster'],
                 "sinergia": dados_curso['Sinergia'],
                 "num_semestres": int(dados_curso['Qtde Semestres']),
@@ -1537,7 +1535,6 @@ def processar_base_ingressantes_e_adicionar(
             cursos_adicionados += 1
         
         st.success(f"{cursos_adicionados} ofertas de curso foram adicionadas com sucesso a partir do arquivo!")
-
     except Exception as e:
         st.error(f"Ocorreu um erro ao processar o arquivo: {e}")
         st.error("Verifique se as colunas 'Curso' e 'Modalidade' existem e se o arquivo não está corrompido.")
