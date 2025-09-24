@@ -527,6 +527,7 @@ def calcula_base_alunos_por_semestre(session_state: dict, semestre:int) -> int:
         soma_alunos += item.get("alunos_por_semestre").get(f"Semestre {semestre}", 0)
     return soma_alunos
 
+
 def adiciona_linha_total(df: pd.DataFrame, base_alunos: int) -> pd.DataFrame:
     somas = df.sum(numeric_only=True)
 
@@ -540,6 +541,7 @@ def adiciona_linha_total(df: pd.DataFrame, base_alunos: int) -> pd.DataFrame:
     df_com_total = pd.concat([df, pd.DataFrame([linha_total])], ignore_index=True)
     return df_com_total
 
+
 def adiciona_linha_total_rateio(df: pd.DataFrame) -> pd.DataFrame:
     df_com_total = df.copy()
     linha_total = df.sum(numeric_only=True)
@@ -551,8 +553,10 @@ def adiciona_linha_total_rateio(df: pd.DataFrame) -> pd.DataFrame:
 def plotar_custo_total_pag2(df: pd.DataFrame)-> float:
     return np.round(float(df['Custo Total'].sum()),2)
 
+
 def plotar_ch_total_pag2(df: pd.DataFrame)-> float:
     return np.round(float(df['CH Total'].sum()),1)
+
 
 def plot_custo_docente_pag2(df: pd.DataFrame):
     # Agregar os dados
@@ -605,6 +609,7 @@ def plot_custo_docente_pag2(df: pd.DataFrame):
     ax.set_xlabel("Série", fontsize=6)
     ax.set_title("Custo Docente por Série", fontsize=10)
     return fig
+
 
 def plot_ch_docente_por_categoria_pag2(df: pd.DataFrame):
     totais_categoria = {}
@@ -740,6 +745,7 @@ def plot_eficiencia_por_semestre_pag2(dict_semestres: dict):
     
 
     return fig
+
 
 def plot_custo_aluno_por_semestre_pag2(dict_semestres: dict, df_ticket: pd.DataFrame):
     if not dict_semestres:
@@ -1292,6 +1298,7 @@ def plotar_composicao_alunos_por_serie(cursos_selecionados, periodo_selecionado)
     return fig
 
 
+
 def preparar_dados_para_dashboard_macro(todos_os_resultados: dict) -> pd.DataFrame:
     """
     Consolida os resultados de todos os períodos em um único DataFrame
@@ -1321,6 +1328,7 @@ def preparar_dados_para_dashboard_macro(todos_os_resultados: dict) -> pd.DataFra
     df_macro['margem_acumulada'] = df_macro['receita_acumulada'] - df_macro['custo_acumulado']
 
     return df_macro
+
 
 def plotar_custos_vs_receita(df_macro: pd.DataFrame):
     """
@@ -1359,6 +1367,7 @@ def plotar_custos_vs_receita(df_macro: pd.DataFrame):
 
     fig.tight_layout()
     return fig
+
 
 def plotar_margem_e_base_alunos(df_macro: pd.DataFrame):
     """
@@ -1632,6 +1641,7 @@ def calcula_ticket_por_serie_no_semestre(config: dict, periodo: str) -> pd.DataF
     df_resultado = df_resultado.sort_index()
 
     return df_resultado
+
 
 def calcula_df_resumo_semestre(resultados: dict):
     df_resumo_semestre = []

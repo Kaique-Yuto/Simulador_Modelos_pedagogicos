@@ -1162,4 +1162,6 @@ if st.session_state.cursos_selecionados and st.session_state.get('simulacao_ativ
 st.sidebar.title("Debug Info")
 with st.sidebar.expander("Dados da Simulação (Session State)"):
     st.json(st.session_state)
-    st.json(todos_os_resultados)
+    if "todos_os_resultados" in globals():
+        if todos_os_resultados:
+            st.json(todos_os_resultados)

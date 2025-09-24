@@ -28,6 +28,7 @@ def formatar_valor_brl(valor):
         return f'R$ {valor:_.2f}'.replace('.', ',').replace('_', '.')
     return valor
 
+
 def formatar_df_precificacao_oferta(df:pd.DataFrame):
     def highlight_total(row):
         if "Chave" in row and row["Chave"] == "Total Geral":
@@ -76,6 +77,7 @@ def formatar_df_precificacao_oferta(df:pd.DataFrame):
     )
     return df
 
+
 def formatar_df_rateio(df: pd.DataFrame):
     formatador_mestre = {
         "Custo Total": lambda val: f'R$ {val:_.2f}'.replace('.', ',').replace('_', '.'),
@@ -89,6 +91,7 @@ def formatar_df_rateio(df: pd.DataFrame):
         hide_index=True
     )
     return df
+
 
 def formatar_df_pivot_custo(df:pd.DataFrame):
     def highlight_total(row):
@@ -107,6 +110,7 @@ def formatar_df_pivot_custo(df:pd.DataFrame):
         df.style.apply(highlight_total, axis=1).format(formatador),
         use_container_width=True
     )
+
 
 def formatar_df_rateio_polo(df:pd.DataFrame, receita:bool):
     def highlight_total(row):
@@ -142,6 +146,7 @@ def formatar_df_rateio_polo(df:pd.DataFrame, receita:bool):
         use_container_width=True,
         hide_index=True
     )
+
 
 def formata_df_resumo_semestre(df_resumo_semestre: pd.DataFrame):
     def highlight_total(row):
