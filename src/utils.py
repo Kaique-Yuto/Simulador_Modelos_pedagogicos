@@ -1557,7 +1557,7 @@ def calcula_receita_por_polo_periodo(config: dict, todos_periodos: list) -> pd.D
             if chave_agregacao not in dados_agregados:
                 dados_agregados[chave_agregacao] = {"receita": 0, "alunos": 0}
 
-            ticket_curso = dados_curso.get("ticket", 0)
+            ticket_curso = dados_curso.get("ticket", 0) *6
             alunos_no_periodo_curso = 0
             
             alunos_por_semestre = dados_curso.get(f"alunos_por_semestre{chave_sufixo_temporal}", {})
@@ -1632,3 +1632,23 @@ def calcula_ticket_por_serie_no_semestre(config: dict, periodo: str) -> pd.DataF
     df_resultado = df_resultado.sort_index()
 
     return df_resultado
+
+def calcula_df_resumo_semestre(resultados: dict):
+    df_resumo_semestre = []
+    for periodo, dict_periodo in resultados.items():
+        metricas = dict_periodo.get('metricas_gerais')
+        receita_total = np.round(metricas.get("base_alunos") * metricas.get('ticket_medio') * 6,2)
+        custo_total = np.round(metricas.get("custo_total"),2)
+        temp_dict = {"Semestre": periodo,
+                    "Base de Alunos": metricas.get("base_alunos"),
+                    "CH Semanal": metricas.get("ch_total")/20,
+                    "Receita Total": receita_total,
+                    "Custo/Aluno": metricas.get("custo_por_aluno"),
+                    "Custo Total": custo_total,
+                    "Lucro": receita_total - custo_total,
+                    "Margem": np.round((receita_total-custo_total)/receita_total,4),
+                    "Eficiência": np.round(metricas.get("base_alunos")/(metricas.get("ch_total")/20),2)
+                     }
+        df_resumo_semestre.append(temp_dict)
+    df_resumo_semestre = pd.DataFrame(df_resumo_semestre)
+    return df_resumo_semestre

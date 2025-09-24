@@ -1,7 +1,7 @@
 import streamlit as st
 from src.data import carregar_dados, carregar_lista_marca_polo, carregar_base_alunos, carregar_tickets, encontrar_ticket
-from src.utils import obter_modelos_para_curso, oferta_resumida_por_curso, agrupar_oferta,calcular_df_precificacao_oferta, calcular_resumo_semestre, calcula_base_alunos_por_semestre, calcula_base_alunos_total, adiciona_linha_total,calcula_df_final, plotar_custo_total_pag2, plotar_ch_total_pag2, plot_custo_docente_pag2, plot_ch_docente_por_categoria_pag2, formatar_df_por_semestre, projetar_base_alunos, calcula_custo_aluno_para_todos_semestre,plot_custo_aluno_por_semestre_pag2, calcula_ticket_medio,  busca_base_de_alunos, adicionar_todas_ofertas_do_polo, remover_ofertas_por_marca, remover_ofertas_por_polo, trazer_ofertas_para_novo_modelo, adicionar_todas_ofertas_da_marca, cria_select_box_modelo, plotar_composicao_alunos_por_serie, plotar_evolucao_total_alunos, preparar_dados_para_dashboard_macro, plotar_margem_e_base_alunos, plotar_custos_vs_receita, ratear_custo_por_polo, calcula_total_alunos_por_polo, upload_arquivo, adiciona_linha_total_rateio, calcula_receita_por_polo_periodo, calcula_ticket_por_serie_no_semestre
-from src.formatting import formatar_valor_brl, formatar_df_precificacao_oferta, formatar_df_rateio, formatar_df_rateio_polo, formatar_df_pivot_custo
+from src.utils import obter_modelos_para_curso, oferta_resumida_por_curso, agrupar_oferta,calcular_df_precificacao_oferta, calcular_resumo_semestre, calcula_base_alunos_por_semestre, calcula_base_alunos_total, adiciona_linha_total,calcula_df_final, plotar_custo_total_pag2, plotar_ch_total_pag2, plot_custo_docente_pag2, plot_ch_docente_por_categoria_pag2, formatar_df_por_semestre, projetar_base_alunos, calcula_custo_aluno_para_todos_semestre,plot_custo_aluno_por_semestre_pag2, calcula_ticket_medio,  busca_base_de_alunos, adicionar_todas_ofertas_do_polo, remover_ofertas_por_marca, remover_ofertas_por_polo, trazer_ofertas_para_novo_modelo, adicionar_todas_ofertas_da_marca, cria_select_box_modelo, plotar_composicao_alunos_por_serie, plotar_evolucao_total_alunos, preparar_dados_para_dashboard_macro, plotar_margem_e_base_alunos, plotar_custos_vs_receita, ratear_custo_por_polo, calcula_total_alunos_por_polo, upload_arquivo, adiciona_linha_total_rateio, calcula_receita_por_polo_periodo, calcula_ticket_por_serie_no_semestre, calcula_df_resumo_semestre
+from src.formatting import formatar_valor_brl, formatar_df_precificacao_oferta, formatar_df_rateio, formatar_df_rateio_polo, formatar_df_pivot_custo, formata_df_resumo_semestre
 import pandas as pd
 import numpy as np
 import locale
@@ -543,7 +543,7 @@ else:
                     cols = st.columns(4)
                     
                     for i in range(1, num_semestres + 1):
-                        semestre_key = f"Semestre {i}"
+                        semestre_key = f"Série {i}"
                         # Usa o valor anterior como default, ou 0
                         default_value = config['base_personalizada'].get(semestre_key, 0)
                         
@@ -934,6 +934,10 @@ if st.session_state.cursos_selecionados and st.session_state.get('simulacao_ativ
                 values='Custo Rateado',
                 fill_value=0
             )
+            
+            df_resumo_semestre = calcula_df_resumo_semestre(todos_os_resultados)
+            formata_df_resumo_semestre(df_resumo_semestre)
+            
             # Tabela 2: Resumo consolidado com totais e percentuais
             st.markdown("##### Resumo Consolidado por Polo")
             df_resumo_polos = df_rateio_consolidado.groupby('Polo').agg(
@@ -966,8 +970,6 @@ if st.session_state.cursos_selecionados and st.session_state.get('simulacao_ativ
             df_resumo_polos = adiciona_linha_total_rateio(df_resumo_polos)
             formatar_df_rateio_polo(df_resumo_polos, True)
 
-
-        st.divider()
         # ---DASHBOARD MACRO---
 
         # ---ANÁLISE DETALHADA POR PERÍODO---
@@ -1160,3 +1162,4 @@ if st.session_state.cursos_selecionados and st.session_state.get('simulacao_ativ
 st.sidebar.title("Debug Info")
 with st.sidebar.expander("Dados da Simulação (Session State)"):
     st.json(st.session_state)
+    st.json(todos_os_resultados)

@@ -142,3 +142,36 @@ def formatar_df_rateio_polo(df:pd.DataFrame, receita:bool):
         use_container_width=True,
         hide_index=True
     )
+
+def formata_df_resumo_semestre(df_resumo_semestre: pd.DataFrame):
+    def highlight_total(row):
+        if "Chave" in row and row["Chave"] == "Total Geral":
+            return (len(row)-2)*['background-color: #282c34 ; color:yellow'] + ['font-weight: bold; background-color: #273333; color: yellow'] * 2
+        return [''] * len(row)
+
+    formatador_mestre = {
+        "Receita Total": lambda val: f'R$ {val:_.2f}'.replace('.', ',').replace('_', '.'),
+        "Custo/Aluno": lambda val: f'R$ {val:_.2f}'.replace('.', ',').replace('_', '.'),
+        "Custo Total": lambda val: f'R$ {val:_.2f}'.replace('.', ',').replace('_', '.'),
+        "Lucro": lambda val: f'R$ {val:_.2f}'.replace('.', ',').replace('_', '.')
+    }
+
+    column_config_mestre = {
+        "Base de Alunos": column_config.NumberColumn("Base de Alunos", format="%d"),
+        "CH Semanal": column_config.NumberColumn("CH Semanal", format="%d"),
+        "Margem": column_config.NumberColumn("Margem", format='percent'),
+        "Eficiência": column_config.NumberColumn("Eficiência", format="%2f"),
+        "Semestre": column_config.TextColumn("Semestre")
+    }
+
+    formatadores_seguros = {col: func for col, func in formatador_mestre.items() if col in df_resumo_semestre.columns}
+    configuracao_segura = {col: cfg for col, cfg in column_config_mestre.items() if col in df_resumo_semestre.columns}
+
+    df_resumo_semestre = df_resumo_semestre.style.apply(highlight_total, axis=1).format(formatadores_seguros)
+    df_resumo_semestre = st.dataframe(
+        df_resumo_semestre,
+        use_container_width=True,
+        column_config=configuracao_segura,
+        hide_index=True
+    )
+    return df_resumo_semestre
