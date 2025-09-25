@@ -437,11 +437,9 @@ else:
                 st.write("")
                 if st.button("Remover", key=f"remover_{chave_oferta}", use_container_width=True):
                     del st.session_state.cursos_selecionados[chave_oferta]
-            st.markdown("---")
 
 
             with st.expander("Gerenciar Simulação de Base de Alunos"):
-                st.markdown("---")
                 st.markdown("##### Modo de Captação")
 
                 # Salva a escolha do modo de captação no session_state da oferta
@@ -486,21 +484,17 @@ else:
                         chave_periodo = f"{ano}_{semestre}"
                         label_periodo = f"{ano}/{semestre}"
 
-                        # Usa o valor anterior como default, ou 0
-                        default_value = config['ingressantes_personalizados'].get(chave_periodo, 0)
+                        default_value = config['ingressantes_personalizados'].get(chave_periodo, 4)
                         
-                        # Distribui os inputs nas colunas
                         ingressantes_input = cols[i % 5].number_input(
                             label=f"Ingressantes {label_periodo}",
-                            min_value=0,
-                            step=10,
+                            min_value=4,
+                            step=5,
                             value=default_value,
                             key=f"ingressantes_pers_{chave_oferta}_{chave_periodo}"
                         )
                         # Atualiza o dicionário com o valor do input
-                        config['ingressantes_personalizados'][chave_periodo] = ingressantes_input
-                st.markdown("---")
-                
+                        config['ingressantes_personalizados'][chave_periodo] = ingressantes_input                
                 
                
 
@@ -508,7 +502,7 @@ else:
                 # Opções do radio button
                 opcoes_projecao = ["Continuar da Base Histórica", "Iniciar do Zero", "Definir Base Personalizada"]
                 # Desabilita a opção 'Continuar' se não houver base histórica carregada
-                desabilitar_continuar = 'alunos_por_semestre' not in config or not config['alunos_por_semestre']
+                desabilitar_continuar = 'alunos_por_semestre' not in config or not config['alunos_por_semestre'] or config['modo_captacao'] == "Manual (Por Semestre)"
 
                 valor_atual = config.get('modo_projecao', opcoes_projecao[0])
                 indice_padrao = opcoes_projecao.index(valor_atual)
@@ -544,13 +538,12 @@ else:
                     
                     for i in range(1, num_semestres + 1):
                         semestre_key = f"Série {i}"
-                        # Usa o valor anterior como default, ou 0
-                        default_value = config['base_personalizada'].get(semestre_key, 0)
+                        default_value = config['base_personalizada'].get(semestre_key, 4)
                         
                         # Distribui os inputs nas colunas
                         aluno_input = cols[(i-1) % 4].number_input(
                             label=semestre_key,
-                            min_value=0,
+                            min_value=4,
                             step=5,
                             value=default_value,
                             key=f"alunos_pers_{chave_oferta}_{i}"
@@ -558,24 +551,32 @@ else:
                         # Atualiza o dicionário com o valor do input
                         config['base_personalizada'][semestre_key] = aluno_input
                 
-                st.markdown("---")
-                
                 if f"params_sim_{chave_oferta}" not in st.session_state:
                     st.session_state[f"params_sim_{chave_oferta}"] = {}
                 
                 sim_col1, sim_col2 = st.columns(2)
                 with sim_col1:
+                    if st.session_state.cursos_selecionados.get(chave_oferta).get("modo_projecao") == "Continuar da Base Histórica":
+                        std_value = st.session_state.cursos_selecionados.get(chave_oferta).get("alunos_por_semestre").get("Semestre 1", st.session_state.parametros_globais["alunos_iniciais"])
+                        std_value = max(std_value, 4)
+                        st.session_state.cursos_selecionados.get(chave_oferta).get("alunos_por_semestre")["Semestre 1"] = std_value
+
+                    else:
+                        std_value = st.session_state.parametros_globais["alunos_iniciais"]
+                    #std_value = 
                     alunos_iniciais = st.number_input(
                         "Alunos da turma inicial", 
                         min_value=4, step=5, 
-                        value=st.session_state.parametros_globais["alunos_iniciais"], 
-                        key=f"sim_iniciais_{chave_oferta}"
+                        value=std_value, 
+                        key=f"sim_iniciais_{chave_oferta}",
+                        disabled=desabilitar_continuar
                     )
                     media_ingressantes = st.number_input(
                         "Média de ingressantes por Ano", 
                         min_value=10, step=5, 
                         value=st.session_state.parametros_globais["media_ingressantes"], 
-                        key=f"sim_media_{chave_oferta}"
+                        key=f"sim_media_{chave_oferta}",
+                        disabled=desabilitar_continuar
                     )
                     taxa_evasao_inicial = st.slider(
                         "Taxa de Evasão Inicial (%)", 
@@ -598,6 +599,7 @@ else:
                         min_value=0, step=1, 
                         value=st.session_state.parametros_globais["desvio_padrao_ingressantes"], 
                         key=f"sim_dp_{chave_oferta}"
+                        ,disabled=desabilitar_continuar
                     )
                     decaimento_evasao = st.slider(
                         "Decaimento da Evasão a/s (%)", 
@@ -614,7 +616,6 @@ else:
                     "desvio_padrao_ingressantes": desvio_padrao_ingressantes,
                     "decaimento_evasao": decaimento_evasao
                 }
-st.divider()
 # --- Seção 3: Executar Simulação ---
 st.header("3. Defina os parâmetros de Precificação", divider='rainbow')
 

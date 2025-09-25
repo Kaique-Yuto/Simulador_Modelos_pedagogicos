@@ -1498,11 +1498,16 @@ def upload_arquivo(
         df_ingressantes = pd.read_excel(uploaded_file, sheet_name="Ofertas")
         df_ingressantes.dropna(axis=0, how="any", inplace=True)
         df_ingressantes.drop_duplicates(inplace=True)
+
+        colunas_periodos = [col for col in df_ingressantes.columns if '/' in str(col)]
+        df_ingressantes[colunas_periodos] = df_ingressantes[colunas_periodos].apply(pd.to_numeric, errors='coerce')
+        df_ingressantes[colunas_periodos] = df_ingressantes[colunas_periodos].fillna(0)
+        df_ingressantes[colunas_periodos] = df_ingressantes[colunas_periodos].mask(df_ingressantes[colunas_periodos] < 4, 4).astype(int)
         cursos_adicionados = 0
         
         for _, row in df_ingressantes.iterrows():
             marca_nome = row['Marca']
-            polo_nome = row['Polo/Sede']
+            polo_nome = row['Polo\Sede']
             curso_nome = row['Curso']
             modelo_nome = row['Modalidade']
             
