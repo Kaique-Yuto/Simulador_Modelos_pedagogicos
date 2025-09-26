@@ -34,9 +34,9 @@ def formatar_df_precificacao_oferta(df:pd.DataFrame):
         if "Chave" in row and row["Chave"] == "Total Geral":
             return (len(row)-2)*['background-color: #282c34 ; color:yellow'] + ['font-weight: bold; background-color: #273333; color: yellow'] * 2
         return [''] * len(row)
-        # --- Dicionários Mestre com TODAS as configurações possíveis ---
-
-    # 1. Dicionário para a formatação de valores (st.style.format)
+    
+    df.drop(columns=["CH por Semestre_Assíncrono", "CH por Semestre_Presencial",
+                     "CH por Semestre_Síncrono","CH por Semestre_Síncrono Mediado"], inplace=True, errors='ignore')
     formatador_mestre = {
         "Custo Total": lambda val: f'R$ {val:_.2f}'.replace('.', ',').replace('_', '.'),
         "Custo Docente por Semestre_Assíncrono": lambda val: f'R$ {val:_.2f}'.replace('.', ',').replace('_', '.'),
@@ -51,6 +51,7 @@ def formatar_df_precificacao_oferta(df:pd.DataFrame):
         "CH por Semestre_Presencial": column_config.NumberColumn("CH Presencial", format="%d"),
         "CH por Semestre_Síncrono": column_config.NumberColumn("CH Síncrona", format="%d"),
         "CH por Semestre_Síncrono Mediado": column_config.NumberColumn("CH Síncrona Mediada", format="%d"),
+        "CH Semanal": column_config.NumberColumn("CH Semanal", format="%d"),
         "Custo Docente por Semestre_Assíncrono": column_config.NumberColumn("Custo CH Assíncrona"),
         "Custo Docente por Semestre_Presencial": column_config.NumberColumn("Custo CH Presencial"),
         "Custo Docente por Semestre_Síncrono": column_config.NumberColumn("Custo CH Síncrona"),

@@ -542,9 +542,13 @@ def adiciona_linha_total(df: pd.DataFrame, base_alunos: int) -> pd.DataFrame:
     return df_com_total
 
 
-def adiciona_linha_total_rateio(df: pd.DataFrame) -> pd.DataFrame:
+def adiciona_linha_total_rateio(df: pd.DataFrame, total_alunos = None, divide=False) -> pd.DataFrame:
     df_com_total = df.copy()
     linha_total = df.sum(numeric_only=True)
+    if total_alunos:
+        linha_total["Base de Alunos"] = total_alunos
+    if divide:
+        linha_total["Base de Alunos"] = linha_total["Base de Alunos"]/2
     linha_total[df.columns[0]] = 'Total Geral'
     df_com_total.loc[len(df_com_total)] = linha_total
     return df_com_total
@@ -1326,6 +1330,7 @@ def preparar_dados_para_dashboard_macro(todos_os_resultados: dict) -> pd.DataFra
     df_macro['custo_acumulado'] = df_macro['custo_total'].cumsum()
     df_macro['receita_acumulada'] = df_macro['receita_total'].cumsum()
     df_macro['margem_acumulada'] = df_macro['receita_acumulada'] - df_macro['custo_acumulado']
+    df_macro['percentual_custo_acumulado'] = df_macro['custo_acumulado'] / df_macro['receita_acumulada']
 
     return df_macro
 

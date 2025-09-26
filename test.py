@@ -1,11 +1,33 @@
 import pandas as pd
 
-def carregar_base_alunos(caminho_arquivo: str = "databases/base_alunos_curso_marca.csv"):
-    df = pd.read_csv(caminho_arquivo,sep=",")
-    df = df.rename(columns={"Max of Contagem de CPF": "ALUNOS", "NOME_CURSO": "CURSO"})
-    df['ALUNOS'] = df['ALUNOS'].astype(int)
-    df_pivot = df.pivot_table(index=['MARCA','CAMPUS','CURSO','MODALIDADE_OFERTA'], columns='SERIE', values='ALUNOS', fill_value=0).reset_index()
-    return df_pivot
+from src.data import carregar_base_alunos
 
-df = carregar_base_alunos()
-print(df.head())
+dados_cursos = [
+    ['Semi Presencial 30.20 Bacharelado', 'ADMINISTRAÇÃO'],
+    ['Semi Presencial 30.20 Bacharelado', 'ANÁLISE E DESENVOLVIMENTO DE SISTEMAS'],
+    ['Semi Presencial 40.20 Bacharelado', 'BIOMEDICINA'],
+    ['Semi Presencial 30.20 Bacharelado', 'CIÊNCIA DA COMPUTAÇÃO'],
+    ['Semi Presencial 30.20 Bacharelado', 'DESIGN DE INTERIORES'],
+    ['Semi Presencial 30.20 Bacharelado', 'DESIGN GRÁFICO'],
+    ['Semi Presencial 40.20 Bacharelado', 'EDUCAÇÃO FÍSICA'],
+    ['Semi Presencial 40.20 Bacharelado', 'ENGENHARIA CIVIL'],
+    ['Semi Presencial 40.20 Bacharelado', 'FARMÁCIA'],
+    ['Semi Presencial 40.20 Bacharelado', 'FISIOTERAPIA'],
+    ['Semi Presencial 30.20 Licenciatura', 'LETRAS - PORTUGUÊS'],
+    ['Semi Presencial 40.20 Bacharelado', 'NUTRIÇÃO'],
+    ['Semi Presencial 30.20 Licenciatura', 'PEDAGOGIA'],
+    ['Semi Presencial 30.20 Bacharelado', 'CIÊNCIAS CONTÁBEIS']
+]
+
+cursos_modelos = pd.DataFrame(data=dados_cursos, columns=["Modelo", "Curso"])
+
+def main():
+    base_alunos = carregar_base_alunos("databases/base_alunos_curso_marca_v3.xlsx", version="v2")
+    df_marcas_campus = base_alunos[['MARCA','CAMPUS']].drop_duplicates()
+    df_marcas_campus['key'] = 1
+    cursos_modelos['key'] = 1
+    new_df = pd.merge(df_marcas_campus, cursos_modelos, on='key').drop('key', axis=1)
+    new_df.to_excel("Base_oferta.xlsx", sheet_name="Sheet1")
+
+if __name__ == "__main__":
+    main()

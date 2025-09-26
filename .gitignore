@@ -3,3 +3,4 @@ venv/
 *.pyc
 src/__pycache__/utils.cpython-313.pyc
 pdfs/
+Base_oferta.xlsx

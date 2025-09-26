@@ -791,7 +791,8 @@ def calcular_analise_completa(cursos_selecionados: dict, df_matrizes: pd.DataFra
                 "ticket_medio": ticket_medio_periodo,
                 "custo_por_aluno": custo_por_aluno_periodo,
                 "margem": margem_periodo,
-                "delta_margem": (margem_periodo/(ticket_medio_periodo*6*base_alunos_total) * 100) if ticket_medio_periodo > 0 else 0
+                "delta_margem": (margem_periodo/(ticket_medio_periodo*6*base_alunos_total) * 100) if ticket_medio_periodo > 0 else 0,
+                "delta_custo": (custo_total_periodo/(ticket_medio_periodo*6*base_alunos_total) * 100) if ticket_medio_periodo > 0 else 0
             },
             "dataframes": {
                 "df_final": df_final,
@@ -1004,7 +1005,7 @@ if st.session_state.cursos_selecionados and st.session_state.get('simulacao_ativ
                 col1, col2 = st.columns(2)
                 with col1:
                     st.metric(label="Base de Alunos no Período", value=locale.format_string('%d', metricas['base_alunos'], grouping=True))
-                    st.metric(label="Custo Total no Período", value=locale.currency(metricas['custo_total'], grouping=True, symbol="R$"))
+                    st.metric(label="Custo Total no Período", value=locale.currency(metricas['custo_total'], grouping=True, symbol="R$"), delta=f"{np.round(metricas['delta_custo'], 2)}%", delta_color="inverse")
                     st.metric(label="Receita Total no Período", value=locale.currency(metricas['base_alunos'] * metricas['ticket_medio'] * 6, grouping=True, symbol="R$"))
                 with col2:
                     st.metric(label="Margem no Período", value=locale.currency(metricas['margem'], grouping=True, symbol="R$"), delta=f"{np.round(metricas['delta_margem'], 2)}%")
@@ -1108,27 +1109,35 @@ if st.session_state.cursos_selecionados and st.session_state.get('simulacao_ativ
                     with st.expander("CH Assíncrona"):
                         df_oferta_assin = df_oferta[df_oferta["CH por Semestre_Assíncrono"] > 0].copy()
                         df_oferta_assin = df_oferta_assin[["Chave", "Semestre", "Base de Alunos", "Qtde Turmas", "CH por Semestre_Assíncrono", "Custo Docente por Semestre_Assíncrono"]]
-                        df_oferta_assin = adiciona_linha_total_rateio(df_oferta_assin)
+                        ch_semanal = df_oferta_assin["CH por Semestre_Assíncrono"]/20
+                        df_oferta_assin.insert(loc=len(df_oferta_assin.columns) - 1, column='CH Semanal', value=ch_semanal)
+                        df_oferta_assin = adiciona_linha_total_rateio(df_oferta_assin, divide=True)
                         formatar_df_precificacao_oferta(df_oferta_assin)
 
                 if "CH por Semestre_Síncrono Mediado" in df_oferta.columns:
                     with st.expander("CH Síncrona Mediada"):
                         df_oferta_sinc_med = df_oferta[df_oferta["CH por Semestre_Síncrono Mediado"] > 0].copy()
                         df_oferta_sinc_med = df_oferta_sinc_med[["Chave", "Semestre", "Base de Alunos", "Qtde Turmas", "CH por Semestre_Síncrono Mediado", "Custo Docente por Semestre_Síncrono Mediado"]]
-                        df_oferta_sinc_med = adiciona_linha_total_rateio(df_oferta_sinc_med)
+                        ch_semanal = df_oferta_sinc_med["CH por Semestre_Síncrono Mediado"] / 20
+                        df_oferta_sinc_med.insert(loc=len(df_oferta_sinc_med.columns) - 1, column='CH Semanal', value=ch_semanal)
+                        df_oferta_sinc_med = adiciona_linha_total_rateio(df_oferta_sinc_med, divide=True)
                         formatar_df_precificacao_oferta(df_oferta_sinc_med)
 
                 if "CH por Semestre_Presencial" in df_oferta.columns:
                     with st.expander("CH Presencial"):
                         df_oferta_pres = df_oferta[df_oferta["CH por Semestre_Presencial"] > 0].copy()
                         df_oferta_pres = df_oferta_pres[["Chave", "Semestre", "Base de Alunos", "Qtde Turmas", "CH por Semestre_Presencial", "Custo Docente por Semestre_Presencial"]]
-                        df_oferta_pres = adiciona_linha_total_rateio(df_oferta_pres)
+                        ch_semanal = df_oferta_pres["CH por Semestre_Presencial"]/20    
+                        df_oferta_pres.insert(loc=len(df_oferta_pres.columns) - 1, column='CH Semanal', value=ch_semanal)
+                        df_oferta_pres = adiciona_linha_total_rateio(df_oferta_pres, divide=True)
                         formatar_df_precificacao_oferta(df_oferta_pres)
 
                 if "CH por Semestre_Síncrono" in df_oferta.columns:
                     with st.expander("CH Síncrona"):
                         df_oferta_sinc = df_oferta[df_oferta["CH por Semestre_Síncrono"] > 0].copy()
                         df_oferta_sinc = df_oferta_sinc[["Chave", "Semestre", "Base de Alunos", "Qtde Turmas", "CH por Semestre_Síncrono", "Custo Docente por Semestre_Síncrono"]]
+                        ch_semanal = df_oferta_sinc["CH por Semestre_Síncrono"]/20
+                        df_oferta_sinc.insert(loc=len(df_oferta_sinc.columns) - 1, column='CH Semanal', value=ch_semanal)
                         df_oferta_sinc = adiciona_linha_total_rateio(df_oferta_sinc)
                         formatar_df_precificacao_oferta(df_oferta_sinc)
 
@@ -1163,9 +1172,9 @@ if st.session_state.cursos_selecionados and st.session_state.get('simulacao_ativ
                         st.divider()
 
 
-st.sidebar.title("Debug Info")
-with st.sidebar.expander("Dados da Simulação (Session State)"):
-    st.json(st.session_state)
-    if "todos_os_resultados" in globals():
-        if todos_os_resultados:
-            st.json(todos_os_resultados)
+#st.sidebar.title("Debug Info")
+#with st.sidebar.expander("Dados da Simulação (Session State)"):
+    #st.json(st.session_state)
+    #if "todos_os_resultados" in globals():
+        #if todos_os_resultados:
+            #st.json(todos_os_resultados)
