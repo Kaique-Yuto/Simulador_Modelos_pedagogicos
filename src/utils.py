@@ -1667,3 +1667,46 @@ def calcula_df_resumo_semestre(resultados: dict):
         df_resumo_semestre.append(temp_dict)
     df_resumo_semestre = pd.DataFrame(df_resumo_semestre)
     return df_resumo_semestre
+
+def calcula_mediadores_para_regentes(df_oferta:pd.DataFrame, df_rateio):
+    df_rateio = df_rateio[["Chave", "Polo", "Base de Alunos"]]
+    df_rateio["Chave"] = df_rateio["Chave"].str.split(" - ").str[:4].str.join(" - ")
+    df_rateio = df_rateio.groupby("Chave")["Polo"].nunique().reset_index(name='Qtd Polos')
+
+    df_prof_regente = df_oferta[df_oferta["Chave"].str.contains("- Professor Regente")]
+    df_oferta = df_oferta[~df_oferta["Chave"].str.contains("- Professor Regente")]
+
+    #Mediador Assíncrono
+    df_oferta_assinc = df_oferta[df_oferta["Tipo de CH"] == "Assíncrono"] 
+    df_oferta_assinc["CH Semanal Assíncrona"] = (df_oferta_assinc["CH Total"]/20)
+    df_oferta_assinc["Mediadores Assíncronos"] = np.ceil(df_oferta_assinc["CH Semanal Assíncrona"]/20)
+    #Mediador Online
+    df_oferta_sinc_med = df_oferta[df_oferta["Tipo de CH"] == "Síncrono Mediado"] 
+    df_oferta_sinc_med["CH Semanal Síncrona Mediada"] = (df_oferta_sinc_med["CH Total"]/20)
+    df_oferta_sinc_med["Mediadores Online"] = np.ceil(df_oferta_sinc_med["CH Semanal Síncrona Mediada"]/20)
+
+    #Mediador Presencial
+    df_oferta_pres = df_oferta[
+    (df_oferta["Tipo de CH"] == "Presencial") &
+    (df_oferta["Chave"].str.split(" - ").str[3] != "Presencial 70.30")
+    ]
+    df_oferta_pres["CH Semanal Presencial"] = (df_oferta_pres["CH Total"]/20)
+    df_oferta_pres["Mediadores Presenciais"] = np.ceil(df_oferta_pres["CH Semanal Presencial"]/20)
+
+    df_final = pd.concat([df_oferta_assinc, df_oferta_sinc_med, df_oferta_pres])  
+    df_final["Chave"] = df_final["Chave"].str.split(" - ").str[:4].str.join(" - ")
+    df_final = df_final[[
+        "UC", "Chave",
+        "CH Semanal Assíncrona", "Mediadores Assíncronos", 
+        "CH Semanal Síncrona Mediada", "Mediadores Online", 
+        "CH Semanal Presencial","Mediadores Presenciais"
+        ]]  
+    df_final = df_final.groupby(by=["UC","Chave"]).sum().reset_index()
+    df_final = pd.merge(df_final, df_rateio, "left", "Chave")
+    df_final["Total de Mediadores"] = df_final["Mediadores Assíncronos"] + df_final["Mediadores Online"] + df_final["Mediadores Presenciais"]
+    return df_final[[
+        "UC", "Chave", "Qtd Polos", "Total de Mediadores",
+        "CH Semanal Assíncrona", "Mediadores Assíncronos", 
+        "CH Semanal Síncrona Mediada", "Mediadores Online", 
+        "CH Semanal Presencial","Mediadores Presenciais"
+        ]]

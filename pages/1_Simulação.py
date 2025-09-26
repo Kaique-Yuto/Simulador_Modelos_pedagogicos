@@ -1,6 +1,6 @@
 import streamlit as st
 from src.data import carregar_dados, carregar_lista_marca_polo, carregar_base_alunos, carregar_tickets, encontrar_ticket
-from src.utils import obter_modelos_para_curso, oferta_resumida_por_curso, agrupar_oferta,calcular_df_precificacao_oferta, calcular_resumo_semestre, calcula_base_alunos_por_semestre, calcula_base_alunos_total, adiciona_linha_total,calcula_df_final, plotar_custo_total_pag2, plotar_ch_total_pag2, plot_custo_docente_pag2, plot_ch_docente_por_categoria_pag2, formatar_df_por_semestre, projetar_base_alunos, calcula_custo_aluno_para_todos_semestre,plot_custo_aluno_por_semestre_pag2, calcula_ticket_medio,  busca_base_de_alunos, adicionar_todas_ofertas_do_polo, remover_ofertas_por_marca, remover_ofertas_por_polo, trazer_ofertas_para_novo_modelo, adicionar_todas_ofertas_da_marca, cria_select_box_modelo, plotar_composicao_alunos_por_serie, plotar_evolucao_total_alunos, preparar_dados_para_dashboard_macro, plotar_margem_e_base_alunos, plotar_custos_vs_receita, ratear_custo_por_polo, calcula_total_alunos_por_polo, upload_arquivo, adiciona_linha_total_rateio, calcula_receita_por_polo_periodo, calcula_ticket_por_serie_no_semestre, calcula_df_resumo_semestre
+from src.utils import obter_modelos_para_curso, oferta_resumida_por_curso, agrupar_oferta,calcular_df_precificacao_oferta, calcular_resumo_semestre, calcula_base_alunos_por_semestre, calcula_base_alunos_total, adiciona_linha_total,calcula_df_final, plotar_custo_total_pag2, plotar_ch_total_pag2, plot_custo_docente_pag2, plot_ch_docente_por_categoria_pag2, formatar_df_por_semestre, projetar_base_alunos, calcula_custo_aluno_para_todos_semestre,plot_custo_aluno_por_semestre_pag2, calcula_ticket_medio,  busca_base_de_alunos, adicionar_todas_ofertas_do_polo, remover_ofertas_por_marca, remover_ofertas_por_polo, trazer_ofertas_para_novo_modelo, adicionar_todas_ofertas_da_marca, cria_select_box_modelo, plotar_composicao_alunos_por_serie, plotar_evolucao_total_alunos, preparar_dados_para_dashboard_macro, plotar_margem_e_base_alunos, plotar_custos_vs_receita, ratear_custo_por_polo, calcula_total_alunos_por_polo, upload_arquivo, adiciona_linha_total_rateio, calcula_receita_por_polo_periodo, calcula_ticket_por_serie_no_semestre, calcula_df_resumo_semestre, calcula_mediadores_para_regentes
 from src.formatting import formatar_valor_brl, formatar_df_precificacao_oferta, formatar_df_rateio, formatar_df_rateio_polo, formatar_df_pivot_custo, formata_df_resumo_semestre
 import pandas as pd
 import numpy as np
@@ -1103,6 +1103,7 @@ if st.session_state.cursos_selecionados and st.session_state.get('simulacao_ativ
                         df_oferta = df_filtrado_marca
                         df_rateio_filtrado_marca = df_rateio
 
+
                 if "CH por Semestre_Assíncrono" in df_oferta.columns:
                     with st.expander("CH Assíncrona"):
                         df_oferta_assin = df_oferta[df_oferta["CH por Semestre_Assíncrono"] > 0].copy()
@@ -1131,7 +1132,9 @@ if st.session_state.cursos_selecionados and st.session_state.get('simulacao_ativ
                         df_oferta_sinc = adiciona_linha_total_rateio(df_oferta_sinc)
                         formatar_df_precificacao_oferta(df_oferta_sinc)
 
-                #df_oferta_formatado = formatar_df_precificacao_oferta(df_oferta)
+                st.markdown("Quantidade de Mediadores por Professor Regente, considerando 20 horas semanais de trabalho.")
+                df_mediadores = calcula_mediadores_para_regentes(df_oferta, df_rateio)
+                st.dataframe(df_mediadores)
 
             # O restante dos expanders com os detalhes que você já tinha
             with st.expander("Detalhamento por Série", expanded=False):
